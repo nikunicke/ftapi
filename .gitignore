@@ -1,2 +1,4 @@
 .devcontainer
-.vendor/
+vendor
+credentials.json
+token.json

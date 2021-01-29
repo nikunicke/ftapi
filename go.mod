@@ -1,4 +1,4 @@
-module github.com/nikunicke/ftAPI
+module github.com/nikunicke/ftapi
 
 go 1.15
 

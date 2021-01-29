@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/nikunicke/ftAPI"
+	"github.com/nikunicke/ftapi"
 )
 
 func main() {
 	fmt.Println("Hello ft_api")
-	_, err := ftAPI.Client(ftAPI.ClientCredentials)
+	_, err := ftapi.Client(ftapi.ClientCredentials)
 	if err != nil {
 		log.Fatalf("Failed to initiate client: %v", err)
 	}

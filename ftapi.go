@@ -1,7 +1,6 @@
 package ftapi
 
 import (
-	"fmt"
 	"io/ioutil"
 	"net/http"
 
@@ -46,11 +45,19 @@ func Client(gt GrantType) (*FtClient, error) {
 	}
 }
 
+// Do commits a request to the URL specified in the request
+func (c *FtClient) Do(req *http.Request) (*http.Response, error) {
+	resp, err := c.c.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	return resp, err
+}
+
 func client(config oauth2.Config) (*FtClient, error) {
 	token, err := config.Token()
 	if err != nil {
 		return nil, err
 	}
-	fmt.Println("done")
 	return &FtClient{c: config.Client(token)}, nil
 }

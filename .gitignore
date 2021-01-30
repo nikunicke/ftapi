@@ -2,3 +2,4 @@
 vendor
 credentials.json
 token.json
+/ftapi

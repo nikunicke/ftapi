@@ -23,7 +23,7 @@ type AuthorizationCode struct {
 func (a *AuthorizationCode) Token() (*oauth2.Token, error) {
 	tokenFile := "token.json"
 	token, err := getTokenFromFile(tokenFile)
-	if err != nil {
+	if !token.Valid() || err != nil {
 		a.c, err = configAuthorizationCode(a.B)
 		if err != nil {
 			return nil, err

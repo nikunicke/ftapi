@@ -2,7 +2,6 @@ package events
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"net/url"
 	"time"
@@ -66,7 +65,8 @@ func (s *EventsService) Get(ID string) *EventsGetCall {
 	}
 }
 
-// Do executes the "ftapi.events.get" call. Exactly one of *Event or error will be non-nil.
+// Do executes the "ftapi.events.get" call. Exactly one of *Event or error will
+// be non-nil.
 func (c *EventsGetCall) Do() (*Event, error) {
 	req, err := http.NewRequest(http.MethodGet, "https://api.intra.42.fr/v2/events/"+c.id, nil)
 	if err != nil {
@@ -84,24 +84,29 @@ func (c *EventsGetCall) Do() (*Event, error) {
 	return ret, nil
 }
 
+// EventsListCall method ID: ftapi.events.list
 type EventsListCall struct {
 	s         *ftapi.FtClient
 	urlParams map[string][]string
 	header    http.Header
 }
 
+// List : Lists events from the 42 API
 func (s *EventsService) List() *EventsListCall {
 	return &EventsListCall{s: s.s, urlParams: make(map[string][]string)}
 }
 
+// Q sets optional parameters to "key": Only returns events matching the
+// specified query
 func (c *EventsListCall) Q(key string, values []string) *EventsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
+// Do executes the "ftapi.events.list" call. Exactly one of *ListEventsResponse
+// or error will be non-nil.
 func (c *EventsListCall) Do() (*ListEventsResponse, error) {
 	urls := "https://api.intra.42.fr/v2/events" + "?" + url.Values(c.urlParams).Encode()
-	fmt.Println(urls)
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err

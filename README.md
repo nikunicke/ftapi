@@ -1,4 +1,4 @@
-# ftAPI
+# ftAPI - WORK IN PROGRESS
 
 WORK IN PROGRESS!
 *   Bugs with float values. Some structs might have ints instead of floats, causing the json decoding to fail...

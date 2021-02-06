@@ -12,7 +12,7 @@ The ftapi Go package lets you view and manage all available data from the [42 AP
 
 The 42 API uses [Oauth 2.0](https://oauth.net/2/) to handle authentication and authorization. To authenticate you need to have a registered application on the 42 Intra and a *credentials.json* file in the root of your project. The credentails file should include all necessary data for the Oauth2 authentication flow. If you are using [client credentials](https://oauth.net/2/grant-types/client-credentials/) grant type, you do not need redirect uris nor the auth uri.
 
-```json
+```yaml
 {
     "client_id":"YOU_CLIENT_ID",
     "client_secret":"YOUR_CLIENT_SECRET",

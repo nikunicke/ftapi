@@ -14,12 +14,12 @@ The 42 API uses [Oauth 2.0](https://oauth.net/2/) to handle authentication and a
 
 ```yaml
 {
-    "client_id":"YOU_CLIENT_ID",
-    "client_secret":"YOUR_CLIENT_SECRET",
-    "auth_uri":"https://api.intra.42.fr/oauth/authorize",
-    "token_uri":"https://api.intra.42.fr/oauth/token",
+    "client_id": "YOU_CLIENT_ID",
+    "client_secret": "YOUR_CLIENT_SECRET",
+    "auth_uri": "https://api.intra.42.fr/oauth/authorize",
+    "token_uri": "https://api.intra.42.fr/oauth/token",
     "scopes": ["THE", "SCOPES", "YOU", "NEED"],
-    "redirect_uris":["urn:ietf:wg:oauth:2.0:oob","http://localhost"]
+    "redirect_uris": ["urn:ietf:wg:oauth:2.0:oob","http://localhost"]
 }
 ```
 Please note that the authorization flow is *currently* only designed for command-line applications.

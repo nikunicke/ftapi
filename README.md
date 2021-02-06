@@ -47,7 +47,7 @@ Initiate an events service:
 events := ftapi.Events(s)
 oneEvent, _ := events.Get("3647").Do()
 eventsList, _ := events.List().P("campus_id", []string{"13"}).Do() // P() is optional
-for _, event := range eventsList {
+for _, event := range eventsList.Events {
     fmt.Println(event.Name)
 }
 ```

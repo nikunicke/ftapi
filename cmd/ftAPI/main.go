@@ -7,8 +7,6 @@ import (
 	"github.com/nikunicke/ftapi"
 )
 
-// 3647
-
 func main() {
 	fmt.Println("Hello ft_api")
 	s, err := ftapi.NewService(ftapi.AuthorizationCode)
@@ -16,13 +14,20 @@ func main() {
 		log.Fatalf("Failed to authenticate client: %v", err)
 	}
 	fmt.Println("Authentication succesful")
+
 	me, err := s.Me()
-	fmt.Println(me.FirstName, me.LastName)
-	// users := ftapi.Users(s)
-	// me, err := users.Get("59634").Do()
-	// if err != nil {
-	// 	log.Fatalf("Failed to get me: %v", err)
-	// }
-	// fmt.Println(me.FirstName)
+	if err != nil {
+		log.Fatalf("%v", err)
+	}
+	fmt.Println("Hello,", me.FirstName, me.LastName)
+	events := ftapi.Events(s)
+	eventList, err := events.List().P("campus_id", []string{"13"}).Do()
+	if err != nil {
+		log.Fatalf("%v", err)
+	}
+	for _, event := range eventList.Events {
+		fmt.Println(event.Name)
+	}
+
 	fmt.Println("DONE")
 }

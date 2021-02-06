@@ -23,10 +23,10 @@ type AccreditationsService struct {
 
 // AccreditationsItem is a 42 API type
 type AccreditationsItem struct {
-	CursusID  int    `json:"cursus_id"`
-	ID        int    `json:"id"`
+	CursusID  int64  `json:"cursus_id"`
+	ID        int64  `json:"id"`
 	Name      string `json:"name"`
-	UserID    int    `json:"user_id"`
+	UserID    int64  `json:"user_id"`
 	Validated bool   `json:"validated"`
 }
 
@@ -133,11 +133,11 @@ type AchievementsService struct {
 type AchievementsItem struct {
 	Achievements []interface{} `json:"achievements"`
 	Description  string        `json:"description"`
-	ID           int           `json:"id"`
+	ID           int64         `json:"id"`
 	Image        string        `json:"image"`
 	Kind         string        `json:"kind"`
 	Name         string        `json:"name"`
-	NbrOfSuccess int           `json:"nbr_of_success"`
+	NbrOfSuccess int64         `json:"nbr_of_success"`
 	Parent       interface{}   `json:"parent"`
 	Tier         string        `json:"tier"`
 	Title        interface{}   `json:"title"`
@@ -247,10 +247,10 @@ type AchievementsUsersService struct {
 // AchievementsUsersItem is a 42 API type
 type AchievementsUsersItem struct {
 	CreatedAt time.Time `json:"created_at"`
-	ID        int       `json:"id"`
+	ID        int64     `json:"id"`
 	Login     string    `json:"login"`
 	URL       string    `json:"url"`
-	UserID    int       `json:"user_id"`
+	UserID    int64     `json:"user_id"`
 }
 
 // AchievementsUsersListCall description:
@@ -357,7 +357,7 @@ type AnnouncementsItem struct {
 	Author    string      `json:"author"`
 	CreatedAt time.Time   `json:"created_at"`
 	ExpireAt  time.Time   `json:"expire_at"`
-	ID        int         `json:"id"`
+	ID        int64       `json:"id"`
 	Kind      string      `json:"kind"`
 	Link      interface{} `json:"link"`
 	Text      string      `json:"text"`
@@ -617,18 +617,18 @@ type AppsService struct {
 type AppsItem struct {
 	CreatedAt   time.Time   `json:"created_at"`
 	Description interface{} `json:"description"`
-	ID          int         `json:"id"`
+	ID          int64       `json:"id"`
 	Image       interface{} `json:"image"`
 	Name        string      `json:"name"`
 	Owner       struct {
-		URL   string `json:"url"`
-		ID    int    `json:"id"`
 		Login string `json:"login"`
+		URL   string `json:"url"`
+		ID    int64  `json:"id"`
 	} `json:"owner"`
-	Public    bool `json:"public"`
-	RateLimit int  `json:"rate_limit"`
+	Public    bool  `json:"public"`
+	RateLimit int64 `json:"rate_limit"`
 	Roles     []struct {
-		ID          int    `json:"id"`
+		ID          int64  `json:"id"`
 		Name        string `json:"name"`
 		Description string `json:"description"`
 	} `json:"roles"`
@@ -732,16 +732,16 @@ type AttachmentsService struct {
 
 // AttachmentsItem is a 42 API type
 type AttachmentsItem struct {
-	BaseID    int       `json:"base_id"`
+	BaseID    int64     `json:"base_id"`
 	CreatedAt time.Time `json:"created_at"`
-	ID        int       `json:"id"`
+	ID        int64     `json:"id"`
 	Language  struct {
-		ID         int    `json:"id"`
+		ID         int64  `json:"id"`
 		Name       string `json:"name"`
 		IDentifier string `json:"identifier"`
 	} `json:"language"`
 	Name      string `json:"name"`
-	PageCount int    `json:"page_count"`
+	PageCount int64  `json:"page_count"`
 	Pdf       struct {
 		Pdf struct {
 			URL   interface{} `json:"url"`
@@ -860,8 +860,8 @@ type BalancesService struct {
 type BalancesItem struct {
 	BeginAt string `json:"begin_at"`
 	EndAt   string `json:"end_at"`
-	ID      int    `json:"id"`
-	PoolID  int    `json:"pool_id"`
+	ID      int64  `json:"id"`
+	PoolID  int64  `json:"pool_id"`
 }
 
 // BalancesListCall description:
@@ -960,11 +960,11 @@ type BlocDeadlinesService struct {
 // BlocDeadlinesItem is a 42 API type
 type BlocDeadlinesItem struct {
 	BeginAt     time.Time `json:"begin_at"`
-	BlocID      int       `json:"bloc_id"`
-	CoalitionID int       `json:"coalition_id"`
+	BlocID      int64     `json:"bloc_id"`
+	CoalitionID int64     `json:"coalition_id"`
 	CreatedAt   time.Time `json:"created_at"`
 	EndAt       time.Time `json:"end_at"`
-	ID          int       `json:"id"`
+	ID          int64     `json:"id"`
 	UpdatedAt   time.Time `json:"updated_at"`
 }
 
@@ -1067,20 +1067,20 @@ type BlocsService struct {
 
 // BlocsItem is a 42 API type
 type BlocsItem struct {
-	CampusID   int `json:"campus_id"`
+	CampusID   int64 `json:"campus_id"`
 	Coalitions []struct {
-		ImageURL string `json:"image_url"`
-		Color    string `json:"color"`
-		Score    int    `json:"score"`
-		UserID   int    `json:"user_id"`
-		ID       int    `json:"id"`
+		ID       int64  `json:"id"`
 		Name     string `json:"name"`
 		Slug     string `json:"slug"`
+		ImageURL string `json:"image_url"`
+		Color    string `json:"color"`
+		Score    int64  `json:"score"`
+		UserID   int64  `json:"user_id"`
 	} `json:"coalitions"`
 	CreatedAt time.Time `json:"created_at"`
-	CursusID  int       `json:"cursus_id"`
-	ID        int       `json:"id"`
-	SquadSize int       `json:"squad_size"`
+	CursusID  int64     `json:"cursus_id"`
+	ID        int64     `json:"id"`
+	SquadSize int64     `json:"squad_size"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
@@ -1241,16 +1241,16 @@ type CampusService struct {
 // CampusItem is a 42 API type
 type CampusItem struct {
 	Endpoint interface{} `json:"endpoint"`
-	ID       int         `json:"id"`
+	ID       int64       `json:"id"`
 	Language struct {
-		ID         int    `json:"id"`
+		ID         int64  `json:"id"`
 		Name       string `json:"name"`
 		IDentifier string `json:"identifier"`
 	} `json:"language"`
 	Name        string `json:"name"`
 	TimeZone    string `json:"time_zone"`
-	UsersCount  int    `json:"users_count"`
-	VogsphereID int    `json:"vogsphere_id"`
+	UsersCount  int64  `json:"users_count"`
+	VogsphereID int64  `json:"vogsphere_id"`
 }
 
 // CampusListCall description:
@@ -1352,10 +1352,10 @@ type CampusUsersService struct {
 
 // CampusUsersItem is a 42 API type
 type CampusUsersItem struct {
-	CampusID  int  `json:"campus_id"`
-	ID        int  `json:"id"`
-	IsPrimary bool `json:"is_primary"`
-	UserID    int  `json:"user_id"`
+	CampusID  int64 `json:"campus_id"`
+	ID        int64 `json:"id"`
+	IsPrimary bool  `json:"is_primary"`
+	UserID    int64 `json:"user_id"`
 }
 
 // CampusUsersListCall description:
@@ -1715,13 +1715,13 @@ type ClosesService struct {
 // ClosesItem is a 42 API type
 type ClosesItem struct {
 	Closer struct {
-		URL   string `json:"url"`
-		ID    int    `json:"id"`
+		ID    int64  `json:"id"`
 		Login string `json:"login"`
+		URL   string `json:"url"`
 	} `json:"closer"`
 	CommunityServices []struct {
-		ID         int       `json:"id"`
-		Duration   int       `json:"duration"`
+		ID         int64     `json:"id"`
+		Duration   int64     `json:"duration"`
 		ScheduleAt time.Time `json:"schedule_at"`
 		Occupation string    `json:"occupation"`
 		State      string    `json:"state"`
@@ -1729,14 +1729,14 @@ type ClosesItem struct {
 		UpdatedAt  time.Time `json:"updated_at"`
 	} `json:"community_services"`
 	CreatedAt time.Time `json:"created_at"`
-	ID        int       `json:"id"`
+	ID        int64     `json:"id"`
 	Reason    string    `json:"reason"`
 	State     string    `json:"state"`
 	UpdatedAt time.Time `json:"updated_at"`
 	User      struct {
+		ID    int64  `json:"id"`
 		Login string `json:"login"`
 		URL   string `json:"url"`
-		ID    int    `json:"id"`
 	} `json:"user"`
 }
 
@@ -1842,12 +1842,12 @@ type CoalitionsService struct {
 // CoalitionsItem is a 42 API type
 type CoalitionsItem struct {
 	Color    string `json:"color"`
-	ID       int    `json:"id"`
+	ID       int64  `json:"id"`
 	ImageURL string `json:"image_url"`
 	Name     string `json:"name"`
-	Score    int    `json:"score"`
+	Score    int64  `json:"score"`
 	Slug     string `json:"slug"`
-	UserID   int    `json:"user_id"`
+	UserID   int64  `json:"user_id"`
 }
 
 // CoalitionsListCall description:
@@ -1949,11 +1949,11 @@ type CoalitionsUsersService struct {
 
 // CoalitionsUsersItem is a 42 API type
 type CoalitionsUsersItem struct {
-	CoalitionID int       `json:"coalition_id"`
+	CoalitionID int64     `json:"coalition_id"`
 	CreatedAt   time.Time `json:"created_at"`
-	ID          int       `json:"id"`
+	ID          int64     `json:"id"`
 	UpdatedAt   time.Time `json:"updated_at"`
-	UserID      int       `json:"user_id"`
+	UserID      int64     `json:"user_id"`
 }
 
 // CoalitionsUsersListCall description:
@@ -2161,15 +2161,15 @@ type CommunityServicesService struct {
 // CommunityServicesItem is a 42 API type
 type CommunityServicesItem struct {
 	Close struct {
-		ID        int       `json:"id"`
+		ID        int64     `json:"id"`
 		Reason    string    `json:"reason"`
 		State     string    `json:"state"`
 		CreatedAt time.Time `json:"created_at"`
 		UpdatedAt time.Time `json:"updated_at"`
 	} `json:"close"`
 	CreatedAt  time.Time `json:"created_at"`
-	Duration   int       `json:"duration"`
-	ID         int       `json:"id"`
+	Duration   int64     `json:"duration"`
+	ID         int64     `json:"id"`
 	Occupation string    `json:"occupation"`
 	ScheduleAt time.Time `json:"schedule_at"`
 	State      string    `json:"state"`
@@ -2278,7 +2278,7 @@ type CursusService struct {
 // CursusItem is a 42 API type
 type CursusItem struct {
 	CreatedAt time.Time `json:"created_at"`
-	ID        int       `json:"id"`
+	ID        int64     `json:"id"`
 	Name      string    `json:"name"`
 	Slug      string    `json:"slug"`
 }
@@ -2386,21 +2386,21 @@ type CursusUsersService struct {
 type CursusUsersItem struct {
 	BeginAt time.Time `json:"begin_at"`
 	Cursus  struct {
-		ID        int       `json:"id"`
 		CreatedAt time.Time `json:"created_at"`
 		Name      string    `json:"name"`
 		Slug      string    `json:"slug"`
+		ID        int64     `json:"id"`
 	} `json:"cursus"`
-	CursusID     int           `json:"cursus_id"`
+	CursusID     int64         `json:"cursus_id"`
 	EndAt        interface{}   `json:"end_at"`
 	Grade        string        `json:"grade"`
 	HasCoalition bool          `json:"has_coalition"`
-	ID           int           `json:"id"`
-	Level        int           `json:"level"`
+	ID           int64         `json:"id"`
+	Level        float64       `json:"level"`
 	Skills       []interface{} `json:"skills"`
 	User         struct {
 		URL   string `json:"url"`
-		ID    int    `json:"id"`
+		ID    int64  `json:"id"`
 		Login string `json:"login"`
 	} `json:"user"`
 }
@@ -2609,12 +2609,12 @@ type DashesUsersService struct {
 
 // DashesUsersItem is a 42 API type
 type DashesUsersItem struct {
-	DashID    int         `json:"dash_id"`
+	DashID    int64       `json:"dash_id"`
 	FinalMark interface{} `json:"final_mark"`
-	ID        int         `json:"id"`
+	ID        int64       `json:"id"`
 	RepoURL   interface{} `json:"repo_url"`
 	RepoUUID  interface{} `json:"repo_uuid"`
-	UserID    int         `json:"user_id"`
+	UserID    int64       `json:"user_id"`
 }
 
 // DashesUsersListCall description:
@@ -2719,21 +2719,21 @@ type EndpointsService struct {
 // EndpointsItem is a 42 API type
 type EndpointsItem struct {
 	Campus []struct {
+		Name     string `json:"name"`
+		TimeZone string `json:"time_zone"`
 		Language struct {
-			CreatedAt  time.Time `json:"created_at"`
-			UpdatedAt  time.Time `json:"updated_at"`
-			ID         int       `json:"id"`
+			ID         int64     `json:"id"`
 			Name       string    `json:"name"`
 			IDentifier string    `json:"identifier"`
+			CreatedAt  time.Time `json:"created_at"`
+			UpdatedAt  time.Time `json:"updated_at"`
 		} `json:"language"`
-		UsersCount int    `json:"users_count"`
-		ID         int    `json:"id"`
-		Name       string `json:"name"`
-		TimeZone   string `json:"time_zone"`
+		UsersCount int64 `json:"users_count"`
+		ID         int64 `json:"id"`
 	} `json:"campus"`
 	CreatedAt   time.Time `json:"created_at"`
 	Description string    `json:"description"`
-	ID          int       `json:"id"`
+	ID          int64     `json:"id"`
 	UpdatedAt   time.Time `json:"updated_at"`
 	URL         string    `json:"url"`
 }
@@ -2943,30 +2943,30 @@ type EventsService struct {
 // EventsItem is a 42 API type
 type EventsItem struct {
 	BeginAt                   time.Time `json:"begin_at"`
-	CampusIDs                 []int     `json:"campus_ids"`
+	CampusIDs                 []int64   `json:"campus_ids"`
 	CreatedAt                 time.Time `json:"created_at"`
-	CursusIDs                 []int     `json:"cursus_ids"`
+	CursusIDs                 []int64   `json:"cursus_ids"`
 	Description               string    `json:"description"`
 	EndAt                     time.Time `json:"end_at"`
-	ID                        int       `json:"id"`
+	ID                        int64     `json:"id"`
 	Kind                      string    `json:"kind"`
 	Location                  string    `json:"location"`
-	MaxPeople                 int       `json:"max_people"`
+	MaxPeople                 int64     `json:"max_people"`
 	Name                      string    `json:"name"`
-	NbrSubscribers            int       `json:"nbr_subscribers"`
-	ProhibitionOfCancellation int       `json:"prohibition_of_cancellation"`
+	NbrSubscribers            int64     `json:"nbr_subscribers"`
+	ProhibitionOfCancellation int64     `json:"prohibition_of_cancellation"`
 	Themes                    []struct {
-		CreatedAt time.Time `json:"created_at"`
-		ID        int       `json:"id"`
-		Name      string    `json:"name"`
 		UpdatedAt time.Time `json:"updated_at"`
+		CreatedAt time.Time `json:"created_at"`
+		ID        int64     `json:"id"`
+		Name      string    `json:"name"`
 	} `json:"themes"`
 	UpdatedAt time.Time `json:"updated_at"`
 	Waitlist  struct {
 		CreatedAt        time.Time `json:"created_at"`
-		ID               int       `json:"id"`
+		ID               int64     `json:"id"`
 		UpdatedAt        time.Time `json:"updated_at"`
-		WaitlistableID   int       `json:"waitlistable_id"`
+		WaitlistableID   int64     `json:"waitlistable_id"`
 		WaitlistableType string    `json:"waitlistable_type"`
 	} `json:"waitlist"`
 }
@@ -3177,45 +3177,45 @@ type ExamsService struct {
 type ExamsItem struct {
 	BeginAt time.Time `json:"begin_at"`
 	Campus  []struct {
-		UsersCount  int    `json:"users_count"`
-		VogsphereID int    `json:"vogsphere_id"`
-		ID          int    `json:"id"`
-		Name        string `json:"name"`
-		TimeZone    string `json:"time_zone"`
-		Language    struct {
-			ID         int       `json:"id"`
+		Language struct {
+			ID         int64     `json:"id"`
 			Name       string    `json:"name"`
 			IDentifier string    `json:"identifier"`
 			CreatedAt  time.Time `json:"created_at"`
 			UpdatedAt  time.Time `json:"updated_at"`
 		} `json:"language"`
+		UsersCount  int64  `json:"users_count"`
+		VogsphereID int64  `json:"vogsphere_id"`
+		ID          int64  `json:"id"`
+		Name        string `json:"name"`
+		TimeZone    string `json:"time_zone"`
 	} `json:"campus"`
 	Cursus []struct {
-		ID        int       `json:"id"`
+		Slug      string    `json:"slug"`
+		ID        int64     `json:"id"`
 		CreatedAt time.Time `json:"created_at"`
 		Name      string    `json:"name"`
-		Slug      string    `json:"slug"`
 	} `json:"cursus"`
 	EndAt          time.Time `json:"end_at"`
-	ID             int       `json:"id"`
+	ID             int64     `json:"id"`
 	IPRange        string    `json:"ip_range"`
 	Location       string    `json:"location"`
-	MaxPeople      int       `json:"max_people"`
+	MaxPeople      int64     `json:"max_people"`
 	Name           string    `json:"name"`
-	NbrSubscribers int       `json:"nbr_subscribers"`
+	NbrSubscribers int64     `json:"nbr_subscribers"`
 	Projects       []struct {
+		CreatedAt   time.Time     `json:"created_at"`
+		ID          int64         `json:"id"`
 		Slug        string        `json:"slug"`
+		Parent      interface{}   `json:"parent"`
+		Children    []interface{} `json:"children"`
 		Attachments []interface{} `json:"attachments"`
 		Exam        bool          `json:"exam"`
 		Name        string        `json:"name"`
 		Description string        `json:"description"`
-		Parent      interface{}   `json:"parent"`
-		Children    []interface{} `json:"children"`
 		Objectives  []string      `json:"objectives"`
-		Tier        int           `json:"tier"`
-		CreatedAt   time.Time     `json:"created_at"`
+		Tier        int64         `json:"tier"`
 		UpdatedAt   time.Time     `json:"updated_at"`
-		ID          int           `json:"id"`
 	} `json:"projects"`
 }
 
@@ -3492,7 +3492,7 @@ type ExpertisesService struct {
 type ExpertisesItem struct {
 	CreatedAt          time.Time `json:"created_at"`
 	ExpertisesUsersURL string    `json:"expertises_users_url"`
-	ID                 int       `json:"id"`
+	ID                 int64     `json:"id"`
 	Kind               string    `json:"kind"`
 	Name               string    `json:"name"`
 	Slug               string    `json:"slug"`
@@ -3603,24 +3603,24 @@ type ExpertisesUsersItem struct {
 	ContactMe bool      `json:"contact_me"`
 	CreatedAt time.Time `json:"created_at"`
 	Expertise struct {
-		ExpertisesUsersURL string    `json:"expertises_users_url"`
-		ID                 int       `json:"id"`
-		Name               string    `json:"name"`
-		Slug               string    `json:"slug"`
 		URL                string    `json:"url"`
 		Kind               string    `json:"kind"`
 		CreatedAt          time.Time `json:"created_at"`
+		ExpertisesUsersURL string    `json:"expertises_users_url"`
+		ID                 int64     `json:"id"`
+		Name               string    `json:"name"`
+		Slug               string    `json:"slug"`
 	} `json:"expertise"`
-	ExpertiseID int  `json:"expertise_id"`
-	ID          int  `json:"id"`
-	Interested  bool `json:"interested"`
+	ExpertiseID int64 `json:"expertise_id"`
+	ID          int64 `json:"id"`
+	Interested  bool  `json:"interested"`
 	User        struct {
-		URL   string `json:"url"`
-		ID    int    `json:"id"`
+		ID    int64  `json:"id"`
 		Login string `json:"login"`
+		URL   string `json:"url"`
 	} `json:"user"`
-	UserID int `json:"user_id"`
-	Value  int `json:"value"`
+	UserID int64 `json:"user_id"`
+	Value  int64 `json:"value"`
 }
 
 // ExpertisesUsersListCall description:
@@ -3889,13 +3889,13 @@ type FlashUsersService struct {
 // FlashUsersItem is a 42 API type
 type FlashUsersItem struct {
 	EndAt   time.Time `json:"end_at"`
-	FlashID int       `json:"flash_id"`
-	ID      int       `json:"id"`
+	FlashID int64     `json:"flash_id"`
+	ID      int64     `json:"id"`
 	Seen    bool      `json:"seen"`
 	User    struct {
-		ID    int    `json:"id"`
-		Login string `json:"login"`
 		URL   string `json:"url"`
+		ID    int64  `json:"id"`
+		Login string `json:"login"`
 	} `json:"user"`
 }
 
@@ -3997,8 +3997,8 @@ type FlashesService struct {
 // FlashesItem is a 42 API type
 type FlashesItem struct {
 	Content    string `json:"content"`
-	Duration   int    `json:"duration"`
-	ID         int    `json:"id"`
+	Duration   int64  `json:"duration"`
+	ID         int64  `json:"id"`
 	IDentifier string `json:"identifier"`
 	Selector   string `json:"selector"`
 	Title      string `json:"title"`
@@ -4101,7 +4101,7 @@ type GroupsService struct {
 
 // GroupsItem is a 42 API type
 type GroupsItem struct {
-	ID   int    `json:"id"`
+	ID   int64  `json:"id"`
 	Name string `json:"name"`
 }
 
@@ -4207,10 +4207,10 @@ type GroupsUsersService struct {
 // GroupsUsersItem is a 42 API type
 type GroupsUsersItem struct {
 	CreatedAt time.Time `json:"created_at"`
-	GroupID   int       `json:"group_id"`
-	ID        int       `json:"id"`
+	GroupID   int64     `json:"group_id"`
+	ID        int64     `json:"id"`
 	UpdatedAt time.Time `json:"updated_at"`
-	UserID    int       `json:"user_id"`
+	UserID    int64     `json:"user_id"`
 }
 
 // GroupsUsersListCall description:
@@ -4314,7 +4314,7 @@ type InternshipsService struct {
 
 // InternshipsItem is a 42 API type
 type InternshipsItem struct {
-	AdministrationID         int         `json:"administration_id"`
+	AdministrationID         int64       `json:"administration_id"`
 	BreachAt                 interface{} `json:"breach_at"`
 	CompanyAddress           string      `json:"company_address"`
 	CompanyBossUserEmail     string      `json:"company_boss_user_email"`
@@ -4339,24 +4339,24 @@ type InternshipsItem struct {
 	} `json:"convention"`
 	Currency          string      `json:"currency"`
 	Days              string      `json:"days"`
-	Duration          int         `json:"duration"`
+	Duration          int64       `json:"duration"`
 	EndAt             time.Time   `json:"end_at"`
-	ID                int         `json:"id"`
+	ID                int64       `json:"id"`
 	InternshipAddress string      `json:"internship_address"`
 	InternshipCity    string      `json:"internship_city"`
 	InternshipCountry string      `json:"internship_country"`
 	InternshipPostal  string      `json:"internship_postal"`
-	LanguageID        int         `json:"language_id"`
+	LanguageID        int64       `json:"language_id"`
 	Movement          interface{} `json:"movement"`
-	NbDays            int         `json:"nb_days"`
-	NbHours           int         `json:"nb_hours"`
+	NbDays            int64       `json:"nb_days"`
+	NbHours           int64       `json:"nb_hours"`
 	OfferID           interface{} `json:"offer_id"`
-	Salary            int         `json:"salary"`
+	Salary            int64       `json:"salary"`
 	StartAt           time.Time   `json:"start_at"`
 	State             string      `json:"state"`
 	Subject           string      `json:"subject"`
 	User              struct {
-		ID    int    `json:"id"`
+		ID    int64  `json:"id"`
 		Login string `json:"login"`
 		URL   string `json:"url"`
 	} `json:"user"`
@@ -4461,7 +4461,7 @@ type LanguagesService struct {
 
 // LanguagesItem is a 42 API type
 type LanguagesItem struct {
-	ID         int    `json:"id"`
+	ID         int64  `json:"id"`
 	IDentifier string `json:"identifier"`
 	Name       string `json:"name"`
 }
@@ -4568,10 +4568,10 @@ type LanguagesUsersService struct {
 // LanguagesUsersItem is a 42 API type
 type LanguagesUsersItem struct {
 	CreatedAt  time.Time `json:"created_at"`
-	ID         int       `json:"id"`
-	LanguageID int       `json:"language_id"`
-	Position   int       `json:"position"`
-	UserID     int       `json:"user_id"`
+	ID         int64     `json:"id"`
+	LanguageID int64     `json:"language_id"`
+	Position   int64     `json:"position"`
+	UserID     int64     `json:"user_id"`
 }
 
 // LanguagesUsersListCall description:
@@ -4737,16 +4737,16 @@ type LocationsService struct {
 // LocationsItem is a 42 API type
 type LocationsItem struct {
 	BeginAt  time.Time   `json:"begin_at"`
-	CampusID int         `json:"campus_id"`
+	CampusID int64       `json:"campus_id"`
 	EndAt    time.Time   `json:"end_at"`
 	Floor    interface{} `json:"floor"`
 	Host     string      `json:"host"`
-	ID       int         `json:"id"`
+	ID       int64       `json:"id"`
 	Post     interface{} `json:"post"`
 	Primary  bool        `json:"primary"`
 	Row      interface{} `json:"row"`
 	User     struct {
-		ID    int    `json:"id"`
+		ID    int64  `json:"id"`
 		Login string `json:"login"`
 		URL   string `json:"url"`
 	} `json:"user"`
@@ -4861,14 +4861,14 @@ type MailingsItem struct {
 	CreatedAt   time.Time     `json:"created_at"`
 	From        string        `json:"from"`
 	HTMLContent string        `json:"html_content"`
-	ID          int           `json:"id"`
+	ID          int64         `json:"id"`
 	IDentifier  string        `json:"identifier"`
 	Meta        struct {
-		ID        int       `json:"id"`
 		Date      time.Time `json:"date"`
 		Name      string    `json:"name"`
 		User      string    `json:"user"`
 		OtherUser string    `json:"other_user"`
+		ID        int64     `json:"id"`
 	} `json:"meta"`
 	Subject   string      `json:"subject"`
 	Subtitle  interface{} `json:"subtitle"`
@@ -4981,16 +4981,16 @@ type NotesItem struct {
 	Content   string    `json:"content"`
 	CreatedAt time.Time `json:"created_at"`
 	FromUser  struct {
-		ID    int    `json:"id"`
+		ID    int64  `json:"id"`
 		Login string `json:"login"`
 		URL   string `json:"url"`
 	} `json:"from_user"`
-	ID      int    `json:"id"`
+	ID      int64  `json:"id"`
 	Subject string `json:"subject"`
 	User    struct {
-		ID    int    `json:"id"`
 		Login string `json:"login"`
 		URL   string `json:"url"`
+		ID    int64  `json:"id"`
 	} `json:"user"`
 }
 
@@ -5097,19 +5097,19 @@ type NotionsService struct {
 type NotionsItem struct {
 	CreatedAt time.Time `json:"created_at"`
 	Cursus    []struct {
+		ID        int64     `json:"id"`
+		CreatedAt time.Time `json:"created_at"`
 		Name      string    `json:"name"`
 		Slug      string    `json:"slug"`
-		ID        int       `json:"id"`
-		CreatedAt time.Time `json:"created_at"`
 	} `json:"cursus"`
-	ID         int           `json:"id"`
+	ID         int64         `json:"id"`
 	Name       string        `json:"name"`
 	Slug       string        `json:"slug"`
 	Subnotions []interface{} `json:"subnotions"`
 	Tags       []struct {
 		Name string `json:"name"`
 		Kind string `json:"kind"`
-		ID   int    `json:"id"`
+		ID   int64  `json:"id"`
 	} `json:"tags"`
 }
 
@@ -5317,11 +5317,11 @@ type PartnershipsService struct {
 
 // PartnershipsItem is a 42 API type
 type PartnershipsItem struct {
-	ID                   int    `json:"id"`
+	ID                   int64  `json:"id"`
 	Name                 string `json:"name"`
 	PartnershipsUsersURL string `json:"partnerships_users_url"`
 	Slug                 string `json:"slug"`
-	Tier                 int    `json:"tier"`
+	Tier                 int64  `json:"tier"`
 	URL                  string `json:"url"`
 }
 
@@ -5427,12 +5427,12 @@ type PartnershipsUsersService struct {
 // PartnershipsUsersItem is a 42 API type
 type PartnershipsUsersItem struct {
 	FinalMark     interface{} `json:"final_mark"`
-	ID            int         `json:"id"`
-	PartnershipID int         `json:"partnership_id"`
+	ID            int64       `json:"id"`
+	PartnershipID int64       `json:"partnership_id"`
 	User          struct {
+		ID    int64  `json:"id"`
 		Login string `json:"login"`
 		URL   string `json:"url"`
-		ID    int    `json:"id"`
 	} `json:"user"`
 }
 
@@ -5539,20 +5539,20 @@ type PatronagesService struct {
 type PatronagesItem struct {
 	CreatedAt time.Time `json:"created_at"`
 	Godfather struct {
-		ID    int    `json:"id"`
-		Login string `json:"login"`
 		URL   string `json:"url"`
+		ID    int64  `json:"id"`
+		Login string `json:"login"`
 	} `json:"godfather"`
-	GodfatherID int       `json:"godfather_id"`
-	ID          int       `json:"id"`
+	GodfatherID int64     `json:"godfather_id"`
+	ID          int64     `json:"id"`
 	Ongoing     bool      `json:"ongoing"`
 	UpdatedAt   time.Time `json:"updated_at"`
 	User        struct {
-		ID    int    `json:"id"`
 		Login string `json:"login"`
 		URL   string `json:"url"`
+		ID    int64  `json:"id"`
 	} `json:"user"`
-	UserID int `json:"user_id"`
+	UserID int64 `json:"user_id"`
 }
 
 // PatronagesListCall description:
@@ -5659,36 +5659,36 @@ type PatronagesReportsItem struct {
 	Answers   []interface{} `json:"answers"`
 	BeginAt   time.Time     `json:"begin_at"`
 	CreatedAt time.Time     `json:"created_at"`
-	ID        int           `json:"id"`
+	ID        int64         `json:"id"`
 	Patronage struct {
-		GodfatherID int       `json:"godfather_id"`
+		ID          int64     `json:"id"`
+		UserID      int64     `json:"user_id"`
+		GodfatherID int64     `json:"godfather_id"`
 		Ongoing     bool      `json:"ongoing"`
 		CreatedAt   time.Time `json:"created_at"`
 		UpdatedAt   time.Time `json:"updated_at"`
-		ID          int       `json:"id"`
-		UserID      int       `json:"user_id"`
 	} `json:"patronage"`
-	PatronageID int `json:"patronage_id"`
+	PatronageID int64 `json:"patronage_id"`
 	Report      struct {
-		Comment        string    `json:"comment"`
-		UpdatedAt      time.Time `json:"updated_at"`
-		Slug           string    `json:"slug"`
-		DelayDays      int       `json:"delay_days"`
-		CreatedAt      time.Time `json:"created_at"`
-		ID             int       `json:"id"`
-		Name           string    `json:"name"`
 		IntroductionMd string    `json:"introduction_md"`
+		UpdatedAt      time.Time `json:"updated_at"`
+		Name           string    `json:"name"`
+		Comment        string    `json:"comment"`
 		DisclaimerMd   string    `json:"disclaimer_md"`
 		GuidelinesMd   string    `json:"guidelines_md"`
+		CreatedAt      time.Time `json:"created_at"`
+		Slug           string    `json:"slug"`
+		DelayDays      int64     `json:"delay_days"`
+		ID             int64     `json:"id"`
 	} `json:"report"`
-	ReportID  int       `json:"report_id"`
+	ReportID  int64     `json:"report_id"`
 	UpdatedAt time.Time `json:"updated_at"`
 	User      struct {
+		ID    int64  `json:"id"`
 		Login string `json:"login"`
 		URL   string `json:"url"`
-		ID    int    `json:"id"`
 	} `json:"user"`
-	UserID      int         `json:"user_id"`
+	UserID      int64       `json:"user_id"`
 	ValidatedAt interface{} `json:"validated_at"`
 }
 
@@ -5793,11 +5793,11 @@ type PoolsService struct {
 
 // PoolsItem is a 42 API type
 type PoolsItem struct {
-	CampusID      int `json:"campus_id"`
-	CurrentPoints int `json:"current_points"`
-	CursusID      int `json:"cursus_id"`
-	ID            int `json:"id"`
-	MaxPoints     int `json:"max_points"`
+	CampusID      int64 `json:"campus_id"`
+	CurrentPoints int64 `json:"current_points"`
+	CursusID      int64 `json:"cursus_id"`
+	ID            int64 `json:"id"`
+	MaxPoints     int64 `json:"max_points"`
 }
 
 // PoolsListCall description:
@@ -5896,23 +5896,23 @@ type ProductsService struct {
 // ProductsItem is a 42 API type
 type ProductsItem struct {
 	BeginAt     interface{} `json:"begin_at"`
-	CategoryID  int         `json:"category_id"`
+	CategoryID  int64       `json:"category_id"`
 	CreatedAt   time.Time   `json:"created_at"`
 	Description string      `json:"description"`
 	EndAt       interface{} `json:"end_at"`
-	ID          int         `json:"id"`
+	ID          int64       `json:"id"`
 	Image       struct {
+		URL   string `json:"url"`
 		Thumb struct {
 			URL string `json:"url"`
 		} `json:"thumb"`
-		URL string `json:"url"`
 	} `json:"image"`
 	IsUniq          bool      `json:"is_uniq"`
 	Kind            string    `json:"kind"`
 	Name            string    `json:"name"`
 	OneTimePurchase bool      `json:"one_time_purchase"`
-	Price           int       `json:"price"`
-	Quantity        int       `json:"quantity"`
+	Price           int64     `json:"price"`
+	Quantity        int64     `json:"quantity"`
 	Slug            string    `json:"slug"`
 	UpdatedAt       time.Time `json:"updated_at"`
 }
@@ -6019,10 +6019,10 @@ type ProjectDataService struct {
 // ProjectDataItem is a 42 API type
 type ProjectDataItem struct {
 	By               []interface{} `json:"by"`
-	Coordinates      []int         `json:"coordinates"`
-	ID               int           `json:"id"`
+	Coordinates      []float64     `json:"coordinates"`
+	ID               int64         `json:"id"`
 	Kind             string        `json:"kind"`
-	ProjectSessionID int           `json:"project_session_id"`
+	ProjectSessionID int64         `json:"project_session_id"`
 }
 
 // ProjectDataListCall description:
@@ -6130,33 +6130,33 @@ type ProjectSessionsItem struct {
 	CursusID     interface{} `json:"cursus_id"`
 	DurationDays interface{} `json:"duration_days"`
 	EndAt        interface{} `json:"end_at"`
-	EstimateTime int         `json:"estimate_time"`
+	EstimateTime int64       `json:"estimate_time"`
 	Evaluations  []struct {
-		ID   int    `json:"id"`
+		ID   int64  `json:"id"`
 		Kind string `json:"kind"`
 	} `json:"evaluations"`
-	ID              int         `json:"id"`
+	ID              int64       `json:"id"`
 	IsSubscriptable bool        `json:"is_subscriptable"`
 	MaxPeople       interface{} `json:"max_people"`
 	Project         struct {
+		Attachments []interface{} `json:"attachments"`
 		Name        string        `json:"name"`
 		Description string        `json:"description"`
-		Children    []interface{} `json:"children"`
-		Tier        int           `json:"tier"`
-		Exam        bool          `json:"exam"`
-		ID          int           `json:"id"`
-		Slug        string        `json:"slug"`
 		Parent      interface{}   `json:"parent"`
+		Children    []interface{} `json:"children"`
 		Objectives  []string      `json:"objectives"`
-		Attachments []interface{} `json:"attachments"`
+		Tier        int64         `json:"tier"`
+		ID          int64         `json:"id"`
+		Slug        string        `json:"slug"`
 		CreatedAt   time.Time     `json:"created_at"`
 		UpdatedAt   time.Time     `json:"updated_at"`
+		Exam        bool          `json:"exam"`
 	} `json:"project"`
-	ProjectID int `json:"project_id"`
+	ProjectID int64 `json:"project_id"`
 	Scales    []struct {
-		ID               int  `json:"id"`
-		CorrectionNumber int  `json:"correction_number"`
-		IsPrimary        bool `json:"is_primary"`
+		ID               int64 `json:"id"`
+		CorrectionNumber int64 `json:"correction_number"`
+		IsPrimary        bool  `json:"is_primary"`
 	} `json:"scales"`
 	Solo             bool          `json:"solo"`
 	TeamBehaviour    string        `json:"team_behaviour"`
@@ -6370,11 +6370,11 @@ type ProjectSessionsSkillsService struct {
 // ProjectSessionsSkillsItem is a 42 API type
 type ProjectSessionsSkillsItem struct {
 	CreatedAt        time.Time `json:"created_at"`
-	ID               int       `json:"id"`
-	ProjectSessionID int       `json:"project_session_id"`
-	SkillID          int       `json:"skill_id"`
+	ID               int64     `json:"id"`
+	ProjectSessionID int64     `json:"project_session_id"`
+	SkillID          int64     `json:"skill_id"`
 	UpdatedAt        time.Time `json:"updated_at"`
-	Value            int       `json:"value"`
+	Value            int64     `json:"value"`
 }
 
 // ProjectSessionsSkillsListCall description:
@@ -6474,68 +6474,68 @@ type ProjectsService struct {
 type ProjectsItem struct {
 	Attachments []interface{} `json:"attachments"`
 	Campus      []struct {
+		ID       int64  `json:"id"`
+		Name     string `json:"name"`
 		TimeZone string `json:"time_zone"`
 		Language struct {
-			ID         int       `json:"id"`
+			ID         int64     `json:"id"`
 			Name       string    `json:"name"`
 			IDentifier string    `json:"identifier"`
 			CreatedAt  time.Time `json:"created_at"`
 			UpdatedAt  time.Time `json:"updated_at"`
 		} `json:"language"`
-		UsersCount  int    `json:"users_count"`
-		VogsphereID int    `json:"vogsphere_id"`
-		ID          int    `json:"id"`
-		Name        string `json:"name"`
+		UsersCount  int64 `json:"users_count"`
+		VogsphereID int64 `json:"vogsphere_id"`
 	} `json:"campus"`
 	Children  []interface{} `json:"children"`
 	CreatedAt time.Time     `json:"created_at"`
 	Cursus    []struct {
 		Slug      string    `json:"slug"`
-		ID        int       `json:"id"`
+		ID        int64     `json:"id"`
 		CreatedAt time.Time `json:"created_at"`
 		Name      string    `json:"name"`
 	} `json:"cursus"`
 	Description     string      `json:"description"`
 	Exam            bool        `json:"exam"`
-	ID              int         `json:"id"`
+	ID              int64       `json:"id"`
 	Name            string      `json:"name"`
 	Objectives      []string    `json:"objectives"`
 	Parent          interface{} `json:"parent"`
 	ProjectSessions []struct {
-		Solo          bool        `json:"solo"`
-		ProjectID     int         `json:"project_id"`
-		TeamBehaviour string      `json:"team_behaviour"`
-		ID            int         `json:"id"`
-		CampusID      interface{} `json:"campus_id"`
-		UpdatedAt     time.Time   `json:"updated_at"`
-		Scales        []struct {
-			ID               int  `json:"id"`
-			CorrectionNumber int  `json:"correction_number"`
-			IsPrimary        bool `json:"is_primary"`
-		} `json:"scales"`
-		DurationDays     interface{}   `json:"duration_days"`
-		EstimateTime     int           `json:"estimate_time"`
 		CursusID         interface{}   `json:"cursus_id"`
-		CreatedAt        time.Time     `json:"created_at"`
-		MaxPeople        interface{}   `json:"max_people"`
 		Uploads          []interface{} `json:"uploads"`
-		BeginAt          interface{}   `json:"begin_at"`
+		ID               int64         `json:"id"`
+		Solo             bool          `json:"solo"`
+		EstimateTime     int64         `json:"estimate_time"`
+		DurationDays     interface{}   `json:"duration_days"`
 		TerminatingAfter interface{}   `json:"terminating_after"`
-		IsSubscriptable  bool          `json:"is_subscriptable"`
-		EndAt            interface{}   `json:"end_at"`
+		MaxPeople        interface{}   `json:"max_people"`
+		Scales           []struct {
+			ID               int64 `json:"id"`
+			CorrectionNumber int64 `json:"correction_number"`
+			IsPrimary        bool  `json:"is_primary"`
+		} `json:"scales"`
+		ProjectID       int64       `json:"project_id"`
+		CampusID        interface{} `json:"campus_id"`
+		UpdatedAt       time.Time   `json:"updated_at"`
+		BeginAt         interface{} `json:"begin_at"`
+		EndAt           interface{} `json:"end_at"`
+		CreatedAt       time.Time   `json:"created_at"`
+		IsSubscriptable bool        `json:"is_subscriptable"`
+		TeamBehaviour   string      `json:"team_behaviour"`
 	} `json:"project_sessions"`
 	Skills []struct {
-		ID        int       `json:"id"`
+		ID        int64     `json:"id"`
 		Name      string    `json:"name"`
 		CreatedAt time.Time `json:"created_at"`
 	} `json:"skills"`
 	Slug string `json:"slug"`
 	Tags []struct {
+		ID   int64  `json:"id"`
 		Name string `json:"name"`
 		Kind string `json:"kind"`
-		ID   int    `json:"id"`
 	} `json:"tags"`
-	Tier      int           `json:"tier"`
+	Tier      int64         `json:"tier"`
 	UpdatedAt time.Time     `json:"updated_at"`
 	Videos    []interface{} `json:"videos"`
 }
@@ -6641,48 +6641,48 @@ type ProjectsUsersService struct {
 
 // ProjectsUsersItem is a 42 API type
 type ProjectsUsersItem struct {
-	CurrentTeamID int         `json:"current_team_id"`
-	CursusIDs     []int       `json:"cursus_ids"`
+	CurrentTeamID int64       `json:"current_team_id"`
+	CursusIDs     []int64     `json:"cursus_ids"`
 	FinalMark     interface{} `json:"final_mark"`
-	ID            int         `json:"id"`
-	Occurrence    int         `json:"occurrence"`
+	ID            int64       `json:"id"`
+	Occurrence    int64       `json:"occurrence"`
 	Project       struct {
-		ID       int         `json:"id"`
+		ParentID interface{} `json:"parent_id"`
+		ID       int64       `json:"id"`
 		Name     string      `json:"name"`
 		Slug     string      `json:"slug"`
-		ParentID interface{} `json:"parent_id"`
 	} `json:"project"`
 	Status string `json:"status"`
 	Teams  []struct {
-		ProjectSessionID int         `json:"project_session_id"`
-		Status           string      `json:"status"`
-		Closed           bool        `json:"closed?"`
-		RepoURL          interface{} `json:"repo_url"`
-		ClosedAt         time.Time   `json:"closed_at"`
-		LockedAt         time.Time   `json:"locked_at"`
-		ID               int         `json:"id"`
-		URL              string      `json:"url"`
-		FinalMark        interface{} `json:"final_mark"`
-		Locked           bool        `json:"locked?"`
-		CreatedAt        time.Time   `json:"created_at"`
-		TerminatingAt    interface{} `json:"terminating_at"`
-		RepoUUID         string      `json:"repo_uuid"`
-		Validated        interface{} `json:"validated?"`
-		Name             string      `json:"name"`
-		ProjectID        int         `json:"project_id"`
-		UpdatedAt        time.Time   `json:"updated_at"`
-		Users            []struct {
-			Leader         bool   `json:"leader"`
-			Occurrence     int    `json:"occurrence"`
-			Validated      bool   `json:"validated"`
-			ProjectsUserID int    `json:"projects_user_id"`
-			ID             int    `json:"id"`
+		ID            int64       `json:"id"`
+		UpdatedAt     time.Time   `json:"updated_at"`
+		TerminatingAt interface{} `json:"terminating_at"`
+		Users         []struct {
 			Login          string `json:"login"`
 			URL            string `json:"url"`
+			Leader         bool   `json:"leader"`
+			Occurrence     int64  `json:"occurrence"`
+			Validated      bool   `json:"validated"`
+			ProjectsUserID int64  `json:"projects_user_id"`
+			ID             int64  `json:"id"`
 		} `json:"users"`
+		Locked           bool        `json:"locked?"`
+		RepoURL          interface{} `json:"repo_url"`
+		ClosedAt         time.Time   `json:"closed_at"`
+		FinalMark        interface{} `json:"final_mark"`
+		ProjectID        int64       `json:"project_id"`
+		Validated        interface{} `json:"validated?"`
+		Closed           bool        `json:"closed?"`
+		LockedAt         time.Time   `json:"locked_at"`
+		ProjectSessionID int64       `json:"project_session_id"`
+		Name             string      `json:"name"`
+		URL              string      `json:"url"`
+		CreatedAt        time.Time   `json:"created_at"`
+		RepoUUID         string      `json:"repo_uuid"`
+		Status           string      `json:"status"`
 	} `json:"teams"`
 	User struct {
-		ID    int    `json:"id"`
+		ID    int64  `json:"id"`
 		Login string `json:"login"`
 		URL   string `json:"url"`
 	} `json:"user"`
@@ -6794,20 +6794,20 @@ type QuestsItem struct {
 	CampusID  interface{} `json:"campus_id"`
 	CreatedAt time.Time   `json:"created_at"`
 	Cursus    struct {
-		ID        int       `json:"id"`
+		ID        int64     `json:"id"`
 		CreatedAt time.Time `json:"created_at"`
 		Name      string    `json:"name"`
 		Slug      string    `json:"slug"`
 	} `json:"cursus"`
-	CursusID     int         `json:"cursus_id"`
+	CursusID     int64       `json:"cursus_id"`
 	Description  string      `json:"description"`
 	Grade        interface{} `json:"grade"`
 	GradeID      interface{} `json:"grade_id"`
-	ID           int         `json:"id"`
+	ID           int64       `json:"id"`
 	InternalName interface{} `json:"internal_name"`
 	Kind         string      `json:"kind"`
 	Name         string      `json:"name"`
-	Position     int         `json:"position"`
+	Position     int64       `json:"position"`
 	Slug         string      `json:"slug"`
 	UpdatedAt    time.Time   `json:"updated_at"`
 }
@@ -6916,26 +6916,26 @@ type QuestsUsersItem struct {
 	Advancement interface{} `json:"advancement"`
 	CreatedAt   time.Time   `json:"created_at"`
 	EndAt       interface{} `json:"end_at"`
-	ID          int         `json:"id"`
+	ID          int64       `json:"id"`
 	Prct        interface{} `json:"prct"`
 	Quest       struct {
+		ID           int64       `json:"id"`
+		Name         string      `json:"name"`
+		Slug         string      `json:"slug"`
+		Kind         string      `json:"kind"`
 		CampusID     interface{} `json:"campus_id"`
 		CreatedAt    time.Time   `json:"created_at"`
-		UpdatedAt    time.Time   `json:"updated_at"`
 		GradeID      interface{} `json:"grade_id"`
-		Position     int         `json:"position"`
-		ID           int         `json:"id"`
-		Slug         string      `json:"slug"`
 		InternalName interface{} `json:"internal_name"`
-		CursusID     int         `json:"cursus_id"`
-		Name         string      `json:"name"`
-		Kind         string      `json:"kind"`
 		Description  string      `json:"description"`
+		CursusID     int64       `json:"cursus_id"`
+		UpdatedAt    time.Time   `json:"updated_at"`
+		Position     int64       `json:"position"`
 	} `json:"quest"`
-	QuestID   int       `json:"quest_id"`
+	QuestID   int64     `json:"quest_id"`
 	UpdatedAt time.Time `json:"updated_at"`
 	User      struct {
-		ID    int    `json:"id"`
+		ID    int64  `json:"id"`
 		Login string `json:"login"`
 		URL   string `json:"url"`
 	} `json:"user"`
@@ -7044,7 +7044,7 @@ type RolesService struct {
 // RolesItem is a 42 API type
 type RolesItem struct {
 	Description string `json:"description"`
-	ID          int    `json:"id"`
+	ID          int64  `json:"id"`
 	Name        string `json:"name"`
 }
 
@@ -7151,24 +7151,24 @@ type RolesEntitiesService struct {
 type RolesEntitiesItem struct {
 	CreatedAt time.Time `json:"created_at"`
 	Entity    struct {
-		RateLimit   int           `json:"rate_limit"`
-		ID          int           `json:"id"`
-		Description interface{}   `json:"description"`
-		Image       interface{}   `json:"image"`
-		Scopes      []interface{} `json:"scopes"`
-		CreatedAt   time.Time     `json:"created_at"`
-		Name        string        `json:"name"`
 		Website     interface{}   `json:"website"`
 		Public      bool          `json:"public"`
-		UpdatedAt   time.Time     `json:"updated_at"`
 		Owner       struct{}      `json:"owner"`
+		ID          int64         `json:"id"`
+		Description interface{}   `json:"description"`
+		Image       interface{}   `json:"image"`
+		UpdatedAt   time.Time     `json:"updated_at"`
+		RateLimit   int64         `json:"rate_limit"`
+		Name        string        `json:"name"`
+		Scopes      []interface{} `json:"scopes"`
+		CreatedAt   time.Time     `json:"created_at"`
 	} `json:"entity"`
-	EntityID   int         `json:"entity_id"`
+	EntityID   int64       `json:"entity_id"`
 	EntityType string      `json:"entity_type"`
 	ExpiresAt  interface{} `json:"expires_at"`
-	ID         int         `json:"id"`
+	ID         int64       `json:"id"`
 	Role       struct {
-		ID          int    `json:"id"`
+		ID          int64  `json:"id"`
 		Name        string `json:"name"`
 		Description string `json:"description"`
 	} `json:"role"`
@@ -7277,7 +7277,7 @@ type RulesService struct {
 type RulesItem struct {
 	CreatedAt    time.Time `json:"created_at"`
 	Description  string    `json:"description"`
-	ID           int       `json:"id"`
+	ID           int64     `json:"id"`
 	InternalName string    `json:"internal_name"`
 	Kind         string    `json:"kind"`
 	Name         string    `json:"name"`
@@ -7285,10 +7285,10 @@ type RulesItem struct {
 		CreatedAt    time.Time `json:"created_at"`
 		UpdatedAt    time.Time `json:"updated_at"`
 		DataType     string    `json:"data_type"`
-		ID           int       `json:"id"`
+		ID           int64     `json:"id"`
 		Name         string    `json:"name"`
 		DefaultValue string    `json:"default_value"`
-		RuleID       int       `json:"rule_id"`
+		RuleID       int64     `json:"rule_id"`
 	} `json:"params"`
 	ProjectSessionsRules []interface{} `json:"project_sessions_rules"`
 	Slug                 string        `json:"slug"`
@@ -7407,36 +7407,36 @@ type ScaleTeamsItem struct {
 	FilledAt       interface{}   `json:"filled_at"`
 	FinalMark      interface{}   `json:"final_mark"`
 	Flag           struct {
+		ID        int64     `json:"id"`
+		Name      string    `json:"name"`
+		Positive  bool      `json:"positive"`
 		Icon      string    `json:"icon"`
 		CreatedAt time.Time `json:"created_at"`
 		UpdatedAt time.Time `json:"updated_at"`
-		ID        int       `json:"id"`
-		Name      string    `json:"name"`
-		Positive  bool      `json:"positive"`
 	} `json:"flag"`
-	ID    int `json:"id"`
+	ID    int64 `json:"id"`
 	Scale struct {
-		Name           string    `json:"name"`
-		IsPrimary      bool      `json:"is_primary"`
-		IntroductionMd string    `json:"introduction_md"`
-		GuidelinesMd   string    `json:"guidelines_md"`
-		CreatedAt      time.Time `json:"created_at"`
-		Languages      []struct {
-			ID         int       `json:"id"`
+		Name               string    `json:"name"`
+		Comment            string    `json:"comment"`
+		GuidelinesMd       string    `json:"guidelines_md"`
+		CreatedAt          time.Time `json:"created_at"`
+		ID                 int64     `json:"id"`
+		EvaluationID       int64     `json:"evaluation_id"`
+		IsPrimary          bool      `json:"is_primary"`
+		IntroductionMd     string    `json:"introduction_md"`
+		DisclaimerMd       string    `json:"disclaimer_md"`
+		CorrectionNumber   int64     `json:"correction_number"`
+		Duration           int64     `json:"duration"`
+		ManualSubscription bool      `json:"manual_subscription"`
+		Languages          []struct {
 			Name       string    `json:"name"`
 			IDentifier string    `json:"identifier"`
 			CreatedAt  time.Time `json:"created_at"`
 			UpdatedAt  time.Time `json:"updated_at"`
+			ID         int64     `json:"id"`
 		} `json:"languages"`
-		ID                 int    `json:"id"`
-		EvaluationID       int    `json:"evaluation_id"`
-		Comment            string `json:"comment"`
-		DisclaimerMd       string `json:"disclaimer_md"`
-		CorrectionNumber   int    `json:"correction_number"`
-		Duration           int    `json:"duration"`
-		ManualSubscription bool   `json:"manual_subscription"`
 	} `json:"scale"`
-	ScaleID   int       `json:"scale_id"`
+	ScaleID   int64     `json:"scale_id"`
 	Truant    struct{}  `json:"truant"`
 	UpdatedAt time.Time `json:"updated_at"`
 }
@@ -7543,39 +7543,39 @@ type ScalesService struct {
 // ScalesItem is a 42 API type
 type ScalesItem struct {
 	Comment          string    `json:"comment"`
-	CorrectionNumber int       `json:"correction_number"`
+	CorrectionNumber int64     `json:"correction_number"`
 	CreatedAt        time.Time `json:"created_at"`
 	DisclaimerMd     string    `json:"disclaimer_md"`
-	Duration         int       `json:"duration"`
+	Duration         int64     `json:"duration"`
 	Evaluation       struct {
-		ID   int    `json:"id"`
+		ID   int64  `json:"id"`
 		Kind string `json:"kind"`
 	} `json:"evaluation"`
-	EvaluationID   int    `json:"evaluation_id"`
+	EvaluationID   int64  `json:"evaluation_id"`
 	GuidelinesMd   string `json:"guidelines_md"`
-	ID             int    `json:"id"`
+	ID             int64  `json:"id"`
 	IntroductionMd string `json:"introduction_md"`
 	IsPrimary      bool   `json:"is_primary"`
 	Languages      []struct {
-		Name       string    `json:"name"`
 		IDentifier string    `json:"identifier"`
 		CreatedAt  time.Time `json:"created_at"`
 		UpdatedAt  time.Time `json:"updated_at"`
-		ID         int       `json:"id"`
+		ID         int64     `json:"id"`
+		Name       string    `json:"name"`
 	} `json:"languages"`
 	ManualSubscription bool   `json:"manual_subscription"`
 	Name               string `json:"name"`
 	Sections           []struct {
-		ID          int    `json:"id"`
+		ID          int64  `json:"id"`
 		Name        string `json:"name"`
 		Description string `json:"description"`
 		Questions   []struct {
-			CreatedAt  time.Time `json:"created_at"`
-			ID         int       `json:"id"`
-			Name       string    `json:"name"`
-			Guidelines string    `json:"guidelines"`
 			Rating     string    `json:"rating"`
 			Kind       string    `json:"kind"`
+			CreatedAt  time.Time `json:"created_at"`
+			ID         int64     `json:"id"`
+			Name       string    `json:"name"`
+			Guidelines string    `json:"guidelines"`
 		} `json:"questions"`
 	} `json:"sections"`
 }
@@ -7681,16 +7681,16 @@ type ScoresService struct {
 
 // ScoresItem is a 42 API type
 type ScoresItem struct {
-	CalculationID    int       `json:"calculation_id"`
-	CoalitionID      int       `json:"coalition_id"`
-	CoalitionsUserID int       `json:"coalitions_user_id"`
+	CalculationID    int64     `json:"calculation_id"`
+	CoalitionID      int64     `json:"coalition_id"`
+	CoalitionsUserID int64     `json:"coalitions_user_id"`
 	CreatedAt        time.Time `json:"created_at"`
-	ID               int       `json:"id"`
+	ID               int64     `json:"id"`
 	Reason           string    `json:"reason"`
-	ScoreableID      int       `json:"scoreable_id"`
+	ScoreableID      int64     `json:"scoreable_id"`
 	ScoreableType    string    `json:"scoreable_type"`
 	UpdatedAt        time.Time `json:"updated_at"`
-	Value            int       `json:"value"`
+	Value            int64     `json:"value"`
 }
 
 // ScoresListCall description:
@@ -8166,7 +8166,7 @@ type SubnotionsService struct {
 type SubnotionsItem struct {
 	Attachments []interface{} `json:"attachments"`
 	CreatedAt   time.Time     `json:"created_at"`
-	ID          int           `json:"id"`
+	ID          int64         `json:"id"`
 	Name        string        `json:"name"`
 	Notepad     interface{}   `json:"notepad"`
 	Notion      interface{}   `json:"notion"`
@@ -8274,7 +8274,7 @@ type TagsService struct {
 
 // TagsItem is a 42 API type
 type TagsItem struct {
-	ID         int           `json:"id"`
+	ID         int64         `json:"id"`
 	Kind       string        `json:"kind"`
 	Name       string        `json:"name"`
 	Subnotions []interface{} `json:"subnotions"`
@@ -8487,17 +8487,17 @@ type TeamsUploadsService struct {
 type TeamsUploadsItem struct {
 	Comment   string    `json:"comment"`
 	CreatedAt time.Time `json:"created_at"`
-	FinalMark int       `json:"final_mark"`
-	ID        int       `json:"id"`
+	FinalMark int64     `json:"final_mark"`
+	ID        int64     `json:"id"`
 	Upload    struct {
-		CreatedAt    time.Time `json:"created_at"`
-		UpdatedAt    time.Time `json:"updated_at"`
-		ID           int       `json:"id"`
-		EvaluationID int       `json:"evaluation_id"`
 		Name         string    `json:"name"`
 		Description  string    `json:"description"`
+		CreatedAt    time.Time `json:"created_at"`
+		UpdatedAt    time.Time `json:"updated_at"`
+		ID           int64     `json:"id"`
+		EvaluationID int64     `json:"evaluation_id"`
 	} `json:"upload"`
-	UploadID int `json:"upload_id"`
+	UploadID int64 `json:"upload_id"`
 }
 
 // TeamsUploadsListCall description:
@@ -8602,45 +8602,45 @@ type TeamsUsersService struct {
 // TeamsUsersItem is a 42 API type
 type TeamsUsersItem struct {
 	CreatedAt  time.Time `json:"created_at"`
-	ID         int       `json:"id"`
+	ID         int64     `json:"id"`
 	Leader     bool      `json:"leader"`
-	Occurrence int       `json:"occurrence"`
+	Occurrence int64     `json:"occurrence"`
 	Team       struct {
-		UpdatedAt     time.Time   `json:"updated_at"`
-		Closed        bool        `json:"closed?"`
+		URL           string      `json:"url"`
 		FinalMark     interface{} `json:"final_mark"`
-		ProjectID     int         `json:"project_id"`
-		Status        string      `json:"status"`
+		ProjectID     int64       `json:"project_id"`
 		TerminatingAt interface{} `json:"terminating_at"`
+		Validated     interface{} `json:"validated?"`
+		ID            int64       `json:"id"`
+		CreatedAt     time.Time   `json:"created_at"`
+		UpdatedAt     time.Time   `json:"updated_at"`
+		Status        string      `json:"status"`
+		Locked        bool        `json:"locked?"`
+		RepoURL       interface{} `json:"repo_url"`
+		ClosedAt      interface{} `json:"closed_at"`
 		Users         []struct {
-			Validated      bool   `json:"validated"`
-			ProjectsUserID int    `json:"projects_user_id"`
-			ID             int    `json:"id"`
+			ProjectsUserID int64  `json:"projects_user_id"`
+			ID             int64  `json:"id"`
 			Login          string `json:"login"`
 			URL            string `json:"url"`
 			Leader         bool   `json:"leader"`
-			Occurrence     int    `json:"occurrence"`
+			Occurrence     int64  `json:"occurrence"`
+			Validated      bool   `json:"validated"`
 		} `json:"users"`
-		Locked           bool        `json:"locked?"`
-		Name             string      `json:"name"`
-		URL              string      `json:"url"`
+		Closed           bool        `json:"closed?"`
 		RepoUUID         string      `json:"repo_uuid"`
+		Name             string      `json:"name"`
 		LockedAt         interface{} `json:"locked_at"`
-		Validated        interface{} `json:"validated?"`
-		RepoURL          interface{} `json:"repo_url"`
-		CreatedAt        time.Time   `json:"created_at"`
-		ProjectSessionID int         `json:"project_session_id"`
-		ID               int         `json:"id"`
-		ClosedAt         interface{} `json:"closed_at"`
+		ProjectSessionID int64       `json:"project_session_id"`
 	} `json:"team"`
-	TeamID int `json:"team_id"`
+	TeamID int64 `json:"team_id"`
 	User   struct {
-		ID    int    `json:"id"`
+		ID    int64  `json:"id"`
 		Login string `json:"login"`
 		URL   string `json:"url"`
 	} `json:"user"`
-	UserID    int  `json:"user_id"`
-	Validated bool `json:"validated"`
+	UserID    int64 `json:"user_id"`
+	Validated bool  `json:"validated"`
 }
 
 // TeamsUsersListCall description:
@@ -8950,17 +8950,17 @@ type TransactionsService struct {
 
 // TransactionsItem is a 42 API type
 type TransactionsItem struct {
-	ID               int    `json:"id"`
+	ID               int64  `json:"id"`
 	Reason           string `json:"reason"`
-	TransactableID   int    `json:"transactable_id"`
+	TransactableID   int64  `json:"transactable_id"`
 	TransactableType string `json:"transactable_type"`
 	User             struct {
-		ID    int    `json:"id"`
+		ID    int64  `json:"id"`
 		Login string `json:"login"`
 		URL   string `json:"url"`
 	} `json:"user"`
-	UserID int `json:"user_id"`
-	Value  int `json:"value"`
+	UserID int64 `json:"user_id"`
+	Value  int64 `json:"value"`
 }
 
 // TransactionsListCall description:
@@ -9070,25 +9070,25 @@ type TranslationsItem struct {
 		Name        string      `json:"name"`
 		Description interface{} `json:"description"`
 	} `json:"fields"`
-	ID                    int    `json:"id"`
-	LanguageID            int    `json:"language_id"`
-	TranslatableID        int    `json:"translatable_id"`
+	ID                    int64  `json:"id"`
+	LanguageID            int64  `json:"language_id"`
+	TranslatableID        int64  `json:"translatable_id"`
 	TranslatableType      string `json:"translatable_type"`
 	TranslationsStructure struct {
-		ID                 int       `json:"id"`
 		SearchableBy       []string  `json:"searchable_by"`
-		UpdatedAt          time.Time `json:"updated_at"`
 		IDentifiedBy       []string  `json:"identified_by"`
 		StructuresKind     string    `json:"structures_kind"`
+		TypeName           string    `json:"type_name"`
+		CreatedAt          time.Time `json:"created_at"`
+		ID                 int64     `json:"id"`
 		UpToDate           bool      `json:"up_to_date"`
 		FieldsOrganisation struct {
-			Description string `json:"description"`
 			Name        string `json:"name"`
+			Description string `json:"description"`
 		} `json:"fields_organisation"`
-		TypeName  string    `json:"type_name"`
-		CreatedAt time.Time `json:"created_at"`
+		UpdatedAt time.Time `json:"updated_at"`
 	} `json:"translations_structure"`
-	TranslationsStructureID int         `json:"translations_structure_id"`
+	TranslationsStructureID int64       `json:"translations_structure_id"`
 	UpToDate                bool        `json:"up_to_date"`
 	UpdatedAt               time.Time   `json:"updated_at"`
 	UserID                  interface{} `json:"user_id"`
@@ -9208,7 +9208,7 @@ type UserCandidaturesItem struct {
 	Email              string      `json:"email"`
 	Gender             string      `json:"gender"`
 	HiddenPhone        interface{} `json:"hidden_phone"`
-	ID                 int         `json:"id"`
+	ID                 int64       `json:"id"`
 	Language           interface{} `json:"language"`
 	MaxLevelLogic      interface{} `json:"max_level_logic"`
 	MaxLevelMemory     interface{} `json:"max_level_memory"`
@@ -9224,7 +9224,7 @@ type UserCandidaturesItem struct {
 	PostalStreet       string      `json:"postal_street"`
 	PostalZipCode      interface{} `json:"postal_zip_code"`
 	UpdatedAt          time.Time   `json:"updated_at"`
-	UserID             int         `json:"user_id"`
+	UserID             int64       `json:"user_id"`
 	ZipCode            string      `json:"zip_code"`
 }
 
@@ -9332,67 +9332,67 @@ type UsersItem struct {
 	Achievements  []interface{} `json:"achievements"`
 	AnonymizeDate time.Time     `json:"anonymize_date"`
 	Campus        []struct {
-		VogsphereID int    `json:"vogsphere_id"`
-		ID          int    `json:"id"`
-		Name        string `json:"name"`
-		TimeZone    string `json:"time_zone"`
-		Language    struct {
-			UpdatedAt  time.Time `json:"updated_at"`
-			ID         int       `json:"id"`
+		ID       int64  `json:"id"`
+		Name     string `json:"name"`
+		TimeZone string `json:"time_zone"`
+		Language struct {
 			Name       string    `json:"name"`
 			IDentifier string    `json:"identifier"`
 			CreatedAt  time.Time `json:"created_at"`
+			UpdatedAt  time.Time `json:"updated_at"`
+			ID         int64     `json:"id"`
 		} `json:"language"`
-		UsersCount int `json:"users_count"`
+		UsersCount  int64 `json:"users_count"`
+		VogsphereID int64 `json:"vogsphere_id"`
 	} `json:"campus"`
 	CampusUsers []struct {
-		ID        int  `json:"id"`
-		UserID    int  `json:"user_id"`
-		CampusID  int  `json:"campus_id"`
-		IsPrimary bool `json:"is_primary"`
+		ID        int64 `json:"id"`
+		UserID    int64 `json:"user_id"`
+		CampusID  int64 `json:"campus_id"`
+		IsPrimary bool  `json:"is_primary"`
 	} `json:"campus_users"`
-	CorrectionPoint int `json:"correction_point"`
+	CorrectionPoint int64 `json:"correction_point"`
 	CursusUsers     []struct {
-		User struct {
-			ID    int    `json:"id"`
+		EndAt        interface{}   `json:"end_at"`
+		Level        float64       `json:"level"`
+		Skills       []interface{} `json:"skills"`
+		HasCoalition bool          `json:"has_coalition"`
+		User         struct {
+			ID    int64  `json:"id"`
 			Login string `json:"login"`
 			URL   string `json:"url"`
 		} `json:"user"`
-		ID           int         `json:"id"`
-		Grade        interface{} `json:"grade"`
-		CursusID     int         `json:"cursus_id"`
-		HasCoalition bool        `json:"has_coalition"`
-		Cursus       struct {
-			ID        int       `json:"id"`
-			CreatedAt time.Time `json:"created_at"`
+		ID       int64       `json:"id"`
+		BeginAt  time.Time   `json:"begin_at"`
+		Grade    interface{} `json:"grade"`
+		CursusID int64       `json:"cursus_id"`
+		Cursus   struct {
 			Name      string    `json:"name"`
 			Slug      string    `json:"slug"`
+			ID        int64     `json:"id"`
+			CreatedAt time.Time `json:"created_at"`
 		} `json:"cursus"`
-		BeginAt time.Time     `json:"begin_at"`
-		EndAt   interface{}   `json:"end_at"`
-		Level   float32       `json:"level"`
-		Skills  []interface{} `json:"skills"`
 	} `json:"cursus_users"`
 	Displayname     string `json:"displayname"`
 	Email           string `json:"email"`
 	ExpertisesUsers []struct {
+		ID          int64     `json:"id"`
+		ExpertiseID int64     `json:"expertise_id"`
 		Interested  bool      `json:"interested"`
-		Value       int       `json:"value"`
+		Value       int64     `json:"value"`
 		ContactMe   bool      `json:"contact_me"`
 		CreatedAt   time.Time `json:"created_at"`
-		UserID      int       `json:"user_id"`
-		ID          int       `json:"id"`
-		ExpertiseID int       `json:"expertise_id"`
+		UserID      int64     `json:"user_id"`
 	} `json:"expertises_users"`
 	FirstName      string        `json:"first_name"`
 	Groups         []interface{} `json:"groups"`
-	ID             int           `json:"id"`
+	ID             int64         `json:"id"`
 	ImageURL       string        `json:"image_url"`
 	LanguagesUsers []struct {
-		ID         int       `json:"id"`
-		LanguageID int       `json:"language_id"`
-		UserID     int       `json:"user_id"`
-		Position   int       `json:"position"`
+		ID         int64     `json:"id"`
+		LanguageID int64     `json:"language_id"`
+		UserID     int64     `json:"user_id"`
+		Position   int64     `json:"position"`
 		CreatedAt  time.Time `json:"created_at"`
 	} `json:"languages_users"`
 	LastName     string        `json:"last_name"`
@@ -9400,12 +9400,12 @@ type UsersItem struct {
 	Login        string        `json:"login"`
 	Partnerships []interface{} `json:"partnerships"`
 	Patroned     []struct {
-		UserID      int       `json:"user_id"`
-		GodfatherID int       `json:"godfather_id"`
+		UserID      int64     `json:"user_id"`
+		GodfatherID int64     `json:"godfather_id"`
 		Ongoing     bool      `json:"ongoing"`
 		CreatedAt   time.Time `json:"created_at"`
 		UpdatedAt   time.Time `json:"updated_at"`
-		ID          int       `json:"id"`
+		ID          int64     `json:"id"`
 	} `json:"patroned"`
 	Patroning      []interface{} `json:"patroning"`
 	Phone          interface{}   `json:"phone"`
@@ -9418,7 +9418,7 @@ type UsersItem struct {
 	URL            string        `json:"url"`
 	UsualFirstName string        `json:"usual_first_name"`
 	UsualFullName  string        `json:"usual_full_name"`
-	Wallet         int           `json:"wallet"`
+	Wallet         int64         `json:"wallet"`
 }
 
 // UsersListCall description:
@@ -9521,8 +9521,8 @@ type WaitlistsService struct {
 // WaitlistsItem is a 42 API type
 type WaitlistsItem struct {
 	CreatedAt        time.Time `json:"created_at"`
-	ID               int       `json:"id"`
-	WaitlistableID   int       `json:"waitlistable_id"`
+	ID               int64     `json:"id"`
+	WaitlistableID   int64     `json:"waitlistable_id"`
 	WaitlistableType string    `json:"waitlistable_type"`
 }
 

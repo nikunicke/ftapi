@@ -50,13 +50,15 @@ func (s *AccreditationsService) List() *AccreditationsListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Accreditations matching the specified setting.
+// P sets an optional parameter and its values: Only return Accreditations
+// matching the specified setting.
 func (c *AccreditationsListCall) P(key string, values []string) *AccreditationsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a AccreditationsListCall request call. Exactly one of *ListAccreditationsResponse or error will be non-nil.
+// Do executes a AccreditationsListCall request call. Exactly one of
+// *ListAccreditationsResponse or error will be non-nil.
 func (c *AccreditationsListCall) Do() (*ListAccreditationsResponse, error) {
 	urls := c.s.baseURL + "/accreditations/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -65,6 +67,9 @@ func (c *AccreditationsListCall) Do() (*ListAccreditationsResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -93,7 +98,8 @@ func (s *AccreditationsService) Get(ID string) *AccreditationsGetCall {
 	}
 }
 
-// Do executes a AccreditationsGetCall request call. Exactly one of *AccreditationsItem or error will be non-nil.
+// Do executes a AccreditationsGetCall request call. Exactly one of
+// *AccreditationsItem or error will be non-nil.
 func (c *AccreditationsGetCall) Do() (*AccreditationsItem, error) {
 	urls := c.s.baseURL + "/accreditations/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -102,6 +108,9 @@ func (c *AccreditationsGetCall) Do() (*AccreditationsItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -165,13 +174,15 @@ func (s *AchievementsService) List() *AchievementsListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Achievements matching the specified setting.
+// P sets an optional parameter and its values: Only return Achievements
+// matching the specified setting.
 func (c *AchievementsListCall) P(key string, values []string) *AchievementsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a AchievementsListCall request call. Exactly one of *ListAchievementsResponse or error will be non-nil.
+// Do executes a AchievementsListCall request call. Exactly one of
+// *ListAchievementsResponse or error will be non-nil.
 func (c *AchievementsListCall) Do() (*ListAchievementsResponse, error) {
 	urls := c.s.baseURL + "/achievements/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -180,6 +191,9 @@ func (c *AchievementsListCall) Do() (*ListAchievementsResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -208,7 +222,8 @@ func (s *AchievementsService) Get(ID string) *AchievementsGetCall {
 	}
 }
 
-// Do executes a AchievementsGetCall request call. Exactly one of *AchievementsItem or error will be non-nil.
+// Do executes a AchievementsGetCall request call. Exactly one of
+// *AchievementsItem or error will be non-nil.
 func (c *AchievementsGetCall) Do() (*AchievementsItem, error) {
 	urls := c.s.baseURL + "/achievements/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -217,6 +232,9 @@ func (c *AchievementsGetCall) Do() (*AchievementsItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -234,7 +252,8 @@ func (c *AchievementsGetCall) Do() (*AchievementsItem, error) {
 
 // delete
 
-// Achievements description: Meta-goals earned by users all along their progression.
+// Achievements description: Meta-goals earned by users all along their
+// progression.
 func Achievements(s *Service) *AchievementsService {
 	return &AchievementsService{s: s}
 }
@@ -265,7 +284,8 @@ type ListAchievementsUsersResponse struct {
 	AchievementsUsers []*AchievementsUsersItem
 }
 
-// List returns a AchievementsUsersListCall which can request data from the 42 API.
+// List returns a AchievementsUsersListCall which can request data from the 42
+// API.
 func (s *AchievementsUsersService) List() *AchievementsUsersListCall {
 	return &AchievementsUsersListCall{
 		s:         s.s,
@@ -273,13 +293,15 @@ func (s *AchievementsUsersService) List() *AchievementsUsersListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return AchievementsUsers matching the specified setting.
+// P sets an optional parameter and its values: Only return AchievementsUsers
+// matching the specified setting.
 func (c *AchievementsUsersListCall) P(key string, values []string) *AchievementsUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a AchievementsUsersListCall request call. Exactly one of *ListAchievementsUsersResponse or error will be non-nil.
+// Do executes a AchievementsUsersListCall request call. Exactly one of
+// *ListAchievementsUsersResponse or error will be non-nil.
 func (c *AchievementsUsersListCall) Do() (*ListAchievementsUsersResponse, error) {
 	urls := c.s.baseURL + "/achievements_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -288,6 +310,9 @@ func (c *AchievementsUsersListCall) Do() (*ListAchievementsUsersResponse, error)
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -316,7 +341,8 @@ func (s *AchievementsUsersService) Get(ID string) *AchievementsUsersGetCall {
 	}
 }
 
-// Do executes a AchievementsUsersGetCall request call. Exactly one of *AchievementsUsersItem or error will be non-nil.
+// Do executes a AchievementsUsersGetCall request call. Exactly one of
+// *AchievementsUsersItem or error will be non-nil.
 func (c *AchievementsUsersGetCall) Do() (*AchievementsUsersItem, error) {
 	urls := c.s.baseURL + "/achievements_users/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -325,6 +351,9 @@ func (c *AchievementsUsersGetCall) Do() (*AchievementsUsersItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -381,7 +410,8 @@ func (s *AnnouncementsService) Get(ID string) *AnnouncementsGetCall {
 	}
 }
 
-// Do executes a AnnouncementsGetCall request call. Exactly one of *AnnouncementsItem or error will be non-nil.
+// Do executes a AnnouncementsGetCall request call. Exactly one of
+// *AnnouncementsItem or error will be non-nil.
 func (c *AnnouncementsGetCall) Do() (*AnnouncementsItem, error) {
 	urls := c.s.baseURL + "/announcements/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -390,6 +420,9 @@ func (c *AnnouncementsGetCall) Do() (*AnnouncementsItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -407,7 +440,8 @@ func (c *AnnouncementsGetCall) Do() (*AnnouncementsItem, error) {
 
 // delete
 
-// Announcements description: An announcement made to users in a cursus on their homepage.
+// Announcements description: An announcement made to users in a cursus on their
+// homepage.
 func Announcements(s *Service) *AnnouncementsService {
 	return &AnnouncementsService{s: s}
 }
@@ -441,13 +475,15 @@ func (s *AntiGravUnitsService) List() *AntiGravUnitsListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return AntiGravUnits matching the specified setting.
+// P sets an optional parameter and its values: Only return AntiGravUnits
+// matching the specified setting.
 func (c *AntiGravUnitsListCall) P(key string, values []string) *AntiGravUnitsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a AntiGravUnitsListCall request call. Exactly one of *ListAntiGravUnitsResponse or error will be non-nil.
+// Do executes a AntiGravUnitsListCall request call. Exactly one of
+// *ListAntiGravUnitsResponse or error will be non-nil.
 func (c *AntiGravUnitsListCall) Do() (*ListAntiGravUnitsResponse, error) {
 	urls := c.s.baseURL + "/anti_grav_units/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -456,6 +492,9 @@ func (c *AntiGravUnitsListCall) Do() (*ListAntiGravUnitsResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -484,7 +523,8 @@ func (s *AntiGravUnitsService) Get(ID string) *AntiGravUnitsGetCall {
 	}
 }
 
-// Do executes a AntiGravUnitsGetCall request call. Exactly one of *AntiGravUnitsItem or error will be non-nil.
+// Do executes a AntiGravUnitsGetCall request call. Exactly one of
+// *AntiGravUnitsItem or error will be non-nil.
 func (c *AntiGravUnitsGetCall) Do() (*AntiGravUnitsItem, error) {
 	urls := c.s.baseURL + "/anti_grav_units/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -493,6 +533,9 @@ func (c *AntiGravUnitsGetCall) Do() (*AntiGravUnitsItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -530,7 +573,8 @@ type ListAntiGravUnitsUsersResponse struct {
 	AntiGravUnitsUsers []*AntiGravUnitsUsersItem
 }
 
-// List returns a AntiGravUnitsUsersListCall which can request data from the 42 API.
+// List returns a AntiGravUnitsUsersListCall which can request data from the 42
+// API.
 func (s *AntiGravUnitsUsersService) List() *AntiGravUnitsUsersListCall {
 	return &AntiGravUnitsUsersListCall{
 		s:         s.s,
@@ -538,13 +582,15 @@ func (s *AntiGravUnitsUsersService) List() *AntiGravUnitsUsersListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return AntiGravUnitsUsers matching the specified setting.
+// P sets an optional parameter and its values: Only return AntiGravUnitsUsers
+// matching the specified setting.
 func (c *AntiGravUnitsUsersListCall) P(key string, values []string) *AntiGravUnitsUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a AntiGravUnitsUsersListCall request call. Exactly one of *ListAntiGravUnitsUsersResponse or error will be non-nil.
+// Do executes a AntiGravUnitsUsersListCall request call. Exactly one of
+// *ListAntiGravUnitsUsersResponse or error will be non-nil.
 func (c *AntiGravUnitsUsersListCall) Do() (*ListAntiGravUnitsUsersResponse, error) {
 	urls := c.s.baseURL + "/anti_grav_units_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -553,6 +599,9 @@ func (c *AntiGravUnitsUsersListCall) Do() (*ListAntiGravUnitsUsersResponse, erro
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -583,7 +632,8 @@ func (s *AntiGravUnitsUsersService) Get(ID string) *AntiGravUnitsUsersGetCall {
 	}
 }
 
-// Do executes a AntiGravUnitsUsersGetCall request call. Exactly one of *AntiGravUnitsUsersItem or error will be non-nil.
+// Do executes a AntiGravUnitsUsersGetCall request call. Exactly one of
+// *AntiGravUnitsUsersItem or error will be non-nil.
 func (c *AntiGravUnitsUsersGetCall) Do() (*AntiGravUnitsUsersItem, error) {
 	urls := c.s.baseURL + "/anti_grav_units_users/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -592,6 +642,9 @@ func (c *AntiGravUnitsUsersGetCall) Do() (*AntiGravUnitsUsersItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -621,9 +674,9 @@ type AppsItem struct {
 	Image       interface{} `json:"image"`
 	Name        string      `json:"name"`
 	Owner       struct {
+		ID    int64  `json:"id"`
 		Login string `json:"login"`
 		URL   string `json:"url"`
-		ID    int64  `json:"id"`
 	} `json:"owner"`
 	Public    bool  `json:"public"`
 	RateLimit int64 `json:"rate_limit"`
@@ -657,13 +710,15 @@ func (s *AppsService) List() *AppsListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Apps matching the specified setting.
+// P sets an optional parameter and its values: Only return Apps matching the
+// specified setting.
 func (c *AppsListCall) P(key string, values []string) *AppsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a AppsListCall request call. Exactly one of *ListAppsResponse or error will be non-nil.
+// Do executes a AppsListCall request call. Exactly one of *ListAppsResponse or
+// error will be non-nil.
 func (c *AppsListCall) Do() (*ListAppsResponse, error) {
 	urls := c.s.baseURL + "/apps/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -672,6 +727,9 @@ func (c *AppsListCall) Do() (*ListAppsResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -700,7 +758,8 @@ func (s *AppsService) Get(ID string) *AppsGetCall {
 	}
 }
 
-// Do executes a AppsGetCall request call. Exactly one of *AppsItem or error will be non-nil.
+// Do executes a AppsGetCall request call. Exactly one of *AppsItem or error
+// will be non-nil.
 func (c *AppsGetCall) Do() (*AppsItem, error) {
 	urls := c.s.baseURL + "/apps/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -709,6 +768,9 @@ func (c *AppsGetCall) Do() (*AppsItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -736,9 +798,9 @@ type AttachmentsItem struct {
 	CreatedAt time.Time `json:"created_at"`
 	ID        int64     `json:"id"`
 	Language  struct {
+		IDentifier string `json:"identifier"`
 		ID         int64  `json:"id"`
 		Name       string `json:"name"`
-		IDentifier string `json:"identifier"`
 	} `json:"language"`
 	Name      string `json:"name"`
 	PageCount int64  `json:"page_count"`
@@ -777,13 +839,15 @@ func (s *AttachmentsService) List() *AttachmentsListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Attachments matching the specified setting.
+// P sets an optional parameter and its values: Only return Attachments matching
+// the specified setting.
 func (c *AttachmentsListCall) P(key string, values []string) *AttachmentsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a AttachmentsListCall request call. Exactly one of *ListAttachmentsResponse or error will be non-nil.
+// Do executes a AttachmentsListCall request call. Exactly one of
+// *ListAttachmentsResponse or error will be non-nil.
 func (c *AttachmentsListCall) Do() (*ListAttachmentsResponse, error) {
 	urls := c.s.baseURL + "/attachments/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -792,6 +856,9 @@ func (c *AttachmentsListCall) Do() (*ListAttachmentsResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -820,7 +887,8 @@ func (s *AttachmentsService) Get(ID string) *AttachmentsGetCall {
 	}
 }
 
-// Do executes a AttachmentsGetCall request call. Exactly one of *AttachmentsItem or error will be non-nil.
+// Do executes a AttachmentsGetCall request call. Exactly one of
+// *AttachmentsItem or error will be non-nil.
 func (c *AttachmentsGetCall) Do() (*AttachmentsItem, error) {
 	urls := c.s.baseURL + "/attachments/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -829,6 +897,9 @@ func (c *AttachmentsGetCall) Do() (*AttachmentsItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -846,7 +917,8 @@ func (c *AttachmentsGetCall) Do() (*AttachmentsItem, error) {
 
 // delete
 
-// Attachments description: All data which can be linked, like videos, pdfs, or links.
+// Attachments description: All data which can be linked, like videos, pdfs, or
+// links.
 func Attachments(s *Service) *AttachmentsService {
 	return &AttachmentsService{s: s}
 }
@@ -884,13 +956,15 @@ func (s *BalancesService) List() *BalancesListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Balances matching the specified setting.
+// P sets an optional parameter and its values: Only return Balances matching
+// the specified setting.
 func (c *BalancesListCall) P(key string, values []string) *BalancesListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a BalancesListCall request call. Exactly one of *ListBalancesResponse or error will be non-nil.
+// Do executes a BalancesListCall request call. Exactly one of
+// *ListBalancesResponse or error will be non-nil.
 func (c *BalancesListCall) Do() (*ListBalancesResponse, error) {
 	urls := c.s.baseURL + "/balances/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -899,6 +973,9 @@ func (c *BalancesListCall) Do() (*ListBalancesResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -927,7 +1004,8 @@ func (s *BalancesService) Get(ID string) *BalancesGetCall {
 	}
 }
 
-// Do executes a BalancesGetCall request call. Exactly one of *BalancesItem or error will be non-nil.
+// Do executes a BalancesGetCall request call. Exactly one of *BalancesItem or
+// error will be non-nil.
 func (c *BalancesGetCall) Do() (*BalancesItem, error) {
 	urls := c.s.baseURL + "/balances/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -936,6 +1014,9 @@ func (c *BalancesGetCall) Do() (*BalancesItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -988,13 +1069,15 @@ func (s *BlocDeadlinesService) List() *BlocDeadlinesListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return BlocDeadlines matching the specified setting.
+// P sets an optional parameter and its values: Only return BlocDeadlines
+// matching the specified setting.
 func (c *BlocDeadlinesListCall) P(key string, values []string) *BlocDeadlinesListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a BlocDeadlinesListCall request call. Exactly one of *ListBlocDeadlinesResponse or error will be non-nil.
+// Do executes a BlocDeadlinesListCall request call. Exactly one of
+// *ListBlocDeadlinesResponse or error will be non-nil.
 func (c *BlocDeadlinesListCall) Do() (*ListBlocDeadlinesResponse, error) {
 	urls := c.s.baseURL + "/bloc_deadlines/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -1003,6 +1086,9 @@ func (c *BlocDeadlinesListCall) Do() (*ListBlocDeadlinesResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -1031,7 +1117,8 @@ func (s *BlocDeadlinesService) Get(ID string) *BlocDeadlinesGetCall {
 	}
 }
 
-// Do executes a BlocDeadlinesGetCall request call. Exactly one of *BlocDeadlinesItem or error will be non-nil.
+// Do executes a BlocDeadlinesGetCall request call. Exactly one of
+// *BlocDeadlinesItem or error will be non-nil.
 func (c *BlocDeadlinesGetCall) Do() (*BlocDeadlinesItem, error) {
 	urls := c.s.baseURL + "/bloc_deadlines/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -1040,6 +1127,9 @@ func (c *BlocDeadlinesGetCall) Do() (*BlocDeadlinesItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -1104,13 +1194,15 @@ func (s *BlocsService) List() *BlocsListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Blocs matching the specified setting.
+// P sets an optional parameter and its values: Only return Blocs matching the
+// specified setting.
 func (c *BlocsListCall) P(key string, values []string) *BlocsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a BlocsListCall request call. Exactly one of *ListBlocsResponse or error will be non-nil.
+// Do executes a BlocsListCall request call. Exactly one of *ListBlocsResponse
+// or error will be non-nil.
 func (c *BlocsListCall) Do() (*ListBlocsResponse, error) {
 	urls := c.s.baseURL + "/blocs/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -1119,6 +1211,9 @@ func (c *BlocsListCall) Do() (*ListBlocsResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -1147,7 +1242,8 @@ func (s *BlocsService) Get(ID string) *BlocsGetCall {
 	}
 }
 
-// Do executes a BlocsGetCall request call. Exactly one of *BlocsItem or error will be non-nil.
+// Do executes a BlocsGetCall request call. Exactly one of *BlocsItem or error
+// will be non-nil.
 func (c *BlocsGetCall) Do() (*BlocsItem, error) {
 	urls := c.s.baseURL + "/blocs/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -1156,6 +1252,9 @@ func (c *BlocsGetCall) Do() (*BlocsItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -1201,13 +1300,15 @@ func (s *BroadcastsService) List() *BroadcastsListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Broadcasts matching the specified setting.
+// P sets an optional parameter and its values: Only return Broadcasts matching
+// the specified setting.
 func (c *BroadcastsListCall) P(key string, values []string) *BroadcastsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a BroadcastsListCall request call. Exactly one of *ListBroadcastsResponse or error will be non-nil.
+// Do executes a BroadcastsListCall request call. Exactly one of
+// *ListBroadcastsResponse or error will be non-nil.
 func (c *BroadcastsListCall) Do() (*ListBroadcastsResponse, error) {
 	urls := c.s.baseURL + "/broadcasts/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -1216,6 +1317,9 @@ func (c *BroadcastsListCall) Do() (*ListBroadcastsResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -1243,9 +1347,9 @@ type CampusItem struct {
 	Endpoint interface{} `json:"endpoint"`
 	ID       int64       `json:"id"`
 	Language struct {
-		ID         int64  `json:"id"`
 		Name       string `json:"name"`
 		IDentifier string `json:"identifier"`
+		ID         int64  `json:"id"`
 	} `json:"language"`
 	Name        string `json:"name"`
 	TimeZone    string `json:"time_zone"`
@@ -1273,13 +1377,15 @@ func (s *CampusService) List() *CampusListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Campus matching the specified setting.
+// P sets an optional parameter and its values: Only return Campus matching the
+// specified setting.
 func (c *CampusListCall) P(key string, values []string) *CampusListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a CampusListCall request call. Exactly one of *ListCampusResponse or error will be non-nil.
+// Do executes a CampusListCall request call. Exactly one of *ListCampusResponse
+// or error will be non-nil.
 func (c *CampusListCall) Do() (*ListCampusResponse, error) {
 	urls := c.s.baseURL + "/campus/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -1288,6 +1394,9 @@ func (c *CampusListCall) Do() (*ListCampusResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -1316,7 +1425,8 @@ func (s *CampusService) Get(ID string) *CampusGetCall {
 	}
 }
 
-// Do executes a CampusGetCall request call. Exactly one of *CampusItem or error will be non-nil.
+// Do executes a CampusGetCall request call. Exactly one of *CampusItem or error
+// will be non-nil.
 func (c *CampusGetCall) Do() (*CampusItem, error) {
 	urls := c.s.baseURL + "/campus/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -1325,6 +1435,9 @@ func (c *CampusGetCall) Do() (*CampusItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -1378,13 +1491,15 @@ func (s *CampusUsersService) List() *CampusUsersListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return CampusUsers matching the specified setting.
+// P sets an optional parameter and its values: Only return CampusUsers matching
+// the specified setting.
 func (c *CampusUsersListCall) P(key string, values []string) *CampusUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a CampusUsersListCall request call. Exactly one of *ListCampusUsersResponse or error will be non-nil.
+// Do executes a CampusUsersListCall request call. Exactly one of
+// *ListCampusUsersResponse or error will be non-nil.
 func (c *CampusUsersListCall) Do() (*ListCampusUsersResponse, error) {
 	urls := c.s.baseURL + "/campus_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -1393,6 +1508,9 @@ func (c *CampusUsersListCall) Do() (*ListCampusUsersResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -1421,7 +1539,8 @@ func (s *CampusUsersService) Get(ID string) *CampusUsersGetCall {
 	}
 }
 
-// Do executes a CampusUsersGetCall request call. Exactly one of *CampusUsersItem or error will be non-nil.
+// Do executes a CampusUsersGetCall request call. Exactly one of
+// *CampusUsersItem or error will be non-nil.
 func (c *CampusUsersGetCall) Do() (*CampusUsersItem, error) {
 	urls := c.s.baseURL + "/campus_users/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -1430,6 +1549,9 @@ func (c *CampusUsersGetCall) Do() (*CampusUsersItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -1473,7 +1595,8 @@ type ListCampusUsersActivitiesResponse struct {
 	CampusUsersActivities []*CampusUsersActivitiesItem
 }
 
-// List returns a CampusUsersActivitiesListCall which can request data from the 42 API.
+// List returns a CampusUsersActivitiesListCall which can request data from the
+// 42 API.
 func (s *CampusUsersActivitiesService) List() *CampusUsersActivitiesListCall {
 	return &CampusUsersActivitiesListCall{
 		s:         s.s,
@@ -1481,13 +1604,15 @@ func (s *CampusUsersActivitiesService) List() *CampusUsersActivitiesListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return CampusUsersActivities matching the specified setting.
+// P sets an optional parameter and its values: Only return
+// CampusUsersActivities matching the specified setting.
 func (c *CampusUsersActivitiesListCall) P(key string, values []string) *CampusUsersActivitiesListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a CampusUsersActivitiesListCall request call. Exactly one of *ListCampusUsersActivitiesResponse or error will be non-nil.
+// Do executes a CampusUsersActivitiesListCall request call. Exactly one of
+// *ListCampusUsersActivitiesResponse or error will be non-nil.
 func (c *CampusUsersActivitiesListCall) Do() (*ListCampusUsersActivitiesResponse, error) {
 	urls := c.s.baseURL + "/campus_users_activities/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -1496,6 +1621,9 @@ func (c *CampusUsersActivitiesListCall) Do() (*ListCampusUsersActivitiesResponse
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -1542,13 +1670,15 @@ func (s *CertificatesService) List() *CertificatesListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Certificates matching the specified setting.
+// P sets an optional parameter and its values: Only return Certificates
+// matching the specified setting.
 func (c *CertificatesListCall) P(key string, values []string) *CertificatesListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a CertificatesListCall request call. Exactly one of *ListCertificatesResponse or error will be non-nil.
+// Do executes a CertificatesListCall request call. Exactly one of
+// *ListCertificatesResponse or error will be non-nil.
 func (c *CertificatesListCall) Do() (*ListCertificatesResponse, error) {
 	urls := c.s.baseURL + "/certificates/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -1557,6 +1687,9 @@ func (c *CertificatesListCall) Do() (*ListCertificatesResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -1585,7 +1718,8 @@ func (s *CertificatesService) Get(ID string) *CertificatesGetCall {
 	}
 }
 
-// Do executes a CertificatesGetCall request call. Exactly one of *CertificatesItem or error will be non-nil.
+// Do executes a CertificatesGetCall request call. Exactly one of
+// *CertificatesItem or error will be non-nil.
 func (c *CertificatesGetCall) Do() (*CertificatesItem, error) {
 	urls := c.s.baseURL + "/certificates/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -1594,6 +1728,9 @@ func (c *CertificatesGetCall) Do() (*CertificatesItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -1631,7 +1768,8 @@ type ListCertificatesUsersResponse struct {
 	CertificatesUsers []*CertificatesUsersItem
 }
 
-// List returns a CertificatesUsersListCall which can request data from the 42 API.
+// List returns a CertificatesUsersListCall which can request data from the 42
+// API.
 func (s *CertificatesUsersService) List() *CertificatesUsersListCall {
 	return &CertificatesUsersListCall{
 		s:         s.s,
@@ -1639,13 +1777,15 @@ func (s *CertificatesUsersService) List() *CertificatesUsersListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return CertificatesUsers matching the specified setting.
+// P sets an optional parameter and its values: Only return CertificatesUsers
+// matching the specified setting.
 func (c *CertificatesUsersListCall) P(key string, values []string) *CertificatesUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a CertificatesUsersListCall request call. Exactly one of *ListCertificatesUsersResponse or error will be non-nil.
+// Do executes a CertificatesUsersListCall request call. Exactly one of
+// *ListCertificatesUsersResponse or error will be non-nil.
 func (c *CertificatesUsersListCall) Do() (*ListCertificatesUsersResponse, error) {
 	urls := c.s.baseURL + "/certificates_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -1654,6 +1794,9 @@ func (c *CertificatesUsersListCall) Do() (*ListCertificatesUsersResponse, error)
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -1682,7 +1825,8 @@ func (s *CertificatesUsersService) Get(ID string) *CertificatesUsersGetCall {
 	}
 }
 
-// Do executes a CertificatesUsersGetCall request call. Exactly one of *CertificatesUsersItem or error will be non-nil.
+// Do executes a CertificatesUsersGetCall request call. Exactly one of
+// *CertificatesUsersItem or error will be non-nil.
 func (c *CertificatesUsersGetCall) Do() (*CertificatesUsersItem, error) {
 	urls := c.s.baseURL + "/certificates_users/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -1691,6 +1835,9 @@ func (c *CertificatesUsersGetCall) Do() (*CertificatesUsersItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -1720,13 +1867,13 @@ type ClosesItem struct {
 		URL   string `json:"url"`
 	} `json:"closer"`
 	CommunityServices []struct {
-		ID         int64     `json:"id"`
-		Duration   int64     `json:"duration"`
-		ScheduleAt time.Time `json:"schedule_at"`
 		Occupation string    `json:"occupation"`
 		State      string    `json:"state"`
 		CreatedAt  time.Time `json:"created_at"`
 		UpdatedAt  time.Time `json:"updated_at"`
+		ID         int64     `json:"id"`
+		Duration   int64     `json:"duration"`
+		ScheduleAt time.Time `json:"schedule_at"`
 	} `json:"community_services"`
 	CreatedAt time.Time `json:"created_at"`
 	ID        int64     `json:"id"`
@@ -1760,13 +1907,15 @@ func (s *ClosesService) List() *ClosesListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Closes matching the specified setting.
+// P sets an optional parameter and its values: Only return Closes matching the
+// specified setting.
 func (c *ClosesListCall) P(key string, values []string) *ClosesListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a ClosesListCall request call. Exactly one of *ListClosesResponse or error will be non-nil.
+// Do executes a ClosesListCall request call. Exactly one of *ListClosesResponse
+// or error will be non-nil.
 func (c *ClosesListCall) Do() (*ListClosesResponse, error) {
 	urls := c.s.baseURL + "/closes/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -1775,6 +1924,9 @@ func (c *ClosesListCall) Do() (*ListClosesResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -1803,7 +1955,8 @@ func (s *ClosesService) Get(ID string) *ClosesGetCall {
 	}
 }
 
-// Do executes a ClosesGetCall request call. Exactly one of *ClosesItem or error will be non-nil.
+// Do executes a ClosesGetCall request call. Exactly one of *ClosesItem or error
+// will be non-nil.
 func (c *ClosesGetCall) Do() (*ClosesItem, error) {
 	urls := c.s.baseURL + "/closes/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -1812,6 +1965,9 @@ func (c *ClosesGetCall) Do() (*ClosesItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -1870,13 +2026,15 @@ func (s *CoalitionsService) List() *CoalitionsListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Coalitions matching the specified setting.
+// P sets an optional parameter and its values: Only return Coalitions matching
+// the specified setting.
 func (c *CoalitionsListCall) P(key string, values []string) *CoalitionsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a CoalitionsListCall request call. Exactly one of *ListCoalitionsResponse or error will be non-nil.
+// Do executes a CoalitionsListCall request call. Exactly one of
+// *ListCoalitionsResponse or error will be non-nil.
 func (c *CoalitionsListCall) Do() (*ListCoalitionsResponse, error) {
 	urls := c.s.baseURL + "/coalitions/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -1885,6 +2043,9 @@ func (c *CoalitionsListCall) Do() (*ListCoalitionsResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -1913,7 +2074,8 @@ func (s *CoalitionsService) Get(ID string) *CoalitionsGetCall {
 	}
 }
 
-// Do executes a CoalitionsGetCall request call. Exactly one of *CoalitionsItem or error will be non-nil.
+// Do executes a CoalitionsGetCall request call. Exactly one of *CoalitionsItem
+// or error will be non-nil.
 func (c *CoalitionsGetCall) Do() (*CoalitionsItem, error) {
 	urls := c.s.baseURL + "/coalitions/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -1922,6 +2084,9 @@ func (c *CoalitionsGetCall) Do() (*CoalitionsItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -1968,7 +2133,8 @@ type ListCoalitionsUsersResponse struct {
 	CoalitionsUsers []*CoalitionsUsersItem
 }
 
-// List returns a CoalitionsUsersListCall which can request data from the 42 API.
+// List returns a CoalitionsUsersListCall which can request data from the 42
+// API.
 func (s *CoalitionsUsersService) List() *CoalitionsUsersListCall {
 	return &CoalitionsUsersListCall{
 		s:         s.s,
@@ -1976,13 +2142,15 @@ func (s *CoalitionsUsersService) List() *CoalitionsUsersListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return CoalitionsUsers matching the specified setting.
+// P sets an optional parameter and its values: Only return CoalitionsUsers
+// matching the specified setting.
 func (c *CoalitionsUsersListCall) P(key string, values []string) *CoalitionsUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a CoalitionsUsersListCall request call. Exactly one of *ListCoalitionsUsersResponse or error will be non-nil.
+// Do executes a CoalitionsUsersListCall request call. Exactly one of
+// *ListCoalitionsUsersResponse or error will be non-nil.
 func (c *CoalitionsUsersListCall) Do() (*ListCoalitionsUsersResponse, error) {
 	urls := c.s.baseURL + "/coalitions_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -1991,6 +2159,9 @@ func (c *CoalitionsUsersListCall) Do() (*ListCoalitionsUsersResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -2019,7 +2190,8 @@ func (s *CoalitionsUsersService) Get(ID string) *CoalitionsUsersGetCall {
 	}
 }
 
-// Do executes a CoalitionsUsersGetCall request call. Exactly one of *CoalitionsUsersItem or error will be non-nil.
+// Do executes a CoalitionsUsersGetCall request call. Exactly one of
+// *CoalitionsUsersItem or error will be non-nil.
 func (c *CoalitionsUsersGetCall) Do() (*CoalitionsUsersItem, error) {
 	urls := c.s.baseURL + "/coalitions_users/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -2028,6 +2200,9 @@ func (c *CoalitionsUsersGetCall) Do() (*CoalitionsUsersItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -2079,13 +2254,15 @@ func (s *CommandsService) List() *CommandsListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Commands matching the specified setting.
+// P sets an optional parameter and its values: Only return Commands matching
+// the specified setting.
 func (c *CommandsListCall) P(key string, values []string) *CommandsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a CommandsListCall request call. Exactly one of *ListCommandsResponse or error will be non-nil.
+// Do executes a CommandsListCall request call. Exactly one of
+// *ListCommandsResponse or error will be non-nil.
 func (c *CommandsListCall) Do() (*ListCommandsResponse, error) {
 	urls := c.s.baseURL + "/commands/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -2094,6 +2271,9 @@ func (c *CommandsListCall) Do() (*ListCommandsResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -2122,7 +2302,8 @@ func (s *CommandsService) Get(ID string) *CommandsGetCall {
 	}
 }
 
-// Do executes a CommandsGetCall request call. Exactly one of *CommandsItem or error will be non-nil.
+// Do executes a CommandsGetCall request call. Exactly one of *CommandsItem or
+// error will be non-nil.
 func (c *CommandsGetCall) Do() (*CommandsItem, error) {
 	urls := c.s.baseURL + "/commands/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -2131,6 +2312,9 @@ func (c *CommandsGetCall) Do() (*CommandsItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -2148,7 +2332,8 @@ func (c *CommandsGetCall) Do() (*CommandsItem, error) {
 
 // delete
 
-// Commands description: Products are sold on the intranet shop, here are commands
+// Commands description: Products are sold on the intranet shop, here are
+// commands
 func Commands(s *Service) *CommandsService {
 	return &CommandsService{s: s}
 }
@@ -2161,11 +2346,11 @@ type CommunityServicesService struct {
 // CommunityServicesItem is a 42 API type
 type CommunityServicesItem struct {
 	Close struct {
-		ID        int64     `json:"id"`
-		Reason    string    `json:"reason"`
 		State     string    `json:"state"`
 		CreatedAt time.Time `json:"created_at"`
 		UpdatedAt time.Time `json:"updated_at"`
+		ID        int64     `json:"id"`
+		Reason    string    `json:"reason"`
 	} `json:"close"`
 	CreatedAt  time.Time `json:"created_at"`
 	Duration   int64     `json:"duration"`
@@ -2188,7 +2373,8 @@ type ListCommunityServicesResponse struct {
 	CommunityServices []*CommunityServicesItem
 }
 
-// List returns a CommunityServicesListCall which can request data from the 42 API.
+// List returns a CommunityServicesListCall which can request data from the 42
+// API.
 func (s *CommunityServicesService) List() *CommunityServicesListCall {
 	return &CommunityServicesListCall{
 		s:         s.s,
@@ -2196,13 +2382,15 @@ func (s *CommunityServicesService) List() *CommunityServicesListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return CommunityServices matching the specified setting.
+// P sets an optional parameter and its values: Only return CommunityServices
+// matching the specified setting.
 func (c *CommunityServicesListCall) P(key string, values []string) *CommunityServicesListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a CommunityServicesListCall request call. Exactly one of *ListCommunityServicesResponse or error will be non-nil.
+// Do executes a CommunityServicesListCall request call. Exactly one of
+// *ListCommunityServicesResponse or error will be non-nil.
 func (c *CommunityServicesListCall) Do() (*ListCommunityServicesResponse, error) {
 	urls := c.s.baseURL + "/community_services/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -2211,6 +2399,9 @@ func (c *CommunityServicesListCall) Do() (*ListCommunityServicesResponse, error)
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -2239,7 +2430,8 @@ func (s *CommunityServicesService) Get(ID string) *CommunityServicesGetCall {
 	}
 }
 
-// Do executes a CommunityServicesGetCall request call. Exactly one of *CommunityServicesItem or error will be non-nil.
+// Do executes a CommunityServicesGetCall request call. Exactly one of
+// *CommunityServicesItem or error will be non-nil.
 func (c *CommunityServicesGetCall) Do() (*CommunityServicesItem, error) {
 	urls := c.s.baseURL + "/community_services/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -2248,6 +2440,9 @@ func (c *CommunityServicesGetCall) Do() (*CommunityServicesItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -2265,7 +2460,8 @@ func (c *CommunityServicesGetCall) Do() (*CommunityServicesItem, error) {
 
 // delete
 
-// CommunityServices description: A task that an user have to do for the community. Usually linked with a close.
+// CommunityServices description: A task that an user have to do for the
+// community. Usually linked with a close.
 func CommunityServices(s *Service) *CommunityServicesService {
 	return &CommunityServicesService{s: s}
 }
@@ -2303,13 +2499,15 @@ func (s *CursusService) List() *CursusListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Cursus matching the specified setting.
+// P sets an optional parameter and its values: Only return Cursus matching the
+// specified setting.
 func (c *CursusListCall) P(key string, values []string) *CursusListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a CursusListCall request call. Exactly one of *ListCursusResponse or error will be non-nil.
+// Do executes a CursusListCall request call. Exactly one of *ListCursusResponse
+// or error will be non-nil.
 func (c *CursusListCall) Do() (*ListCursusResponse, error) {
 	urls := c.s.baseURL + "/cursus/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -2318,6 +2516,9 @@ func (c *CursusListCall) Do() (*ListCursusResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -2346,7 +2547,8 @@ func (s *CursusService) Get(ID string) *CursusGetCall {
 	}
 }
 
-// Do executes a CursusGetCall request call. Exactly one of *CursusItem or error will be non-nil.
+// Do executes a CursusGetCall request call. Exactly one of *CursusItem or error
+// will be non-nil.
 func (c *CursusGetCall) Do() (*CursusItem, error) {
 	urls := c.s.baseURL + "/cursus/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -2355,6 +2557,9 @@ func (c *CursusGetCall) Do() (*CursusItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -2399,9 +2604,9 @@ type CursusUsersItem struct {
 	Level        float64       `json:"level"`
 	Skills       []interface{} `json:"skills"`
 	User         struct {
-		URL   string `json:"url"`
 		ID    int64  `json:"id"`
 		Login string `json:"login"`
+		URL   string `json:"url"`
 	} `json:"user"`
 }
 
@@ -2425,13 +2630,15 @@ func (s *CursusUsersService) List() *CursusUsersListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return CursusUsers matching the specified setting.
+// P sets an optional parameter and its values: Only return CursusUsers matching
+// the specified setting.
 func (c *CursusUsersListCall) P(key string, values []string) *CursusUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a CursusUsersListCall request call. Exactly one of *ListCursusUsersResponse or error will be non-nil.
+// Do executes a CursusUsersListCall request call. Exactly one of
+// *ListCursusUsersResponse or error will be non-nil.
 func (c *CursusUsersListCall) Do() (*ListCursusUsersResponse, error) {
 	urls := c.s.baseURL + "/cursus_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -2440,6 +2647,9 @@ func (c *CursusUsersListCall) Do() (*ListCursusUsersResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -2468,7 +2678,8 @@ func (s *CursusUsersService) Get(ID string) *CursusUsersGetCall {
 	}
 }
 
-// Do executes a CursusUsersGetCall request call. Exactly one of *CursusUsersItem or error will be non-nil.
+// Do executes a CursusUsersGetCall request call. Exactly one of
+// *CursusUsersItem or error will be non-nil.
 func (c *CursusUsersGetCall) Do() (*CursusUsersItem, error) {
 	urls := c.s.baseURL + "/cursus_users/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -2477,6 +2688,9 @@ func (c *CursusUsersGetCall) Do() (*CursusUsersItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -2528,13 +2742,15 @@ func (s *DashesService) List() *DashesListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Dashes matching the specified setting.
+// P sets an optional parameter and its values: Only return Dashes matching the
+// specified setting.
 func (c *DashesListCall) P(key string, values []string) *DashesListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a DashesListCall request call. Exactly one of *ListDashesResponse or error will be non-nil.
+// Do executes a DashesListCall request call. Exactly one of *ListDashesResponse
+// or error will be non-nil.
 func (c *DashesListCall) Do() (*ListDashesResponse, error) {
 	urls := c.s.baseURL + "/dashes/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -2543,6 +2759,9 @@ func (c *DashesListCall) Do() (*ListDashesResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -2571,7 +2790,8 @@ func (s *DashesService) Get(ID string) *DashesGetCall {
 	}
 }
 
-// Do executes a DashesGetCall request call. Exactly one of *DashesItem or error will be non-nil.
+// Do executes a DashesGetCall request call. Exactly one of *DashesItem or error
+// will be non-nil.
 func (c *DashesGetCall) Do() (*DashesItem, error) {
 	urls := c.s.baseURL + "/dashes/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -2580,6 +2800,9 @@ func (c *DashesGetCall) Do() (*DashesItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -2637,13 +2860,15 @@ func (s *DashesUsersService) List() *DashesUsersListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return DashesUsers matching the specified setting.
+// P sets an optional parameter and its values: Only return DashesUsers matching
+// the specified setting.
 func (c *DashesUsersListCall) P(key string, values []string) *DashesUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a DashesUsersListCall request call. Exactly one of *ListDashesUsersResponse or error will be non-nil.
+// Do executes a DashesUsersListCall request call. Exactly one of
+// *ListDashesUsersResponse or error will be non-nil.
 func (c *DashesUsersListCall) Do() (*ListDashesUsersResponse, error) {
 	urls := c.s.baseURL + "/dashes_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -2652,6 +2877,9 @@ func (c *DashesUsersListCall) Do() (*ListDashesUsersResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -2680,7 +2908,8 @@ func (s *DashesUsersService) Get(ID string) *DashesUsersGetCall {
 	}
 }
 
-// Do executes a DashesUsersGetCall request call. Exactly one of *DashesUsersItem or error will be non-nil.
+// Do executes a DashesUsersGetCall request call. Exactly one of
+// *DashesUsersItem or error will be non-nil.
 func (c *DashesUsersGetCall) Do() (*DashesUsersItem, error) {
 	urls := c.s.baseURL + "/dashes_users/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -2689,6 +2918,9 @@ func (c *DashesUsersGetCall) Do() (*DashesUsersItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -2719,17 +2951,17 @@ type EndpointsService struct {
 // EndpointsItem is a 42 API type
 type EndpointsItem struct {
 	Campus []struct {
-		Name     string `json:"name"`
 		TimeZone string `json:"time_zone"`
 		Language struct {
+			CreatedAt  time.Time `json:"created_at"`
+			UpdatedAt  time.Time `json:"updated_at"`
 			ID         int64     `json:"id"`
 			Name       string    `json:"name"`
 			IDentifier string    `json:"identifier"`
-			CreatedAt  time.Time `json:"created_at"`
-			UpdatedAt  time.Time `json:"updated_at"`
 		} `json:"language"`
-		UsersCount int64 `json:"users_count"`
-		ID         int64 `json:"id"`
+		UsersCount int64  `json:"users_count"`
+		ID         int64  `json:"id"`
+		Name       string `json:"name"`
 	} `json:"campus"`
 	CreatedAt   time.Time `json:"created_at"`
 	Description string    `json:"description"`
@@ -2758,13 +2990,15 @@ func (s *EndpointsService) List() *EndpointsListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Endpoints matching the specified setting.
+// P sets an optional parameter and its values: Only return Endpoints matching
+// the specified setting.
 func (c *EndpointsListCall) P(key string, values []string) *EndpointsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a EndpointsListCall request call. Exactly one of *ListEndpointsResponse or error will be non-nil.
+// Do executes a EndpointsListCall request call. Exactly one of
+// *ListEndpointsResponse or error will be non-nil.
 func (c *EndpointsListCall) Do() (*ListEndpointsResponse, error) {
 	urls := c.s.baseURL + "/endpoints/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -2773,6 +3007,9 @@ func (c *EndpointsListCall) Do() (*ListEndpointsResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -2801,7 +3038,8 @@ func (s *EndpointsService) Get(ID string) *EndpointsGetCall {
 	}
 }
 
-// Do executes a EndpointsGetCall request call. Exactly one of *EndpointsItem or error will be non-nil.
+// Do executes a EndpointsGetCall request call. Exactly one of *EndpointsItem or
+// error will be non-nil.
 func (c *EndpointsGetCall) Do() (*EndpointsItem, error) {
 	urls := c.s.baseURL + "/endpoints/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -2810,6 +3048,9 @@ func (c *EndpointsGetCall) Do() (*EndpointsItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -2861,13 +3102,15 @@ func (s *EvaluationsService) List() *EvaluationsListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Evaluations matching the specified setting.
+// P sets an optional parameter and its values: Only return Evaluations matching
+// the specified setting.
 func (c *EvaluationsListCall) P(key string, values []string) *EvaluationsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a EvaluationsListCall request call. Exactly one of *ListEvaluationsResponse or error will be non-nil.
+// Do executes a EvaluationsListCall request call. Exactly one of
+// *ListEvaluationsResponse or error will be non-nil.
 func (c *EvaluationsListCall) Do() (*ListEvaluationsResponse, error) {
 	urls := c.s.baseURL + "/evaluations/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -2876,6 +3119,9 @@ func (c *EvaluationsListCall) Do() (*ListEvaluationsResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -2904,7 +3150,8 @@ func (s *EvaluationsService) Get(ID string) *EvaluationsGetCall {
 	}
 }
 
-// Do executes a EvaluationsGetCall request call. Exactly one of *EvaluationsItem or error will be non-nil.
+// Do executes a EvaluationsGetCall request call. Exactly one of
+// *EvaluationsItem or error will be non-nil.
 func (c *EvaluationsGetCall) Do() (*EvaluationsItem, error) {
 	urls := c.s.baseURL + "/evaluations/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -2913,6 +3160,9 @@ func (c *EvaluationsGetCall) Do() (*EvaluationsItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -2956,10 +3206,10 @@ type EventsItem struct {
 	NbrSubscribers            int64     `json:"nbr_subscribers"`
 	ProhibitionOfCancellation int64     `json:"prohibition_of_cancellation"`
 	Themes                    []struct {
-		UpdatedAt time.Time `json:"updated_at"`
-		CreatedAt time.Time `json:"created_at"`
 		ID        int64     `json:"id"`
 		Name      string    `json:"name"`
+		UpdatedAt time.Time `json:"updated_at"`
+		CreatedAt time.Time `json:"created_at"`
 	} `json:"themes"`
 	UpdatedAt time.Time `json:"updated_at"`
 	Waitlist  struct {
@@ -2991,13 +3241,15 @@ func (s *EventsService) List() *EventsListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Events matching the specified setting.
+// P sets an optional parameter and its values: Only return Events matching the
+// specified setting.
 func (c *EventsListCall) P(key string, values []string) *EventsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a EventsListCall request call. Exactly one of *ListEventsResponse or error will be non-nil.
+// Do executes a EventsListCall request call. Exactly one of *ListEventsResponse
+// or error will be non-nil.
 func (c *EventsListCall) Do() (*ListEventsResponse, error) {
 	urls := c.s.baseURL + "/events/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -3006,6 +3258,9 @@ func (c *EventsListCall) Do() (*ListEventsResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -3034,7 +3289,8 @@ func (s *EventsService) Get(ID string) *EventsGetCall {
 	}
 }
 
-// Do executes a EventsGetCall request call. Exactly one of *EventsItem or error will be non-nil.
+// Do executes a EventsGetCall request call. Exactly one of *EventsItem or error
+// will be non-nil.
 func (c *EventsGetCall) Do() (*EventsItem, error) {
 	urls := c.s.baseURL + "/events/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -3043,6 +3299,9 @@ func (c *EventsGetCall) Do() (*EventsItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -3094,13 +3353,15 @@ func (s *EventsUsersService) List() *EventsUsersListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return EventsUsers matching the specified setting.
+// P sets an optional parameter and its values: Only return EventsUsers matching
+// the specified setting.
 func (c *EventsUsersListCall) P(key string, values []string) *EventsUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a EventsUsersListCall request call. Exactly one of *ListEventsUsersResponse or error will be non-nil.
+// Do executes a EventsUsersListCall request call. Exactly one of
+// *ListEventsUsersResponse or error will be non-nil.
 func (c *EventsUsersListCall) Do() (*ListEventsUsersResponse, error) {
 	urls := c.s.baseURL + "/events_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -3109,6 +3370,9 @@ func (c *EventsUsersListCall) Do() (*ListEventsUsersResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -3137,7 +3401,8 @@ func (s *EventsUsersService) Get(ID string) *EventsUsersGetCall {
 	}
 }
 
-// Do executes a EventsUsersGetCall request call. Exactly one of *EventsUsersItem or error will be non-nil.
+// Do executes a EventsUsersGetCall request call. Exactly one of
+// *EventsUsersItem or error will be non-nil.
 func (c *EventsUsersGetCall) Do() (*EventsUsersItem, error) {
 	urls := c.s.baseURL + "/events_users/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -3146,6 +3411,9 @@ func (c *EventsUsersGetCall) Do() (*EventsUsersItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -3177,24 +3445,24 @@ type ExamsService struct {
 type ExamsItem struct {
 	BeginAt time.Time `json:"begin_at"`
 	Campus  []struct {
+		ID       int64  `json:"id"`
+		Name     string `json:"name"`
+		TimeZone string `json:"time_zone"`
 		Language struct {
+			CreatedAt  time.Time `json:"created_at"`
+			UpdatedAt  time.Time `json:"updated_at"`
 			ID         int64     `json:"id"`
 			Name       string    `json:"name"`
 			IDentifier string    `json:"identifier"`
-			CreatedAt  time.Time `json:"created_at"`
-			UpdatedAt  time.Time `json:"updated_at"`
 		} `json:"language"`
-		UsersCount  int64  `json:"users_count"`
-		VogsphereID int64  `json:"vogsphere_id"`
-		ID          int64  `json:"id"`
-		Name        string `json:"name"`
-		TimeZone    string `json:"time_zone"`
+		UsersCount  int64 `json:"users_count"`
+		VogsphereID int64 `json:"vogsphere_id"`
 	} `json:"campus"`
 	Cursus []struct {
-		Slug      string    `json:"slug"`
 		ID        int64     `json:"id"`
 		CreatedAt time.Time `json:"created_at"`
 		Name      string    `json:"name"`
+		Slug      string    `json:"slug"`
 	} `json:"cursus"`
 	EndAt          time.Time `json:"end_at"`
 	ID             int64     `json:"id"`
@@ -3204,18 +3472,18 @@ type ExamsItem struct {
 	Name           string    `json:"name"`
 	NbrSubscribers int64     `json:"nbr_subscribers"`
 	Projects       []struct {
-		CreatedAt   time.Time     `json:"created_at"`
 		ID          int64         `json:"id"`
-		Slug        string        `json:"slug"`
 		Parent      interface{}   `json:"parent"`
-		Children    []interface{} `json:"children"`
-		Attachments []interface{} `json:"attachments"`
-		Exam        bool          `json:"exam"`
-		Name        string        `json:"name"`
-		Description string        `json:"description"`
 		Objectives  []string      `json:"objectives"`
-		Tier        int64         `json:"tier"`
+		Attachments []interface{} `json:"attachments"`
+		CreatedAt   time.Time     `json:"created_at"`
 		UpdatedAt   time.Time     `json:"updated_at"`
+		Name        string        `json:"name"`
+		Slug        string        `json:"slug"`
+		Description string        `json:"description"`
+		Children    []interface{} `json:"children"`
+		Tier        int64         `json:"tier"`
+		Exam        bool          `json:"exam"`
 	} `json:"projects"`
 }
 
@@ -3239,13 +3507,15 @@ func (s *ExamsService) List() *ExamsListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Exams matching the specified setting.
+// P sets an optional parameter and its values: Only return Exams matching the
+// specified setting.
 func (c *ExamsListCall) P(key string, values []string) *ExamsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a ExamsListCall request call. Exactly one of *ListExamsResponse or error will be non-nil.
+// Do executes a ExamsListCall request call. Exactly one of *ListExamsResponse
+// or error will be non-nil.
 func (c *ExamsListCall) Do() (*ListExamsResponse, error) {
 	urls := c.s.baseURL + "/exams/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -3254,6 +3524,9 @@ func (c *ExamsListCall) Do() (*ListExamsResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -3282,7 +3555,8 @@ func (s *ExamsService) Get(ID string) *ExamsGetCall {
 	}
 }
 
-// Do executes a ExamsGetCall request call. Exactly one of *ExamsItem or error will be non-nil.
+// Do executes a ExamsGetCall request call. Exactly one of *ExamsItem or error
+// will be non-nil.
 func (c *ExamsGetCall) Do() (*ExamsItem, error) {
 	urls := c.s.baseURL + "/exams/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -3291,6 +3565,9 @@ func (c *ExamsGetCall) Do() (*ExamsItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -3342,13 +3619,15 @@ func (s *ExamsUsersService) List() *ExamsUsersListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return ExamsUsers matching the specified setting.
+// P sets an optional parameter and its values: Only return ExamsUsers matching
+// the specified setting.
 func (c *ExamsUsersListCall) P(key string, values []string) *ExamsUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a ExamsUsersListCall request call. Exactly one of *ListExamsUsersResponse or error will be non-nil.
+// Do executes a ExamsUsersListCall request call. Exactly one of
+// *ListExamsUsersResponse or error will be non-nil.
 func (c *ExamsUsersListCall) Do() (*ListExamsUsersResponse, error) {
 	urls := c.s.baseURL + "/exams_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -3357,6 +3636,9 @@ func (c *ExamsUsersListCall) Do() (*ListExamsUsersResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -3409,13 +3691,15 @@ func (s *ExperiencesService) List() *ExperiencesListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Experiences matching the specified setting.
+// P sets an optional parameter and its values: Only return Experiences matching
+// the specified setting.
 func (c *ExperiencesListCall) P(key string, values []string) *ExperiencesListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a ExperiencesListCall request call. Exactly one of *ListExperiencesResponse or error will be non-nil.
+// Do executes a ExperiencesListCall request call. Exactly one of
+// *ListExperiencesResponse or error will be non-nil.
 func (c *ExperiencesListCall) Do() (*ListExperiencesResponse, error) {
 	urls := c.s.baseURL + "/experiences/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -3424,6 +3708,9 @@ func (c *ExperiencesListCall) Do() (*ListExperiencesResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -3452,7 +3739,8 @@ func (s *ExperiencesService) Get(ID string) *ExperiencesGetCall {
 	}
 }
 
-// Do executes a ExperiencesGetCall request call. Exactly one of *ExperiencesItem or error will be non-nil.
+// Do executes a ExperiencesGetCall request call. Exactly one of
+// *ExperiencesItem or error will be non-nil.
 func (c *ExperiencesGetCall) Do() (*ExperiencesItem, error) {
 	urls := c.s.baseURL + "/experiences/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -3461,6 +3749,9 @@ func (c *ExperiencesGetCall) Do() (*ExperiencesItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -3478,7 +3769,8 @@ func (c *ExperiencesGetCall) Do() (*ExperiencesItem, error) {
 
 // delete
 
-// Experiences description: An experience gained by an user in a particular skill.
+// Experiences description: An experience gained by an user in a particular
+// skill.
 func Experiences(s *Service) *ExperiencesService {
 	return &ExperiencesService{s: s}
 }
@@ -3519,13 +3811,15 @@ func (s *ExpertisesService) List() *ExpertisesListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Expertises matching the specified setting.
+// P sets an optional parameter and its values: Only return Expertises matching
+// the specified setting.
 func (c *ExpertisesListCall) P(key string, values []string) *ExpertisesListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a ExpertisesListCall request call. Exactly one of *ListExpertisesResponse or error will be non-nil.
+// Do executes a ExpertisesListCall request call. Exactly one of
+// *ListExpertisesResponse or error will be non-nil.
 func (c *ExpertisesListCall) Do() (*ListExpertisesResponse, error) {
 	urls := c.s.baseURL + "/expertises/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -3534,6 +3828,9 @@ func (c *ExpertisesListCall) Do() (*ListExpertisesResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -3562,7 +3859,8 @@ func (s *ExpertisesService) Get(ID string) *ExpertisesGetCall {
 	}
 }
 
-// Do executes a ExpertisesGetCall request call. Exactly one of *ExpertisesItem or error will be non-nil.
+// Do executes a ExpertisesGetCall request call. Exactly one of *ExpertisesItem
+// or error will be non-nil.
 func (c *ExpertisesGetCall) Do() (*ExpertisesItem, error) {
 	urls := c.s.baseURL + "/expertises/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -3571,6 +3869,9 @@ func (c *ExpertisesGetCall) Do() (*ExpertisesItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -3603,13 +3904,13 @@ type ExpertisesUsersItem struct {
 	ContactMe bool      `json:"contact_me"`
 	CreatedAt time.Time `json:"created_at"`
 	Expertise struct {
+		ID                 int64     `json:"id"`
+		Name               string    `json:"name"`
+		Slug               string    `json:"slug"`
 		URL                string    `json:"url"`
 		Kind               string    `json:"kind"`
 		CreatedAt          time.Time `json:"created_at"`
 		ExpertisesUsersURL string    `json:"expertises_users_url"`
-		ID                 int64     `json:"id"`
-		Name               string    `json:"name"`
-		Slug               string    `json:"slug"`
 	} `json:"expertise"`
 	ExpertiseID int64 `json:"expertise_id"`
 	ID          int64 `json:"id"`
@@ -3635,7 +3936,8 @@ type ListExpertisesUsersResponse struct {
 	ExpertisesUsers []*ExpertisesUsersItem
 }
 
-// List returns a ExpertisesUsersListCall which can request data from the 42 API.
+// List returns a ExpertisesUsersListCall which can request data from the 42
+// API.
 func (s *ExpertisesUsersService) List() *ExpertisesUsersListCall {
 	return &ExpertisesUsersListCall{
 		s:         s.s,
@@ -3643,13 +3945,15 @@ func (s *ExpertisesUsersService) List() *ExpertisesUsersListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return ExpertisesUsers matching the specified setting.
+// P sets an optional parameter and its values: Only return ExpertisesUsers
+// matching the specified setting.
 func (c *ExpertisesUsersListCall) P(key string, values []string) *ExpertisesUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a ExpertisesUsersListCall request call. Exactly one of *ListExpertisesUsersResponse or error will be non-nil.
+// Do executes a ExpertisesUsersListCall request call. Exactly one of
+// *ListExpertisesUsersResponse or error will be non-nil.
 func (c *ExpertisesUsersListCall) Do() (*ListExpertisesUsersResponse, error) {
 	urls := c.s.baseURL + "/expertises_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -3658,6 +3962,9 @@ func (c *ExpertisesUsersListCall) Do() (*ListExpertisesUsersResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -3686,7 +3993,8 @@ func (s *ExpertisesUsersService) Get(ID string) *ExpertisesUsersGetCall {
 	}
 }
 
-// Do executes a ExpertisesUsersGetCall request call. Exactly one of *ExpertisesUsersItem or error will be non-nil.
+// Do executes a ExpertisesUsersGetCall request call. Exactly one of
+// *ExpertisesUsersItem or error will be non-nil.
 func (c *ExpertisesUsersGetCall) Do() (*ExpertisesUsersItem, error) {
 	urls := c.s.baseURL + "/expertises_users/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -3695,6 +4003,9 @@ func (c *ExpertisesUsersGetCall) Do() (*ExpertisesUsersItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -3746,13 +4057,15 @@ func (s *FeedbacksService) List() *FeedbacksListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Feedbacks matching the specified setting.
+// P sets an optional parameter and its values: Only return Feedbacks matching
+// the specified setting.
 func (c *FeedbacksListCall) P(key string, values []string) *FeedbacksListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a FeedbacksListCall request call. Exactly one of *ListFeedbacksResponse or error will be non-nil.
+// Do executes a FeedbacksListCall request call. Exactly one of
+// *ListFeedbacksResponse or error will be non-nil.
 func (c *FeedbacksListCall) Do() (*ListFeedbacksResponse, error) {
 	urls := c.s.baseURL + "/feedbacks/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -3761,6 +4074,9 @@ func (c *FeedbacksListCall) Do() (*ListFeedbacksResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -3789,7 +4105,8 @@ func (s *FeedbacksService) Get(ID string) *FeedbacksGetCall {
 	}
 }
 
-// Do executes a FeedbacksGetCall request call. Exactly one of *FeedbacksItem or error will be non-nil.
+// Do executes a FeedbacksGetCall request call. Exactly one of *FeedbacksItem or
+// error will be non-nil.
 func (c *FeedbacksGetCall) Do() (*FeedbacksItem, error) {
 	urls := c.s.baseURL + "/feedbacks/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -3798,6 +4115,9 @@ func (c *FeedbacksGetCall) Do() (*FeedbacksItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -3849,13 +4169,15 @@ func (s *FlagsService) List() *FlagsListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Flags matching the specified setting.
+// P sets an optional parameter and its values: Only return Flags matching the
+// specified setting.
 func (c *FlagsListCall) P(key string, values []string) *FlagsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a FlagsListCall request call. Exactly one of *ListFlagsResponse or error will be non-nil.
+// Do executes a FlagsListCall request call. Exactly one of *ListFlagsResponse
+// or error will be non-nil.
 func (c *FlagsListCall) Do() (*ListFlagsResponse, error) {
 	urls := c.s.baseURL + "/flags/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -3864,6 +4186,9 @@ func (c *FlagsListCall) Do() (*ListFlagsResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -3893,9 +4218,9 @@ type FlashUsersItem struct {
 	ID      int64     `json:"id"`
 	Seen    bool      `json:"seen"`
 	User    struct {
-		URL   string `json:"url"`
 		ID    int64  `json:"id"`
 		Login string `json:"login"`
+		URL   string `json:"url"`
 	} `json:"user"`
 }
 
@@ -3919,13 +4244,15 @@ func (s *FlashUsersService) List() *FlashUsersListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return FlashUsers matching the specified setting.
+// P sets an optional parameter and its values: Only return FlashUsers matching
+// the specified setting.
 func (c *FlashUsersListCall) P(key string, values []string) *FlashUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a FlashUsersListCall request call. Exactly one of *ListFlashUsersResponse or error will be non-nil.
+// Do executes a FlashUsersListCall request call. Exactly one of
+// *ListFlashUsersResponse or error will be non-nil.
 func (c *FlashUsersListCall) Do() (*ListFlashUsersResponse, error) {
 	urls := c.s.baseURL + "/flash_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -3934,6 +4261,9 @@ func (c *FlashUsersListCall) Do() (*ListFlashUsersResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -3962,7 +4292,8 @@ func (s *FlashUsersService) Get(ID string) *FlashUsersGetCall {
 	}
 }
 
-// Do executes a FlashUsersGetCall request call. Exactly one of *FlashUsersItem or error will be non-nil.
+// Do executes a FlashUsersGetCall request call. Exactly one of *FlashUsersItem
+// or error will be non-nil.
 func (c *FlashUsersGetCall) Do() (*FlashUsersItem, error) {
 	urls := c.s.baseURL + "/flash_users/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -3971,6 +4302,9 @@ func (c *FlashUsersGetCall) Do() (*FlashUsersItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -4024,13 +4358,15 @@ func (s *FlashesService) List() *FlashesListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Flashes matching the specified setting.
+// P sets an optional parameter and its values: Only return Flashes matching the
+// specified setting.
 func (c *FlashesListCall) P(key string, values []string) *FlashesListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a FlashesListCall request call. Exactly one of *ListFlashesResponse or error will be non-nil.
+// Do executes a FlashesListCall request call. Exactly one of
+// *ListFlashesResponse or error will be non-nil.
 func (c *FlashesListCall) Do() (*ListFlashesResponse, error) {
 	urls := c.s.baseURL + "/flashes/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -4039,6 +4375,9 @@ func (c *FlashesListCall) Do() (*ListFlashesResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -4067,7 +4406,8 @@ func (s *FlashesService) Get(ID string) *FlashesGetCall {
 	}
 }
 
-// Do executes a FlashesGetCall request call. Exactly one of *FlashesItem or error will be non-nil.
+// Do executes a FlashesGetCall request call. Exactly one of *FlashesItem or
+// error will be non-nil.
 func (c *FlashesGetCall) Do() (*FlashesItem, error) {
 	urls := c.s.baseURL + "/flashes/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -4076,6 +4416,9 @@ func (c *FlashesGetCall) Do() (*FlashesItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -4125,13 +4468,15 @@ func (s *GroupsService) List() *GroupsListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Groups matching the specified setting.
+// P sets an optional parameter and its values: Only return Groups matching the
+// specified setting.
 func (c *GroupsListCall) P(key string, values []string) *GroupsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a GroupsListCall request call. Exactly one of *ListGroupsResponse or error will be non-nil.
+// Do executes a GroupsListCall request call. Exactly one of *ListGroupsResponse
+// or error will be non-nil.
 func (c *GroupsListCall) Do() (*ListGroupsResponse, error) {
 	urls := c.s.baseURL + "/groups/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -4140,6 +4485,9 @@ func (c *GroupsListCall) Do() (*ListGroupsResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -4168,7 +4516,8 @@ func (s *GroupsService) Get(ID string) *GroupsGetCall {
 	}
 }
 
-// Do executes a GroupsGetCall request call. Exactly one of *GroupsItem or error will be non-nil.
+// Do executes a GroupsGetCall request call. Exactly one of *GroupsItem or error
+// will be non-nil.
 func (c *GroupsGetCall) Do() (*GroupsItem, error) {
 	urls := c.s.baseURL + "/groups/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -4177,6 +4526,9 @@ func (c *GroupsGetCall) Do() (*GroupsItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -4194,7 +4546,8 @@ func (c *GroupsGetCall) Do() (*GroupsItem, error) {
 
 // delete
 
-// Groups description: Groups in which users belong to. It will display a label on their profile and on the forum.
+// Groups description: Groups in which users belong to. It will display a label
+// on their profile and on the forum.
 func Groups(s *Service) *GroupsService {
 	return &GroupsService{s: s}
 }
@@ -4233,13 +4586,15 @@ func (s *GroupsUsersService) List() *GroupsUsersListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return GroupsUsers matching the specified setting.
+// P sets an optional parameter and its values: Only return GroupsUsers matching
+// the specified setting.
 func (c *GroupsUsersListCall) P(key string, values []string) *GroupsUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a GroupsUsersListCall request call. Exactly one of *ListGroupsUsersResponse or error will be non-nil.
+// Do executes a GroupsUsersListCall request call. Exactly one of
+// *ListGroupsUsersResponse or error will be non-nil.
 func (c *GroupsUsersListCall) Do() (*ListGroupsUsersResponse, error) {
 	urls := c.s.baseURL + "/groups_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -4248,6 +4603,9 @@ func (c *GroupsUsersListCall) Do() (*ListGroupsUsersResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -4276,7 +4634,8 @@ func (s *GroupsUsersService) Get(ID string) *GroupsUsersGetCall {
 	}
 }
 
-// Do executes a GroupsUsersGetCall request call. Exactly one of *GroupsUsersItem or error will be non-nil.
+// Do executes a GroupsUsersGetCall request call. Exactly one of
+// *GroupsUsersItem or error will be non-nil.
 func (c *GroupsUsersGetCall) Do() (*GroupsUsersItem, error) {
 	urls := c.s.baseURL + "/groups_users/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -4285,6 +4644,9 @@ func (c *GroupsUsersGetCall) Do() (*GroupsUsersItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -4356,9 +4718,9 @@ type InternshipsItem struct {
 	State             string      `json:"state"`
 	Subject           string      `json:"subject"`
 	User              struct {
-		ID    int64  `json:"id"`
 		Login string `json:"login"`
 		URL   string `json:"url"`
+		ID    int64  `json:"id"`
 	} `json:"user"`
 	UserAddress string `json:"user_address"`
 	UserCity    string `json:"user_city"`
@@ -4386,13 +4748,15 @@ func (s *InternshipsService) List() *InternshipsListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Internships matching the specified setting.
+// P sets an optional parameter and its values: Only return Internships matching
+// the specified setting.
 func (c *InternshipsListCall) P(key string, values []string) *InternshipsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a InternshipsListCall request call. Exactly one of *ListInternshipsResponse or error will be non-nil.
+// Do executes a InternshipsListCall request call. Exactly one of
+// *ListInternshipsResponse or error will be non-nil.
 func (c *InternshipsListCall) Do() (*ListInternshipsResponse, error) {
 	urls := c.s.baseURL + "/internships/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -4401,6 +4765,9 @@ func (c *InternshipsListCall) Do() (*ListInternshipsResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -4429,7 +4796,8 @@ func (s *InternshipsService) Get(ID string) *InternshipsGetCall {
 	}
 }
 
-// Do executes a InternshipsGetCall request call. Exactly one of *InternshipsItem or error will be non-nil.
+// Do executes a InternshipsGetCall request call. Exactly one of
+// *InternshipsItem or error will be non-nil.
 func (c *InternshipsGetCall) Do() (*InternshipsItem, error) {
 	urls := c.s.baseURL + "/internships/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -4438,6 +4806,9 @@ func (c *InternshipsGetCall) Do() (*InternshipsItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -4486,13 +4857,15 @@ func (s *LanguagesService) List() *LanguagesListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Languages matching the specified setting.
+// P sets an optional parameter and its values: Only return Languages matching
+// the specified setting.
 func (c *LanguagesListCall) P(key string, values []string) *LanguagesListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a LanguagesListCall request call. Exactly one of *ListLanguagesResponse or error will be non-nil.
+// Do executes a LanguagesListCall request call. Exactly one of
+// *ListLanguagesResponse or error will be non-nil.
 func (c *LanguagesListCall) Do() (*ListLanguagesResponse, error) {
 	urls := c.s.baseURL + "/languages/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -4501,6 +4874,9 @@ func (c *LanguagesListCall) Do() (*ListLanguagesResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -4529,7 +4905,8 @@ func (s *LanguagesService) Get(ID string) *LanguagesGetCall {
 	}
 }
 
-// Do executes a LanguagesGetCall request call. Exactly one of *LanguagesItem or error will be non-nil.
+// Do executes a LanguagesGetCall request call. Exactly one of *LanguagesItem or
+// error will be non-nil.
 func (c *LanguagesGetCall) Do() (*LanguagesItem, error) {
 	urls := c.s.baseURL + "/languages/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -4538,6 +4915,9 @@ func (c *LanguagesGetCall) Do() (*LanguagesItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -4594,13 +4974,15 @@ func (s *LanguagesUsersService) List() *LanguagesUsersListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return LanguagesUsers matching the specified setting.
+// P sets an optional parameter and its values: Only return LanguagesUsers
+// matching the specified setting.
 func (c *LanguagesUsersListCall) P(key string, values []string) *LanguagesUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a LanguagesUsersListCall request call. Exactly one of *ListLanguagesUsersResponse or error will be non-nil.
+// Do executes a LanguagesUsersListCall request call. Exactly one of
+// *ListLanguagesUsersResponse or error will be non-nil.
 func (c *LanguagesUsersListCall) Do() (*ListLanguagesUsersResponse, error) {
 	urls := c.s.baseURL + "/languages_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -4609,6 +4991,9 @@ func (c *LanguagesUsersListCall) Do() (*ListLanguagesUsersResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -4637,7 +5022,8 @@ func (s *LanguagesUsersService) Get(ID string) *LanguagesUsersGetCall {
 	}
 }
 
-// Do executes a LanguagesUsersGetCall request call. Exactly one of *LanguagesUsersItem or error will be non-nil.
+// Do executes a LanguagesUsersGetCall request call. Exactly one of
+// *LanguagesUsersItem or error will be non-nil.
 func (c *LanguagesUsersGetCall) Do() (*LanguagesUsersItem, error) {
 	urls := c.s.baseURL + "/languages_users/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -4646,6 +5032,9 @@ func (c *LanguagesUsersGetCall) Do() (*LanguagesUsersItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -4697,13 +5086,15 @@ func (s *LevelsService) List() *LevelsListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Levels matching the specified setting.
+// P sets an optional parameter and its values: Only return Levels matching the
+// specified setting.
 func (c *LevelsListCall) P(key string, values []string) *LevelsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a LevelsListCall request call. Exactly one of *ListLevelsResponse or error will be non-nil.
+// Do executes a LevelsListCall request call. Exactly one of *ListLevelsResponse
+// or error will be non-nil.
 func (c *LevelsListCall) Do() (*ListLevelsResponse, error) {
 	urls := c.s.baseURL + "/levels/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -4712,6 +5103,9 @@ func (c *LevelsListCall) Do() (*ListLevelsResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -4746,9 +5140,9 @@ type LocationsItem struct {
 	Primary  bool        `json:"primary"`
 	Row      interface{} `json:"row"`
 	User     struct {
+		URL   string `json:"url"`
 		ID    int64  `json:"id"`
 		Login string `json:"login"`
-		URL   string `json:"url"`
 	} `json:"user"`
 }
 
@@ -4772,13 +5166,15 @@ func (s *LocationsService) List() *LocationsListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Locations matching the specified setting.
+// P sets an optional parameter and its values: Only return Locations matching
+// the specified setting.
 func (c *LocationsListCall) P(key string, values []string) *LocationsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a LocationsListCall request call. Exactly one of *ListLocationsResponse or error will be non-nil.
+// Do executes a LocationsListCall request call. Exactly one of
+// *ListLocationsResponse or error will be non-nil.
 func (c *LocationsListCall) Do() (*ListLocationsResponse, error) {
 	urls := c.s.baseURL + "/locations/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -4787,6 +5183,9 @@ func (c *LocationsListCall) Do() (*ListLocationsResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -4815,7 +5214,8 @@ func (s *LocationsService) Get(ID string) *LocationsGetCall {
 	}
 }
 
-// Do executes a LocationsGetCall request call. Exactly one of *LocationsItem or error will be non-nil.
+// Do executes a LocationsGetCall request call. Exactly one of *LocationsItem or
+// error will be non-nil.
 func (c *LocationsGetCall) Do() (*LocationsItem, error) {
 	urls := c.s.baseURL + "/locations/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -4824,6 +5224,9 @@ func (c *LocationsGetCall) Do() (*LocationsItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -4897,13 +5300,15 @@ func (s *MailingsService) List() *MailingsListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Mailings matching the specified setting.
+// P sets an optional parameter and its values: Only return Mailings matching
+// the specified setting.
 func (c *MailingsListCall) P(key string, values []string) *MailingsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a MailingsListCall request call. Exactly one of *ListMailingsResponse or error will be non-nil.
+// Do executes a MailingsListCall request call. Exactly one of
+// *ListMailingsResponse or error will be non-nil.
 func (c *MailingsListCall) Do() (*ListMailingsResponse, error) {
 	urls := c.s.baseURL + "/mailings/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -4912,6 +5317,9 @@ func (c *MailingsListCall) Do() (*ListMailingsResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -4940,7 +5348,8 @@ func (s *MailingsService) Get(ID string) *MailingsGetCall {
 	}
 }
 
-// Do executes a MailingsGetCall request call. Exactly one of *MailingsItem or error will be non-nil.
+// Do executes a MailingsGetCall request call. Exactly one of *MailingsItem or
+// error will be non-nil.
 func (c *MailingsGetCall) Do() (*MailingsItem, error) {
 	urls := c.s.baseURL + "/mailings/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -4949,6 +5358,9 @@ func (c *MailingsGetCall) Do() (*MailingsItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -4981,16 +5393,16 @@ type NotesItem struct {
 	Content   string    `json:"content"`
 	CreatedAt time.Time `json:"created_at"`
 	FromUser  struct {
-		ID    int64  `json:"id"`
 		Login string `json:"login"`
 		URL   string `json:"url"`
+		ID    int64  `json:"id"`
 	} `json:"from_user"`
 	ID      int64  `json:"id"`
 	Subject string `json:"subject"`
 	User    struct {
-		Login string `json:"login"`
 		URL   string `json:"url"`
 		ID    int64  `json:"id"`
+		Login string `json:"login"`
 	} `json:"user"`
 }
 
@@ -5014,13 +5426,15 @@ func (s *NotesService) List() *NotesListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Notes matching the specified setting.
+// P sets an optional parameter and its values: Only return Notes matching the
+// specified setting.
 func (c *NotesListCall) P(key string, values []string) *NotesListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a NotesListCall request call. Exactly one of *ListNotesResponse or error will be non-nil.
+// Do executes a NotesListCall request call. Exactly one of *ListNotesResponse
+// or error will be non-nil.
 func (c *NotesListCall) Do() (*ListNotesResponse, error) {
 	urls := c.s.baseURL + "/notes/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -5029,6 +5443,9 @@ func (c *NotesListCall) Do() (*ListNotesResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -5057,7 +5474,8 @@ func (s *NotesService) Get(ID string) *NotesGetCall {
 	}
 }
 
-// Do executes a NotesGetCall request call. Exactly one of *NotesItem or error will be non-nil.
+// Do executes a NotesGetCall request call. Exactly one of *NotesItem or error
+// will be non-nil.
 func (c *NotesGetCall) Do() (*NotesItem, error) {
 	urls := c.s.baseURL + "/notes/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -5066,6 +5484,9 @@ func (c *NotesGetCall) Do() (*NotesItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -5097,19 +5518,19 @@ type NotionsService struct {
 type NotionsItem struct {
 	CreatedAt time.Time `json:"created_at"`
 	Cursus    []struct {
-		ID        int64     `json:"id"`
-		CreatedAt time.Time `json:"created_at"`
 		Name      string    `json:"name"`
 		Slug      string    `json:"slug"`
+		ID        int64     `json:"id"`
+		CreatedAt time.Time `json:"created_at"`
 	} `json:"cursus"`
 	ID         int64         `json:"id"`
 	Name       string        `json:"name"`
 	Slug       string        `json:"slug"`
 	Subnotions []interface{} `json:"subnotions"`
 	Tags       []struct {
+		ID   int64  `json:"id"`
 		Name string `json:"name"`
 		Kind string `json:"kind"`
-		ID   int64  `json:"id"`
 	} `json:"tags"`
 }
 
@@ -5133,13 +5554,15 @@ func (s *NotionsService) List() *NotionsListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Notions matching the specified setting.
+// P sets an optional parameter and its values: Only return Notions matching the
+// specified setting.
 func (c *NotionsListCall) P(key string, values []string) *NotionsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a NotionsListCall request call. Exactly one of *ListNotionsResponse or error will be non-nil.
+// Do executes a NotionsListCall request call. Exactly one of
+// *ListNotionsResponse or error will be non-nil.
 func (c *NotionsListCall) Do() (*ListNotionsResponse, error) {
 	urls := c.s.baseURL + "/notions/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -5148,6 +5571,9 @@ func (c *NotionsListCall) Do() (*ListNotionsResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -5176,7 +5602,8 @@ func (s *NotionsService) Get(ID string) *NotionsGetCall {
 	}
 }
 
-// Do executes a NotionsGetCall request call. Exactly one of *NotionsItem or error will be non-nil.
+// Do executes a NotionsGetCall request call. Exactly one of *NotionsItem or
+// error will be non-nil.
 func (c *NotionsGetCall) Do() (*NotionsItem, error) {
 	urls := c.s.baseURL + "/notions/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -5185,6 +5612,9 @@ func (c *NotionsGetCall) Do() (*NotionsItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -5228,7 +5658,8 @@ type ListParamsProjectSessionsRulesResponse struct {
 	ParamsProjectSessionsRules []*ParamsProjectSessionsRulesItem
 }
 
-// List returns a ParamsProjectSessionsRulesListCall which can request data from the 42 API.
+// List returns a ParamsProjectSessionsRulesListCall which can request data from
+// the 42 API.
 func (s *ParamsProjectSessionsRulesService) List() *ParamsProjectSessionsRulesListCall {
 	return &ParamsProjectSessionsRulesListCall{
 		s:         s.s,
@@ -5236,13 +5667,15 @@ func (s *ParamsProjectSessionsRulesService) List() *ParamsProjectSessionsRulesLi
 	}
 }
 
-// P sets an optional parameter and its values: Only return ParamsProjectSessionsRules matching the specified setting.
+// P sets an optional parameter and its values: Only return
+// ParamsProjectSessionsRules matching the specified setting.
 func (c *ParamsProjectSessionsRulesListCall) P(key string, values []string) *ParamsProjectSessionsRulesListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a ParamsProjectSessionsRulesListCall request call. Exactly one of *ListParamsProjectSessionsRulesResponse or error will be non-nil.
+// Do executes a ParamsProjectSessionsRulesListCall request call. Exactly one of
+// *ListParamsProjectSessionsRulesResponse or error will be non-nil.
 func (c *ParamsProjectSessionsRulesListCall) Do() (*ListParamsProjectSessionsRulesResponse, error) {
 	urls := c.s.baseURL + "/params_project_sessions_rules/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -5251,6 +5684,9 @@ func (c *ParamsProjectSessionsRulesListCall) Do() (*ListParamsProjectSessionsRul
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -5279,7 +5715,8 @@ func (s *ParamsProjectSessionsRulesService) Get(ID string) *ParamsProjectSession
 	}
 }
 
-// Do executes a ParamsProjectSessionsRulesGetCall request call. Exactly one of *ParamsProjectSessionsRulesItem or error will be non-nil.
+// Do executes a ParamsProjectSessionsRulesGetCall request call. Exactly one of
+// *ParamsProjectSessionsRulesItem or error will be non-nil.
 func (c *ParamsProjectSessionsRulesGetCall) Do() (*ParamsProjectSessionsRulesItem, error) {
 	urls := c.s.baseURL + "/params_project_sessions_rules/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -5288,6 +5725,9 @@ func (c *ParamsProjectSessionsRulesGetCall) Do() (*ParamsProjectSessionsRulesIte
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -5305,7 +5745,8 @@ func (c *ParamsProjectSessionsRulesGetCall) Do() (*ParamsProjectSessionsRulesIte
 
 // delete
 
-// ParamsProjectSessionsRules description: The value of a parameter for a project sessions rule.
+// ParamsProjectSessionsRules description: The value of a parameter for a
+// project sessions rule.
 func ParamsProjectSessionsRules(s *Service) *ParamsProjectSessionsRulesService {
 	return &ParamsProjectSessionsRulesService{s: s}
 }
@@ -5345,13 +5786,15 @@ func (s *PartnershipsService) List() *PartnershipsListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Partnerships matching the specified setting.
+// P sets an optional parameter and its values: Only return Partnerships
+// matching the specified setting.
 func (c *PartnershipsListCall) P(key string, values []string) *PartnershipsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a PartnershipsListCall request call. Exactly one of *ListPartnershipsResponse or error will be non-nil.
+// Do executes a PartnershipsListCall request call. Exactly one of
+// *ListPartnershipsResponse or error will be non-nil.
 func (c *PartnershipsListCall) Do() (*ListPartnershipsResponse, error) {
 	urls := c.s.baseURL + "/partnerships/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -5360,6 +5803,9 @@ func (c *PartnershipsListCall) Do() (*ListPartnershipsResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -5388,7 +5834,8 @@ func (s *PartnershipsService) Get(ID string) *PartnershipsGetCall {
 	}
 }
 
-// Do executes a PartnershipsGetCall request call. Exactly one of *PartnershipsItem or error will be non-nil.
+// Do executes a PartnershipsGetCall request call. Exactly one of
+// *PartnershipsItem or error will be non-nil.
 func (c *PartnershipsGetCall) Do() (*PartnershipsItem, error) {
 	urls := c.s.baseURL + "/partnerships/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -5397,6 +5844,9 @@ func (c *PartnershipsGetCall) Do() (*PartnershipsItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -5448,7 +5898,8 @@ type ListPartnershipsUsersResponse struct {
 	PartnershipsUsers []*PartnershipsUsersItem
 }
 
-// List returns a PartnershipsUsersListCall which can request data from the 42 API.
+// List returns a PartnershipsUsersListCall which can request data from the 42
+// API.
 func (s *PartnershipsUsersService) List() *PartnershipsUsersListCall {
 	return &PartnershipsUsersListCall{
 		s:         s.s,
@@ -5456,13 +5907,15 @@ func (s *PartnershipsUsersService) List() *PartnershipsUsersListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return PartnershipsUsers matching the specified setting.
+// P sets an optional parameter and its values: Only return PartnershipsUsers
+// matching the specified setting.
 func (c *PartnershipsUsersListCall) P(key string, values []string) *PartnershipsUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a PartnershipsUsersListCall request call. Exactly one of *ListPartnershipsUsersResponse or error will be non-nil.
+// Do executes a PartnershipsUsersListCall request call. Exactly one of
+// *ListPartnershipsUsersResponse or error will be non-nil.
 func (c *PartnershipsUsersListCall) Do() (*ListPartnershipsUsersResponse, error) {
 	urls := c.s.baseURL + "/partnerships_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -5471,6 +5924,9 @@ func (c *PartnershipsUsersListCall) Do() (*ListPartnershipsUsersResponse, error)
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -5499,7 +5955,8 @@ func (s *PartnershipsUsersService) Get(ID string) *PartnershipsUsersGetCall {
 	}
 }
 
-// Do executes a PartnershipsUsersGetCall request call. Exactly one of *PartnershipsUsersItem or error will be non-nil.
+// Do executes a PartnershipsUsersGetCall request call. Exactly one of
+// *PartnershipsUsersItem or error will be non-nil.
 func (c *PartnershipsUsersGetCall) Do() (*PartnershipsUsersItem, error) {
 	urls := c.s.baseURL + "/partnerships_users/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -5508,6 +5965,9 @@ func (c *PartnershipsUsersGetCall) Do() (*PartnershipsUsersItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -5539,18 +5999,18 @@ type PatronagesService struct {
 type PatronagesItem struct {
 	CreatedAt time.Time `json:"created_at"`
 	Godfather struct {
+		Login string `json:"login"`
 		URL   string `json:"url"`
 		ID    int64  `json:"id"`
-		Login string `json:"login"`
 	} `json:"godfather"`
 	GodfatherID int64     `json:"godfather_id"`
 	ID          int64     `json:"id"`
 	Ongoing     bool      `json:"ongoing"`
 	UpdatedAt   time.Time `json:"updated_at"`
 	User        struct {
-		Login string `json:"login"`
 		URL   string `json:"url"`
 		ID    int64  `json:"id"`
+		Login string `json:"login"`
 	} `json:"user"`
 	UserID int64 `json:"user_id"`
 }
@@ -5575,13 +6035,15 @@ func (s *PatronagesService) List() *PatronagesListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Patronages matching the specified setting.
+// P sets an optional parameter and its values: Only return Patronages matching
+// the specified setting.
 func (c *PatronagesListCall) P(key string, values []string) *PatronagesListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a PatronagesListCall request call. Exactly one of *ListPatronagesResponse or error will be non-nil.
+// Do executes a PatronagesListCall request call. Exactly one of
+// *ListPatronagesResponse or error will be non-nil.
 func (c *PatronagesListCall) Do() (*ListPatronagesResponse, error) {
 	urls := c.s.baseURL + "/patronages/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -5590,6 +6052,9 @@ func (c *PatronagesListCall) Do() (*ListPatronagesResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -5618,7 +6083,8 @@ func (s *PatronagesService) Get(ID string) *PatronagesGetCall {
 	}
 }
 
-// Do executes a PatronagesGetCall request call. Exactly one of *PatronagesItem or error will be non-nil.
+// Do executes a PatronagesGetCall request call. Exactly one of *PatronagesItem
+// or error will be non-nil.
 func (c *PatronagesGetCall) Do() (*PatronagesItem, error) {
 	urls := c.s.baseURL + "/patronages/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -5627,6 +6093,9 @@ func (c *PatronagesGetCall) Do() (*PatronagesItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -5661,25 +6130,25 @@ type PatronagesReportsItem struct {
 	CreatedAt time.Time     `json:"created_at"`
 	ID        int64         `json:"id"`
 	Patronage struct {
+		CreatedAt   time.Time `json:"created_at"`
+		UpdatedAt   time.Time `json:"updated_at"`
 		ID          int64     `json:"id"`
 		UserID      int64     `json:"user_id"`
 		GodfatherID int64     `json:"godfather_id"`
 		Ongoing     bool      `json:"ongoing"`
-		CreatedAt   time.Time `json:"created_at"`
-		UpdatedAt   time.Time `json:"updated_at"`
 	} `json:"patronage"`
 	PatronageID int64 `json:"patronage_id"`
 	Report      struct {
+		ID             int64     `json:"id"`
 		IntroductionMd string    `json:"introduction_md"`
-		UpdatedAt      time.Time `json:"updated_at"`
-		Name           string    `json:"name"`
-		Comment        string    `json:"comment"`
 		DisclaimerMd   string    `json:"disclaimer_md"`
 		GuidelinesMd   string    `json:"guidelines_md"`
-		CreatedAt      time.Time `json:"created_at"`
+		UpdatedAt      time.Time `json:"updated_at"`
 		Slug           string    `json:"slug"`
 		DelayDays      int64     `json:"delay_days"`
-		ID             int64     `json:"id"`
+		Name           string    `json:"name"`
+		Comment        string    `json:"comment"`
+		CreatedAt      time.Time `json:"created_at"`
 	} `json:"report"`
 	ReportID  int64     `json:"report_id"`
 	UpdatedAt time.Time `json:"updated_at"`
@@ -5704,7 +6173,8 @@ type ListPatronagesReportsResponse struct {
 	PatronagesReports []*PatronagesReportsItem
 }
 
-// List returns a PatronagesReportsListCall which can request data from the 42 API.
+// List returns a PatronagesReportsListCall which can request data from the 42
+// API.
 func (s *PatronagesReportsService) List() *PatronagesReportsListCall {
 	return &PatronagesReportsListCall{
 		s:         s.s,
@@ -5712,13 +6182,15 @@ func (s *PatronagesReportsService) List() *PatronagesReportsListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return PatronagesReports matching the specified setting.
+// P sets an optional parameter and its values: Only return PatronagesReports
+// matching the specified setting.
 func (c *PatronagesReportsListCall) P(key string, values []string) *PatronagesReportsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a PatronagesReportsListCall request call. Exactly one of *ListPatronagesReportsResponse or error will be non-nil.
+// Do executes a PatronagesReportsListCall request call. Exactly one of
+// *ListPatronagesReportsResponse or error will be non-nil.
 func (c *PatronagesReportsListCall) Do() (*ListPatronagesReportsResponse, error) {
 	urls := c.s.baseURL + "/patronages_reports/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -5727,6 +6199,9 @@ func (c *PatronagesReportsListCall) Do() (*ListPatronagesReportsResponse, error)
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -5755,7 +6230,8 @@ func (s *PatronagesReportsService) Get(ID string) *PatronagesReportsGetCall {
 	}
 }
 
-// Do executes a PatronagesReportsGetCall request call. Exactly one of *PatronagesReportsItem or error will be non-nil.
+// Do executes a PatronagesReportsGetCall request call. Exactly one of
+// *PatronagesReportsItem or error will be non-nil.
 func (c *PatronagesReportsGetCall) Do() (*PatronagesReportsItem, error) {
 	urls := c.s.baseURL + "/patronages_reports/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -5764,6 +6240,9 @@ func (c *PatronagesReportsGetCall) Do() (*PatronagesReportsItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -5820,13 +6299,15 @@ func (s *PoolsService) List() *PoolsListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Pools matching the specified setting.
+// P sets an optional parameter and its values: Only return Pools matching the
+// specified setting.
 func (c *PoolsListCall) P(key string, values []string) *PoolsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a PoolsListCall request call. Exactly one of *ListPoolsResponse or error will be non-nil.
+// Do executes a PoolsListCall request call. Exactly one of *ListPoolsResponse
+// or error will be non-nil.
 func (c *PoolsListCall) Do() (*ListPoolsResponse, error) {
 	urls := c.s.baseURL + "/pools/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -5835,6 +6316,9 @@ func (c *PoolsListCall) Do() (*ListPoolsResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -5863,7 +6347,8 @@ func (s *PoolsService) Get(ID string) *PoolsGetCall {
 	}
 }
 
-// Do executes a PoolsGetCall request call. Exactly one of *PoolsItem or error will be non-nil.
+// Do executes a PoolsGetCall request call. Exactly one of *PoolsItem or error
+// will be non-nil.
 func (c *PoolsGetCall) Do() (*PoolsItem, error) {
 	urls := c.s.baseURL + "/pools/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -5872,6 +6357,9 @@ func (c *PoolsGetCall) Do() (*PoolsItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -5937,13 +6425,15 @@ func (s *ProductsService) List() *ProductsListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Products matching the specified setting.
+// P sets an optional parameter and its values: Only return Products matching
+// the specified setting.
 func (c *ProductsListCall) P(key string, values []string) *ProductsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a ProductsListCall request call. Exactly one of *ListProductsResponse or error will be non-nil.
+// Do executes a ProductsListCall request call. Exactly one of
+// *ListProductsResponse or error will be non-nil.
 func (c *ProductsListCall) Do() (*ListProductsResponse, error) {
 	urls := c.s.baseURL + "/products/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -5952,6 +6442,9 @@ func (c *ProductsListCall) Do() (*ListProductsResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -5980,7 +6473,8 @@ func (s *ProductsService) Get(ID string) *ProductsGetCall {
 	}
 }
 
-// Do executes a ProductsGetCall request call. Exactly one of *ProductsItem or error will be non-nil.
+// Do executes a ProductsGetCall request call. Exactly one of *ProductsItem or
+// error will be non-nil.
 func (c *ProductsGetCall) Do() (*ProductsItem, error) {
 	urls := c.s.baseURL + "/products/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -5989,6 +6483,9 @@ func (c *ProductsGetCall) Do() (*ProductsItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -6045,13 +6542,15 @@ func (s *ProjectDataService) List() *ProjectDataListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return ProjectData matching the specified setting.
+// P sets an optional parameter and its values: Only return ProjectData matching
+// the specified setting.
 func (c *ProjectDataListCall) P(key string, values []string) *ProjectDataListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a ProjectDataListCall request call. Exactly one of *ListProjectDataResponse or error will be non-nil.
+// Do executes a ProjectDataListCall request call. Exactly one of
+// *ListProjectDataResponse or error will be non-nil.
 func (c *ProjectDataListCall) Do() (*ListProjectDataResponse, error) {
 	urls := c.s.baseURL + "/project_data/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -6060,6 +6559,9 @@ func (c *ProjectDataListCall) Do() (*ListProjectDataResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -6088,7 +6590,8 @@ func (s *ProjectDataService) Get(ID string) *ProjectDataGetCall {
 	}
 }
 
-// Do executes a ProjectDataGetCall request call. Exactly one of *ProjectDataItem or error will be non-nil.
+// Do executes a ProjectDataGetCall request call. Exactly one of
+// *ProjectDataItem or error will be non-nil.
 func (c *ProjectDataGetCall) Do() (*ProjectDataItem, error) {
 	urls := c.s.baseURL + "/project_data/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -6097,6 +6600,9 @@ func (c *ProjectDataGetCall) Do() (*ProjectDataItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -6139,18 +6645,18 @@ type ProjectSessionsItem struct {
 	IsSubscriptable bool        `json:"is_subscriptable"`
 	MaxPeople       interface{} `json:"max_people"`
 	Project         struct {
-		Attachments []interface{} `json:"attachments"`
+		Tier        int64         `json:"tier"`
+		CreatedAt   time.Time     `json:"created_at"`
+		Exam        bool          `json:"exam"`
+		ID          int64         `json:"id"`
 		Name        string        `json:"name"`
 		Description string        `json:"description"`
 		Parent      interface{}   `json:"parent"`
+		UpdatedAt   time.Time     `json:"updated_at"`
+		Slug        string        `json:"slug"`
 		Children    []interface{} `json:"children"`
 		Objectives  []string      `json:"objectives"`
-		Tier        int64         `json:"tier"`
-		ID          int64         `json:"id"`
-		Slug        string        `json:"slug"`
-		CreatedAt   time.Time     `json:"created_at"`
-		UpdatedAt   time.Time     `json:"updated_at"`
-		Exam        bool          `json:"exam"`
+		Attachments []interface{} `json:"attachments"`
 	} `json:"project"`
 	ProjectID int64 `json:"project_id"`
 	Scales    []struct {
@@ -6177,7 +6683,8 @@ type ListProjectSessionsResponse struct {
 	ProjectSessions []*ProjectSessionsItem
 }
 
-// List returns a ProjectSessionsListCall which can request data from the 42 API.
+// List returns a ProjectSessionsListCall which can request data from the 42
+// API.
 func (s *ProjectSessionsService) List() *ProjectSessionsListCall {
 	return &ProjectSessionsListCall{
 		s:         s.s,
@@ -6185,13 +6692,15 @@ func (s *ProjectSessionsService) List() *ProjectSessionsListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return ProjectSessions matching the specified setting.
+// P sets an optional parameter and its values: Only return ProjectSessions
+// matching the specified setting.
 func (c *ProjectSessionsListCall) P(key string, values []string) *ProjectSessionsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a ProjectSessionsListCall request call. Exactly one of *ListProjectSessionsResponse or error will be non-nil.
+// Do executes a ProjectSessionsListCall request call. Exactly one of
+// *ListProjectSessionsResponse or error will be non-nil.
 func (c *ProjectSessionsListCall) Do() (*ListProjectSessionsResponse, error) {
 	urls := c.s.baseURL + "/project_sessions/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -6200,6 +6709,9 @@ func (c *ProjectSessionsListCall) Do() (*ListProjectSessionsResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -6228,7 +6740,8 @@ func (s *ProjectSessionsService) Get(ID string) *ProjectSessionsGetCall {
 	}
 }
 
-// Do executes a ProjectSessionsGetCall request call. Exactly one of *ProjectSessionsItem or error will be non-nil.
+// Do executes a ProjectSessionsGetCall request call. Exactly one of
+// *ProjectSessionsItem or error will be non-nil.
 func (c *ProjectSessionsGetCall) Do() (*ProjectSessionsItem, error) {
 	urls := c.s.baseURL + "/project_sessions/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -6237,6 +6750,9 @@ func (c *ProjectSessionsGetCall) Do() (*ProjectSessionsItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -6254,7 +6770,8 @@ func (c *ProjectSessionsGetCall) Do() (*ProjectSessionsItem, error) {
 
 // delete
 
-// ProjectSessions description: A project session defines a particular behaviour for a project, based on the cursus and / or the campus .
+// ProjectSessions description: A project session defines a particular behaviour
+// for a project, based on the cursus and / or the campus .
 func ProjectSessions(s *Service) *ProjectSessionsService {
 	return &ProjectSessionsService{s: s}
 }
@@ -6280,7 +6797,8 @@ type ListProjectSessionsRulesResponse struct {
 	ProjectSessionsRules []*ProjectSessionsRulesItem
 }
 
-// List returns a ProjectSessionsRulesListCall which can request data from the 42 API.
+// List returns a ProjectSessionsRulesListCall which can request data from the
+// 42 API.
 func (s *ProjectSessionsRulesService) List() *ProjectSessionsRulesListCall {
 	return &ProjectSessionsRulesListCall{
 		s:         s.s,
@@ -6288,13 +6806,15 @@ func (s *ProjectSessionsRulesService) List() *ProjectSessionsRulesListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return ProjectSessionsRules matching the specified setting.
+// P sets an optional parameter and its values: Only return ProjectSessionsRules
+// matching the specified setting.
 func (c *ProjectSessionsRulesListCall) P(key string, values []string) *ProjectSessionsRulesListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a ProjectSessionsRulesListCall request call. Exactly one of *ListProjectSessionsRulesResponse or error will be non-nil.
+// Do executes a ProjectSessionsRulesListCall request call. Exactly one of
+// *ListProjectSessionsRulesResponse or error will be non-nil.
 func (c *ProjectSessionsRulesListCall) Do() (*ListProjectSessionsRulesResponse, error) {
 	urls := c.s.baseURL + "/project_sessions_rules/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -6303,6 +6823,9 @@ func (c *ProjectSessionsRulesListCall) Do() (*ListProjectSessionsRulesResponse, 
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -6331,7 +6854,8 @@ func (s *ProjectSessionsRulesService) Get(ID string) *ProjectSessionsRulesGetCal
 	}
 }
 
-// Do executes a ProjectSessionsRulesGetCall request call. Exactly one of *ProjectSessionsRulesItem or error will be non-nil.
+// Do executes a ProjectSessionsRulesGetCall request call. Exactly one of
+// *ProjectSessionsRulesItem or error will be non-nil.
 func (c *ProjectSessionsRulesGetCall) Do() (*ProjectSessionsRulesItem, error) {
 	urls := c.s.baseURL + "/project_sessions_rules/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -6340,6 +6864,9 @@ func (c *ProjectSessionsRulesGetCall) Do() (*ProjectSessionsRulesItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -6389,7 +6916,8 @@ type ListProjectSessionsSkillsResponse struct {
 	ProjectSessionsSkills []*ProjectSessionsSkillsItem
 }
 
-// List returns a ProjectSessionsSkillsListCall which can request data from the 42 API.
+// List returns a ProjectSessionsSkillsListCall which can request data from the
+// 42 API.
 func (s *ProjectSessionsSkillsService) List() *ProjectSessionsSkillsListCall {
 	return &ProjectSessionsSkillsListCall{
 		s:         s.s,
@@ -6397,13 +6925,15 @@ func (s *ProjectSessionsSkillsService) List() *ProjectSessionsSkillsListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return ProjectSessionsSkills matching the specified setting.
+// P sets an optional parameter and its values: Only return
+// ProjectSessionsSkills matching the specified setting.
 func (c *ProjectSessionsSkillsListCall) P(key string, values []string) *ProjectSessionsSkillsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a ProjectSessionsSkillsListCall request call. Exactly one of *ListProjectSessionsSkillsResponse or error will be non-nil.
+// Do executes a ProjectSessionsSkillsListCall request call. Exactly one of
+// *ListProjectSessionsSkillsResponse or error will be non-nil.
 func (c *ProjectSessionsSkillsListCall) Do() (*ListProjectSessionsSkillsResponse, error) {
 	urls := c.s.baseURL + "/project_sessions_skills/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -6412,6 +6942,9 @@ func (c *ProjectSessionsSkillsListCall) Do() (*ListProjectSessionsSkillsResponse
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -6440,7 +6973,8 @@ func (s *ProjectSessionsSkillsService) Get(ID string) *ProjectSessionsSkillsGetC
 	}
 }
 
-// Do executes a ProjectSessionsSkillsGetCall request call. Exactly one of *ProjectSessionsSkillsItem or error will be non-nil.
+// Do executes a ProjectSessionsSkillsGetCall request call. Exactly one of
+// *ProjectSessionsSkillsItem or error will be non-nil.
 func (c *ProjectSessionsSkillsGetCall) Do() (*ProjectSessionsSkillsItem, error) {
 	urls := c.s.baseURL + "/project_sessions_skills/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -6449,6 +6983,9 @@ func (c *ProjectSessionsSkillsGetCall) Do() (*ProjectSessionsSkillsItem, error) 
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -6478,11 +7015,11 @@ type ProjectsItem struct {
 		Name     string `json:"name"`
 		TimeZone string `json:"time_zone"`
 		Language struct {
-			ID         int64     `json:"id"`
-			Name       string    `json:"name"`
 			IDentifier string    `json:"identifier"`
 			CreatedAt  time.Time `json:"created_at"`
 			UpdatedAt  time.Time `json:"updated_at"`
+			ID         int64     `json:"id"`
+			Name       string    `json:"name"`
 		} `json:"language"`
 		UsersCount  int64 `json:"users_count"`
 		VogsphereID int64 `json:"vogsphere_id"`
@@ -6490,10 +7027,10 @@ type ProjectsItem struct {
 	Children  []interface{} `json:"children"`
 	CreatedAt time.Time     `json:"created_at"`
 	Cursus    []struct {
-		Slug      string    `json:"slug"`
 		ID        int64     `json:"id"`
 		CreatedAt time.Time `json:"created_at"`
 		Name      string    `json:"name"`
+		Slug      string    `json:"slug"`
 	} `json:"cursus"`
 	Description     string      `json:"description"`
 	Exam            bool        `json:"exam"`
@@ -6502,32 +7039,32 @@ type ProjectsItem struct {
 	Objectives      []string    `json:"objectives"`
 	Parent          interface{} `json:"parent"`
 	ProjectSessions []struct {
-		CursusID         interface{}   `json:"cursus_id"`
-		Uploads          []interface{} `json:"uploads"`
+		TeamBehaviour    string        `json:"team_behaviour"`
 		ID               int64         `json:"id"`
 		Solo             bool          `json:"solo"`
+		EndAt            interface{}   `json:"end_at"`
 		EstimateTime     int64         `json:"estimate_time"`
-		DurationDays     interface{}   `json:"duration_days"`
+		CampusID         interface{}   `json:"campus_id"`
+		Uploads          []interface{} `json:"uploads"`
 		TerminatingAfter interface{}   `json:"terminating_after"`
-		MaxPeople        interface{}   `json:"max_people"`
+		CursusID         interface{}   `json:"cursus_id"`
+		CreatedAt        time.Time     `json:"created_at"`
 		Scales           []struct {
 			ID               int64 `json:"id"`
 			CorrectionNumber int64 `json:"correction_number"`
 			IsPrimary        bool  `json:"is_primary"`
 		} `json:"scales"`
-		ProjectID       int64       `json:"project_id"`
-		CampusID        interface{} `json:"campus_id"`
-		UpdatedAt       time.Time   `json:"updated_at"`
 		BeginAt         interface{} `json:"begin_at"`
-		EndAt           interface{} `json:"end_at"`
-		CreatedAt       time.Time   `json:"created_at"`
+		ProjectID       int64       `json:"project_id"`
 		IsSubscriptable bool        `json:"is_subscriptable"`
-		TeamBehaviour   string      `json:"team_behaviour"`
+		DurationDays    interface{} `json:"duration_days"`
+		UpdatedAt       time.Time   `json:"updated_at"`
+		MaxPeople       interface{} `json:"max_people"`
 	} `json:"project_sessions"`
 	Skills []struct {
+		CreatedAt time.Time `json:"created_at"`
 		ID        int64     `json:"id"`
 		Name      string    `json:"name"`
-		CreatedAt time.Time `json:"created_at"`
 	} `json:"skills"`
 	Slug string `json:"slug"`
 	Tags []struct {
@@ -6560,13 +7097,15 @@ func (s *ProjectsService) List() *ProjectsListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Projects matching the specified setting.
+// P sets an optional parameter and its values: Only return Projects matching
+// the specified setting.
 func (c *ProjectsListCall) P(key string, values []string) *ProjectsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a ProjectsListCall request call. Exactly one of *ListProjectsResponse or error will be non-nil.
+// Do executes a ProjectsListCall request call. Exactly one of
+// *ListProjectsResponse or error will be non-nil.
 func (c *ProjectsListCall) Do() (*ListProjectsResponse, error) {
 	urls := c.s.baseURL + "/projects/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -6575,6 +7114,9 @@ func (c *ProjectsListCall) Do() (*ListProjectsResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -6603,7 +7145,8 @@ func (s *ProjectsService) Get(ID string) *ProjectsGetCall {
 	}
 }
 
-// Do executes a ProjectsGetCall request call. Exactly one of *ProjectsItem or error will be non-nil.
+// Do executes a ProjectsGetCall request call. Exactly one of *ProjectsItem or
+// error will be non-nil.
 func (c *ProjectsGetCall) Do() (*ProjectsItem, error) {
 	urls := c.s.baseURL + "/projects/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -6612,6 +7155,9 @@ func (c *ProjectsGetCall) Do() (*ProjectsItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -6647,44 +7193,44 @@ type ProjectsUsersItem struct {
 	ID            int64       `json:"id"`
 	Occurrence    int64       `json:"occurrence"`
 	Project       struct {
-		ParentID interface{} `json:"parent_id"`
 		ID       int64       `json:"id"`
 		Name     string      `json:"name"`
 		Slug     string      `json:"slug"`
+		ParentID interface{} `json:"parent_id"`
 	} `json:"project"`
 	Status string `json:"status"`
 	Teams  []struct {
-		ID            int64       `json:"id"`
-		UpdatedAt     time.Time   `json:"updated_at"`
-		TerminatingAt interface{} `json:"terminating_at"`
-		Users         []struct {
+		ID               int64       `json:"id"`
+		URL              string      `json:"url"`
+		FinalMark        interface{} `json:"final_mark"`
+		ProjectID        int64       `json:"project_id"`
+		UpdatedAt        time.Time   `json:"updated_at"`
+		Locked           bool        `json:"locked?"`
+		Status           string      `json:"status"`
+		TerminatingAt    interface{} `json:"terminating_at"`
+		LockedAt         time.Time   `json:"locked_at"`
+		ProjectSessionID int64       `json:"project_session_id"`
+		CreatedAt        time.Time   `json:"created_at"`
+		RepoURL          interface{} `json:"repo_url"`
+		RepoUUID         string      `json:"repo_uuid"`
+		ClosedAt         time.Time   `json:"closed_at"`
+		Name             string      `json:"name"`
+		Users            []struct {
+			ID             int64  `json:"id"`
 			Login          string `json:"login"`
 			URL            string `json:"url"`
 			Leader         bool   `json:"leader"`
 			Occurrence     int64  `json:"occurrence"`
 			Validated      bool   `json:"validated"`
 			ProjectsUserID int64  `json:"projects_user_id"`
-			ID             int64  `json:"id"`
 		} `json:"users"`
-		Locked           bool        `json:"locked?"`
-		RepoURL          interface{} `json:"repo_url"`
-		ClosedAt         time.Time   `json:"closed_at"`
-		FinalMark        interface{} `json:"final_mark"`
-		ProjectID        int64       `json:"project_id"`
-		Validated        interface{} `json:"validated?"`
-		Closed           bool        `json:"closed?"`
-		LockedAt         time.Time   `json:"locked_at"`
-		ProjectSessionID int64       `json:"project_session_id"`
-		Name             string      `json:"name"`
-		URL              string      `json:"url"`
-		CreatedAt        time.Time   `json:"created_at"`
-		RepoUUID         string      `json:"repo_uuid"`
-		Status           string      `json:"status"`
+		Validated interface{} `json:"validated?"`
+		Closed    bool        `json:"closed?"`
 	} `json:"teams"`
 	User struct {
+		URL   string `json:"url"`
 		ID    int64  `json:"id"`
 		Login string `json:"login"`
-		URL   string `json:"url"`
 	} `json:"user"`
 	Validated interface{} `json:"validated?"`
 }
@@ -6709,13 +7255,15 @@ func (s *ProjectsUsersService) List() *ProjectsUsersListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return ProjectsUsers matching the specified setting.
+// P sets an optional parameter and its values: Only return ProjectsUsers
+// matching the specified setting.
 func (c *ProjectsUsersListCall) P(key string, values []string) *ProjectsUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a ProjectsUsersListCall request call. Exactly one of *ListProjectsUsersResponse or error will be non-nil.
+// Do executes a ProjectsUsersListCall request call. Exactly one of
+// *ListProjectsUsersResponse or error will be non-nil.
 func (c *ProjectsUsersListCall) Do() (*ListProjectsUsersResponse, error) {
 	urls := c.s.baseURL + "/projects_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -6724,6 +7272,9 @@ func (c *ProjectsUsersListCall) Do() (*ListProjectsUsersResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -6752,7 +7303,8 @@ func (s *ProjectsUsersService) Get(ID string) *ProjectsUsersGetCall {
 	}
 }
 
-// Do executes a ProjectsUsersGetCall request call. Exactly one of *ProjectsUsersItem or error will be non-nil.
+// Do executes a ProjectsUsersGetCall request call. Exactly one of
+// *ProjectsUsersItem or error will be non-nil.
 func (c *ProjectsUsersGetCall) Do() (*ProjectsUsersItem, error) {
 	urls := c.s.baseURL + "/projects_users/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -6761,6 +7313,9 @@ func (c *ProjectsUsersGetCall) Do() (*ProjectsUsersItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -6794,10 +7349,10 @@ type QuestsItem struct {
 	CampusID  interface{} `json:"campus_id"`
 	CreatedAt time.Time   `json:"created_at"`
 	Cursus    struct {
-		ID        int64     `json:"id"`
 		CreatedAt time.Time `json:"created_at"`
 		Name      string    `json:"name"`
 		Slug      string    `json:"slug"`
+		ID        int64     `json:"id"`
 	} `json:"cursus"`
 	CursusID     int64       `json:"cursus_id"`
 	Description  string      `json:"description"`
@@ -6832,13 +7387,15 @@ func (s *QuestsService) List() *QuestsListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Quests matching the specified setting.
+// P sets an optional parameter and its values: Only return Quests matching the
+// specified setting.
 func (c *QuestsListCall) P(key string, values []string) *QuestsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a QuestsListCall request call. Exactly one of *ListQuestsResponse or error will be non-nil.
+// Do executes a QuestsListCall request call. Exactly one of *ListQuestsResponse
+// or error will be non-nil.
 func (c *QuestsListCall) Do() (*ListQuestsResponse, error) {
 	urls := c.s.baseURL + "/quests/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -6847,6 +7404,9 @@ func (c *QuestsListCall) Do() (*ListQuestsResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -6875,7 +7435,8 @@ func (s *QuestsService) Get(ID string) *QuestsGetCall {
 	}
 }
 
-// Do executes a QuestsGetCall request call. Exactly one of *QuestsItem or error will be non-nil.
+// Do executes a QuestsGetCall request call. Exactly one of *QuestsItem or error
+// will be non-nil.
 func (c *QuestsGetCall) Do() (*QuestsItem, error) {
 	urls := c.s.baseURL + "/quests/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -6884,6 +7445,9 @@ func (c *QuestsGetCall) Do() (*QuestsItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -6919,18 +7483,18 @@ type QuestsUsersItem struct {
 	ID          int64       `json:"id"`
 	Prct        interface{} `json:"prct"`
 	Quest       struct {
-		ID           int64       `json:"id"`
-		Name         string      `json:"name"`
+		UpdatedAt    time.Time   `json:"updated_at"`
+		Position     int64       `json:"position"`
 		Slug         string      `json:"slug"`
-		Kind         string      `json:"kind"`
+		Description  string      `json:"description"`
+		CursusID     int64       `json:"cursus_id"`
 		CampusID     interface{} `json:"campus_id"`
 		CreatedAt    time.Time   `json:"created_at"`
 		GradeID      interface{} `json:"grade_id"`
+		ID           int64       `json:"id"`
+		Name         string      `json:"name"`
+		Kind         string      `json:"kind"`
 		InternalName interface{} `json:"internal_name"`
-		Description  string      `json:"description"`
-		CursusID     int64       `json:"cursus_id"`
-		UpdatedAt    time.Time   `json:"updated_at"`
-		Position     int64       `json:"position"`
 	} `json:"quest"`
 	QuestID   int64     `json:"quest_id"`
 	UpdatedAt time.Time `json:"updated_at"`
@@ -6962,13 +7526,15 @@ func (s *QuestsUsersService) List() *QuestsUsersListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return QuestsUsers matching the specified setting.
+// P sets an optional parameter and its values: Only return QuestsUsers matching
+// the specified setting.
 func (c *QuestsUsersListCall) P(key string, values []string) *QuestsUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a QuestsUsersListCall request call. Exactly one of *ListQuestsUsersResponse or error will be non-nil.
+// Do executes a QuestsUsersListCall request call. Exactly one of
+// *ListQuestsUsersResponse or error will be non-nil.
 func (c *QuestsUsersListCall) Do() (*ListQuestsUsersResponse, error) {
 	urls := c.s.baseURL + "/quests_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -6977,6 +7543,9 @@ func (c *QuestsUsersListCall) Do() (*ListQuestsUsersResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -7005,7 +7574,8 @@ func (s *QuestsUsersService) Get(ID string) *QuestsUsersGetCall {
 	}
 }
 
-// Do executes a QuestsUsersGetCall request call. Exactly one of *QuestsUsersItem or error will be non-nil.
+// Do executes a QuestsUsersGetCall request call. Exactly one of
+// *QuestsUsersItem or error will be non-nil.
 func (c *QuestsUsersGetCall) Do() (*QuestsUsersItem, error) {
 	urls := c.s.baseURL + "/quests_users/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -7014,6 +7584,9 @@ func (c *QuestsUsersGetCall) Do() (*QuestsUsersItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -7068,13 +7641,15 @@ func (s *RolesService) List() *RolesListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Roles matching the specified setting.
+// P sets an optional parameter and its values: Only return Roles matching the
+// specified setting.
 func (c *RolesListCall) P(key string, values []string) *RolesListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a RolesListCall request call. Exactly one of *ListRolesResponse or error will be non-nil.
+// Do executes a RolesListCall request call. Exactly one of *ListRolesResponse
+// or error will be non-nil.
 func (c *RolesListCall) Do() (*ListRolesResponse, error) {
 	urls := c.s.baseURL + "/roles/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -7083,6 +7658,9 @@ func (c *RolesListCall) Do() (*ListRolesResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -7111,7 +7689,8 @@ func (s *RolesService) Get(ID string) *RolesGetCall {
 	}
 }
 
-// Do executes a RolesGetCall request call. Exactly one of *RolesItem or error will be non-nil.
+// Do executes a RolesGetCall request call. Exactly one of *RolesItem or error
+// will be non-nil.
 func (c *RolesGetCall) Do() (*RolesItem, error) {
 	urls := c.s.baseURL + "/roles/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -7120,6 +7699,9 @@ func (c *RolesGetCall) Do() (*RolesItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -7137,7 +7719,8 @@ func (c *RolesGetCall) Do() (*RolesItem, error) {
 
 // delete
 
-// Roles description: Grants particular privileges to entities like users and applications
+// Roles description: Grants particular privileges to entities like users and
+// applications
 func Roles(s *Service) *RolesService {
 	return &RolesService{s: s}
 }
@@ -7151,17 +7734,17 @@ type RolesEntitiesService struct {
 type RolesEntitiesItem struct {
 	CreatedAt time.Time `json:"created_at"`
 	Entity    struct {
-		Website     interface{}   `json:"website"`
-		Public      bool          `json:"public"`
-		Owner       struct{}      `json:"owner"`
-		ID          int64         `json:"id"`
 		Description interface{}   `json:"description"`
 		Image       interface{}   `json:"image"`
 		UpdatedAt   time.Time     `json:"updated_at"`
-		RateLimit   int64         `json:"rate_limit"`
+		ID          int64         `json:"id"`
 		Name        string        `json:"name"`
+		Website     interface{}   `json:"website"`
+		Public      bool          `json:"public"`
 		Scopes      []interface{} `json:"scopes"`
 		CreatedAt   time.Time     `json:"created_at"`
+		Owner       struct{}      `json:"owner"`
+		RateLimit   int64         `json:"rate_limit"`
 	} `json:"entity"`
 	EntityID   int64       `json:"entity_id"`
 	EntityType string      `json:"entity_type"`
@@ -7194,13 +7777,15 @@ func (s *RolesEntitiesService) List() *RolesEntitiesListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return RolesEntities matching the specified setting.
+// P sets an optional parameter and its values: Only return RolesEntities
+// matching the specified setting.
 func (c *RolesEntitiesListCall) P(key string, values []string) *RolesEntitiesListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a RolesEntitiesListCall request call. Exactly one of *ListRolesEntitiesResponse or error will be non-nil.
+// Do executes a RolesEntitiesListCall request call. Exactly one of
+// *ListRolesEntitiesResponse or error will be non-nil.
 func (c *RolesEntitiesListCall) Do() (*ListRolesEntitiesResponse, error) {
 	urls := c.s.baseURL + "/roles_entities/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -7209,6 +7794,9 @@ func (c *RolesEntitiesListCall) Do() (*ListRolesEntitiesResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -7237,7 +7825,8 @@ func (s *RolesEntitiesService) Get(ID string) *RolesEntitiesGetCall {
 	}
 }
 
-// Do executes a RolesEntitiesGetCall request call. Exactly one of *RolesEntitiesItem or error will be non-nil.
+// Do executes a RolesEntitiesGetCall request call. Exactly one of
+// *RolesEntitiesItem or error will be non-nil.
 func (c *RolesEntitiesGetCall) Do() (*RolesEntitiesItem, error) {
 	urls := c.s.baseURL + "/roles_entities/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -7246,6 +7835,9 @@ func (c *RolesEntitiesGetCall) Do() (*RolesEntitiesItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -7282,13 +7874,13 @@ type RulesItem struct {
 	Kind         string    `json:"kind"`
 	Name         string    `json:"name"`
 	Params       []struct {
-		CreatedAt    time.Time `json:"created_at"`
-		UpdatedAt    time.Time `json:"updated_at"`
 		DataType     string    `json:"data_type"`
 		ID           int64     `json:"id"`
 		Name         string    `json:"name"`
 		DefaultValue string    `json:"default_value"`
 		RuleID       int64     `json:"rule_id"`
+		CreatedAt    time.Time `json:"created_at"`
+		UpdatedAt    time.Time `json:"updated_at"`
 	} `json:"params"`
 	ProjectSessionsRules []interface{} `json:"project_sessions_rules"`
 	Slug                 string        `json:"slug"`
@@ -7315,13 +7907,15 @@ func (s *RulesService) List() *RulesListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Rules matching the specified setting.
+// P sets an optional parameter and its values: Only return Rules matching the
+// specified setting.
 func (c *RulesListCall) P(key string, values []string) *RulesListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a RulesListCall request call. Exactly one of *ListRulesResponse or error will be non-nil.
+// Do executes a RulesListCall request call. Exactly one of *ListRulesResponse
+// or error will be non-nil.
 func (c *RulesListCall) Do() (*ListRulesResponse, error) {
 	urls := c.s.baseURL + "/rules/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -7330,6 +7924,9 @@ func (c *RulesListCall) Do() (*ListRulesResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -7358,7 +7955,8 @@ func (s *RulesService) Get(ID string) *RulesGetCall {
 	}
 }
 
-// Do executes a RulesGetCall request call. Exactly one of *RulesItem or error will be non-nil.
+// Do executes a RulesGetCall request call. Exactly one of *RulesItem or error
+// will be non-nil.
 func (c *RulesGetCall) Do() (*RulesItem, error) {
 	urls := c.s.baseURL + "/rules/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -7367,6 +7965,9 @@ func (c *RulesGetCall) Do() (*RulesItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -7407,33 +8008,33 @@ type ScaleTeamsItem struct {
 	FilledAt       interface{}   `json:"filled_at"`
 	FinalMark      interface{}   `json:"final_mark"`
 	Flag           struct {
+		CreatedAt time.Time `json:"created_at"`
+		UpdatedAt time.Time `json:"updated_at"`
 		ID        int64     `json:"id"`
 		Name      string    `json:"name"`
 		Positive  bool      `json:"positive"`
 		Icon      string    `json:"icon"`
-		CreatedAt time.Time `json:"created_at"`
-		UpdatedAt time.Time `json:"updated_at"`
 	} `json:"flag"`
 	ID    int64 `json:"id"`
 	Scale struct {
+		ID                 int64     `json:"id"`
 		Name               string    `json:"name"`
 		Comment            string    `json:"comment"`
 		GuidelinesMd       string    `json:"guidelines_md"`
-		CreatedAt          time.Time `json:"created_at"`
-		ID                 int64     `json:"id"`
+		CorrectionNumber   int64     `json:"correction_number"`
+		Duration           int64     `json:"duration"`
 		EvaluationID       int64     `json:"evaluation_id"`
 		IsPrimary          bool      `json:"is_primary"`
 		IntroductionMd     string    `json:"introduction_md"`
 		DisclaimerMd       string    `json:"disclaimer_md"`
-		CorrectionNumber   int64     `json:"correction_number"`
-		Duration           int64     `json:"duration"`
+		CreatedAt          time.Time `json:"created_at"`
 		ManualSubscription bool      `json:"manual_subscription"`
 		Languages          []struct {
+			ID         int64     `json:"id"`
 			Name       string    `json:"name"`
 			IDentifier string    `json:"identifier"`
 			CreatedAt  time.Time `json:"created_at"`
 			UpdatedAt  time.Time `json:"updated_at"`
-			ID         int64     `json:"id"`
 		} `json:"languages"`
 	} `json:"scale"`
 	ScaleID   int64     `json:"scale_id"`
@@ -7461,13 +8062,15 @@ func (s *ScaleTeamsService) List() *ScaleTeamsListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return ScaleTeams matching the specified setting.
+// P sets an optional parameter and its values: Only return ScaleTeams matching
+// the specified setting.
 func (c *ScaleTeamsListCall) P(key string, values []string) *ScaleTeamsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a ScaleTeamsListCall request call. Exactly one of *ListScaleTeamsResponse or error will be non-nil.
+// Do executes a ScaleTeamsListCall request call. Exactly one of
+// *ListScaleTeamsResponse or error will be non-nil.
 func (c *ScaleTeamsListCall) Do() (*ListScaleTeamsResponse, error) {
 	urls := c.s.baseURL + "/scale_teams/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -7476,6 +8079,9 @@ func (c *ScaleTeamsListCall) Do() (*ListScaleTeamsResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -7504,7 +8110,8 @@ func (s *ScaleTeamsService) Get(ID string) *ScaleTeamsGetCall {
 	}
 }
 
-// Do executes a ScaleTeamsGetCall request call. Exactly one of *ScaleTeamsItem or error will be non-nil.
+// Do executes a ScaleTeamsGetCall request call. Exactly one of *ScaleTeamsItem
+// or error will be non-nil.
 func (c *ScaleTeamsGetCall) Do() (*ScaleTeamsItem, error) {
 	urls := c.s.baseURL + "/scale_teams/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -7513,6 +8120,9 @@ func (c *ScaleTeamsGetCall) Do() (*ScaleTeamsItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -7530,7 +8140,8 @@ func (c *ScaleTeamsGetCall) Do() (*ScaleTeamsItem, error) {
 
 // delete
 
-// ScaleTeams description: A defence of a team (on a project), involving an evaluator
+// ScaleTeams description: A defence of a team (on a project), involving an
+// evaluator
 func ScaleTeams(s *Service) *ScaleTeamsService {
 	return &ScaleTeamsService{s: s}
 }
@@ -7570,12 +8181,12 @@ type ScalesItem struct {
 		Name        string `json:"name"`
 		Description string `json:"description"`
 		Questions   []struct {
+			Name       string    `json:"name"`
+			Guidelines string    `json:"guidelines"`
 			Rating     string    `json:"rating"`
 			Kind       string    `json:"kind"`
 			CreatedAt  time.Time `json:"created_at"`
 			ID         int64     `json:"id"`
-			Name       string    `json:"name"`
-			Guidelines string    `json:"guidelines"`
 		} `json:"questions"`
 	} `json:"sections"`
 }
@@ -7600,13 +8211,15 @@ func (s *ScalesService) List() *ScalesListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Scales matching the specified setting.
+// P sets an optional parameter and its values: Only return Scales matching the
+// specified setting.
 func (c *ScalesListCall) P(key string, values []string) *ScalesListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a ScalesListCall request call. Exactly one of *ListScalesResponse or error will be non-nil.
+// Do executes a ScalesListCall request call. Exactly one of *ListScalesResponse
+// or error will be non-nil.
 func (c *ScalesListCall) Do() (*ListScalesResponse, error) {
 	urls := c.s.baseURL + "/scales/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -7615,6 +8228,9 @@ func (c *ScalesListCall) Do() (*ListScalesResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -7643,7 +8259,8 @@ func (s *ScalesService) Get(ID string) *ScalesGetCall {
 	}
 }
 
-// Do executes a ScalesGetCall request call. Exactly one of *ScalesItem or error will be non-nil.
+// Do executes a ScalesGetCall request call. Exactly one of *ScalesItem or error
+// will be non-nil.
 func (c *ScalesGetCall) Do() (*ScalesItem, error) {
 	urls := c.s.baseURL + "/scales/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -7652,6 +8269,9 @@ func (c *ScalesGetCall) Do() (*ScalesItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -7669,7 +8289,8 @@ func (c *ScalesGetCall) Do() (*ScalesItem, error) {
 
 // delete
 
-// Scales description: A scale is composed by questions which allows an users to rate the quality of a project .
+// Scales description: A scale is composed by questions which allows an users to
+// rate the quality of a project .
 func Scales(s *Service) *ScalesService {
 	return &ScalesService{s: s}
 }
@@ -7713,13 +8334,15 @@ func (s *ScoresService) List() *ScoresListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Scores matching the specified setting.
+// P sets an optional parameter and its values: Only return Scores matching the
+// specified setting.
 func (c *ScoresListCall) P(key string, values []string) *ScoresListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a ScoresListCall request call. Exactly one of *ListScoresResponse or error will be non-nil.
+// Do executes a ScoresListCall request call. Exactly one of *ListScoresResponse
+// or error will be non-nil.
 func (c *ScoresListCall) Do() (*ListScoresResponse, error) {
 	urls := c.s.baseURL + "/scores/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -7728,6 +8351,9 @@ func (c *ScoresListCall) Do() (*ListScoresResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -7756,7 +8382,8 @@ func (s *ScoresService) Get(ID string) *ScoresGetCall {
 	}
 }
 
-// Do executes a ScoresGetCall request call. Exactly one of *ScoresItem or error will be non-nil.
+// Do executes a ScoresGetCall request call. Exactly one of *ScoresItem or error
+// will be non-nil.
 func (c *ScoresGetCall) Do() (*ScoresItem, error) {
 	urls := c.s.baseURL + "/scores/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -7765,6 +8392,9 @@ func (c *ScoresGetCall) Do() (*ScoresItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -7814,13 +8444,15 @@ func (s *SkillsService) List() *SkillsListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Skills matching the specified setting.
+// P sets an optional parameter and its values: Only return Skills matching the
+// specified setting.
 func (c *SkillsListCall) P(key string, values []string) *SkillsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a SkillsListCall request call. Exactly one of *ListSkillsResponse or error will be non-nil.
+// Do executes a SkillsListCall request call. Exactly one of *ListSkillsResponse
+// or error will be non-nil.
 func (c *SkillsListCall) Do() (*ListSkillsResponse, error) {
 	urls := c.s.baseURL + "/skills/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -7829,6 +8461,9 @@ func (c *SkillsListCall) Do() (*ListSkillsResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -7857,7 +8492,8 @@ func (s *SkillsService) Get(ID string) *SkillsGetCall {
 	}
 }
 
-// Do executes a SkillsGetCall request call. Exactly one of *SkillsItem or error will be non-nil.
+// Do executes a SkillsGetCall request call. Exactly one of *SkillsItem or error
+// will be non-nil.
 func (c *SkillsGetCall) Do() (*SkillsItem, error) {
 	urls := c.s.baseURL + "/skills/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -7866,6 +8502,9 @@ func (c *SkillsGetCall) Do() (*SkillsItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -7917,13 +8556,15 @@ func (s *SlotsService) List() *SlotsListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Slots matching the specified setting.
+// P sets an optional parameter and its values: Only return Slots matching the
+// specified setting.
 func (c *SlotsListCall) P(key string, values []string) *SlotsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a SlotsListCall request call. Exactly one of *ListSlotsResponse or error will be non-nil.
+// Do executes a SlotsListCall request call. Exactly one of *ListSlotsResponse
+// or error will be non-nil.
 func (c *SlotsListCall) Do() (*ListSlotsResponse, error) {
 	urls := c.s.baseURL + "/slots/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -7932,6 +8573,9 @@ func (c *SlotsListCall) Do() (*ListSlotsResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -7960,7 +8604,8 @@ func (s *SlotsService) Get(ID string) *SlotsGetCall {
 	}
 }
 
-// Do executes a SlotsGetCall request call. Exactly one of *SlotsItem or error will be non-nil.
+// Do executes a SlotsGetCall request call. Exactly one of *SlotsItem or error
+// will be non-nil.
 func (c *SlotsGetCall) Do() (*SlotsItem, error) {
 	urls := c.s.baseURL + "/slots/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -7969,6 +8614,9 @@ func (c *SlotsGetCall) Do() (*SlotsItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -7986,7 +8634,8 @@ func (c *SlotsGetCall) Do() (*SlotsItem, error) {
 
 // delete
 
-// Slots description: The slots available to users for booking a project scale team.
+// Slots description: The slots available to users for booking a project scale
+// team.
 func Slots(s *Service) *SlotsService {
 	return &SlotsService{s: s}
 }
@@ -8024,13 +8673,15 @@ func (s *SquadsService) List() *SquadsListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Squads matching the specified setting.
+// P sets an optional parameter and its values: Only return Squads matching the
+// specified setting.
 func (c *SquadsListCall) P(key string, values []string) *SquadsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a SquadsListCall request call. Exactly one of *ListSquadsResponse or error will be non-nil.
+// Do executes a SquadsListCall request call. Exactly one of *ListSquadsResponse
+// or error will be non-nil.
 func (c *SquadsListCall) Do() (*ListSquadsResponse, error) {
 	urls := c.s.baseURL + "/squads/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -8039,6 +8690,9 @@ func (c *SquadsListCall) Do() (*ListSquadsResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -8067,7 +8721,8 @@ func (s *SquadsService) Get(ID string) *SquadsGetCall {
 	}
 }
 
-// Do executes a SquadsGetCall request call. Exactly one of *SquadsItem or error will be non-nil.
+// Do executes a SquadsGetCall request call. Exactly one of *SquadsItem or error
+// will be non-nil.
 func (c *SquadsGetCall) Do() (*SquadsItem, error) {
 	urls := c.s.baseURL + "/squads/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -8076,6 +8731,9 @@ func (c *SquadsGetCall) Do() (*SquadsItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -8125,13 +8783,15 @@ func (s *SquadsUsersService) List() *SquadsUsersListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return SquadsUsers matching the specified setting.
+// P sets an optional parameter and its values: Only return SquadsUsers matching
+// the specified setting.
 func (c *SquadsUsersListCall) P(key string, values []string) *SquadsUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a SquadsUsersListCall request call. Exactly one of *ListSquadsUsersResponse or error will be non-nil.
+// Do executes a SquadsUsersListCall request call. Exactly one of
+// *ListSquadsUsersResponse or error will be non-nil.
 func (c *SquadsUsersListCall) Do() (*ListSquadsUsersResponse, error) {
 	urls := c.s.baseURL + "/squads_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -8140,6 +8800,9 @@ func (c *SquadsUsersListCall) Do() (*ListSquadsUsersResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -8152,7 +8815,8 @@ func (c *SquadsUsersListCall) Do() (*ListSquadsUsersResponse, error) {
 	return ret, nil
 }
 
-// SquadsUsers description: A squads_users will group users inside a same coalition
+// SquadsUsers description: A squads_users will group users inside a same
+// coalition
 func SquadsUsers(s *Service) *SquadsUsersService {
 	return &SquadsUsersService{s: s}
 }
@@ -8193,13 +8857,15 @@ func (s *SubnotionsService) List() *SubnotionsListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Subnotions matching the specified setting.
+// P sets an optional parameter and its values: Only return Subnotions matching
+// the specified setting.
 func (c *SubnotionsListCall) P(key string, values []string) *SubnotionsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a SubnotionsListCall request call. Exactly one of *ListSubnotionsResponse or error will be non-nil.
+// Do executes a SubnotionsListCall request call. Exactly one of
+// *ListSubnotionsResponse or error will be non-nil.
 func (c *SubnotionsListCall) Do() (*ListSubnotionsResponse, error) {
 	urls := c.s.baseURL + "/subnotions/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -8208,6 +8874,9 @@ func (c *SubnotionsListCall) Do() (*ListSubnotionsResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -8236,7 +8905,8 @@ func (s *SubnotionsService) Get(ID string) *SubnotionsGetCall {
 	}
 }
 
-// Do executes a SubnotionsGetCall request call. Exactly one of *SubnotionsItem or error will be non-nil.
+// Do executes a SubnotionsGetCall request call. Exactly one of *SubnotionsItem
+// or error will be non-nil.
 func (c *SubnotionsGetCall) Do() (*SubnotionsItem, error) {
 	urls := c.s.baseURL + "/subnotions/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -8245,6 +8915,9 @@ func (c *SubnotionsGetCall) Do() (*SubnotionsItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -8301,13 +8974,15 @@ func (s *TagsService) List() *TagsListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Tags matching the specified setting.
+// P sets an optional parameter and its values: Only return Tags matching the
+// specified setting.
 func (c *TagsListCall) P(key string, values []string) *TagsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a TagsListCall request call. Exactly one of *ListTagsResponse or error will be non-nil.
+// Do executes a TagsListCall request call. Exactly one of *ListTagsResponse or
+// error will be non-nil.
 func (c *TagsListCall) Do() (*ListTagsResponse, error) {
 	urls := c.s.baseURL + "/tags/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -8316,6 +8991,9 @@ func (c *TagsListCall) Do() (*ListTagsResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -8344,7 +9022,8 @@ func (s *TagsService) Get(ID string) *TagsGetCall {
 	}
 }
 
-// Do executes a TagsGetCall request call. Exactly one of *TagsItem or error will be non-nil.
+// Do executes a TagsGetCall request call. Exactly one of *TagsItem or error
+// will be non-nil.
 func (c *TagsGetCall) Do() (*TagsItem, error) {
 	urls := c.s.baseURL + "/tags/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -8353,6 +9032,9 @@ func (c *TagsGetCall) Do() (*TagsItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -8370,7 +9052,8 @@ func (c *TagsGetCall) Do() (*TagsItem, error) {
 
 // delete
 
-// Tags description: Non-hierarchical keyword, acting as a meta-data and helping to describe entities.
+// Tags description: Non-hierarchical keyword, acting as a meta-data and helping
+// to describe entities.
 func Tags(s *Service) *TagsService {
 	return &TagsService{s: s}
 }
@@ -8404,13 +9087,15 @@ func (s *TeamsService) List() *TeamsListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Teams matching the specified setting.
+// P sets an optional parameter and its values: Only return Teams matching the
+// specified setting.
 func (c *TeamsListCall) P(key string, values []string) *TeamsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a TeamsListCall request call. Exactly one of *ListTeamsResponse or error will be non-nil.
+// Do executes a TeamsListCall request call. Exactly one of *ListTeamsResponse
+// or error will be non-nil.
 func (c *TeamsListCall) Do() (*ListTeamsResponse, error) {
 	urls := c.s.baseURL + "/teams/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -8419,6 +9104,9 @@ func (c *TeamsListCall) Do() (*ListTeamsResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -8447,7 +9135,8 @@ func (s *TeamsService) Get(ID string) *TeamsGetCall {
 	}
 }
 
-// Do executes a TeamsGetCall request call. Exactly one of *TeamsItem or error will be non-nil.
+// Do executes a TeamsGetCall request call. Exactly one of *TeamsItem or error
+// will be non-nil.
 func (c *TeamsGetCall) Do() (*TeamsItem, error) {
 	urls := c.s.baseURL + "/teams/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -8456,6 +9145,9 @@ func (c *TeamsGetCall) Do() (*TeamsItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -8520,13 +9212,15 @@ func (s *TeamsUploadsService) List() *TeamsUploadsListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return TeamsUploads matching the specified setting.
+// P sets an optional parameter and its values: Only return TeamsUploads
+// matching the specified setting.
 func (c *TeamsUploadsListCall) P(key string, values []string) *TeamsUploadsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a TeamsUploadsListCall request call. Exactly one of *ListTeamsUploadsResponse or error will be non-nil.
+// Do executes a TeamsUploadsListCall request call. Exactly one of
+// *ListTeamsUploadsResponse or error will be non-nil.
 func (c *TeamsUploadsListCall) Do() (*ListTeamsUploadsResponse, error) {
 	urls := c.s.baseURL + "/teams_uploads/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -8535,6 +9229,9 @@ func (c *TeamsUploadsListCall) Do() (*ListTeamsUploadsResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -8563,7 +9260,8 @@ func (s *TeamsUploadsService) Get(ID string) *TeamsUploadsGetCall {
 	}
 }
 
-// Do executes a TeamsUploadsGetCall request call. Exactly one of *TeamsUploadsItem or error will be non-nil.
+// Do executes a TeamsUploadsGetCall request call. Exactly one of
+// *TeamsUploadsItem or error will be non-nil.
 func (c *TeamsUploadsGetCall) Do() (*TeamsUploadsItem, error) {
 	urls := c.s.baseURL + "/teams_uploads/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -8572,6 +9270,9 @@ func (c *TeamsUploadsGetCall) Do() (*TeamsUploadsItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -8589,7 +9290,8 @@ func (c *TeamsUploadsGetCall) Do() (*TeamsUploadsItem, error) {
 
 // delete
 
-// TeamsUploads description: An uploaded mark for a team, given by a bot (like the Moulinette), without any defence.
+// TeamsUploads description: An uploaded mark for a team, given by a bot (like
+// the Moulinette), without any defence.
 func TeamsUploads(s *Service) *TeamsUploadsService {
 	return &TeamsUploadsService{s: s}
 }
@@ -8606,32 +9308,32 @@ type TeamsUsersItem struct {
 	Leader     bool      `json:"leader"`
 	Occurrence int64     `json:"occurrence"`
 	Team       struct {
-		URL           string      `json:"url"`
-		FinalMark     interface{} `json:"final_mark"`
-		ProjectID     int64       `json:"project_id"`
-		TerminatingAt interface{} `json:"terminating_at"`
-		Validated     interface{} `json:"validated?"`
-		ID            int64       `json:"id"`
-		CreatedAt     time.Time   `json:"created_at"`
-		UpdatedAt     time.Time   `json:"updated_at"`
-		Status        string      `json:"status"`
-		Locked        bool        `json:"locked?"`
-		RepoURL       interface{} `json:"repo_url"`
-		ClosedAt      interface{} `json:"closed_at"`
-		Users         []struct {
+		Users []struct {
+			Occurrence     int64  `json:"occurrence"`
+			Validated      bool   `json:"validated"`
 			ProjectsUserID int64  `json:"projects_user_id"`
 			ID             int64  `json:"id"`
 			Login          string `json:"login"`
 			URL            string `json:"url"`
 			Leader         bool   `json:"leader"`
-			Occurrence     int64  `json:"occurrence"`
-			Validated      bool   `json:"validated"`
 		} `json:"users"`
+		Locked           bool        `json:"locked?"`
+		Validated        interface{} `json:"validated?"`
 		Closed           bool        `json:"closed?"`
-		RepoUUID         string      `json:"repo_uuid"`
-		Name             string      `json:"name"`
-		LockedAt         interface{} `json:"locked_at"`
+		ClosedAt         interface{} `json:"closed_at"`
+		UpdatedAt        time.Time   `json:"updated_at"`
+		TerminatingAt    interface{} `json:"terminating_at"`
 		ProjectSessionID int64       `json:"project_session_id"`
+		ID               int64       `json:"id"`
+		Name             string      `json:"name"`
+		URL              string      `json:"url"`
+		FinalMark        interface{} `json:"final_mark"`
+		CreatedAt        time.Time   `json:"created_at"`
+		ProjectID        int64       `json:"project_id"`
+		Status           string      `json:"status"`
+		RepoURL          interface{} `json:"repo_url"`
+		RepoUUID         string      `json:"repo_uuid"`
+		LockedAt         interface{} `json:"locked_at"`
 	} `json:"team"`
 	TeamID int64 `json:"team_id"`
 	User   struct {
@@ -8663,13 +9365,15 @@ func (s *TeamsUsersService) List() *TeamsUsersListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return TeamsUsers matching the specified setting.
+// P sets an optional parameter and its values: Only return TeamsUsers matching
+// the specified setting.
 func (c *TeamsUsersListCall) P(key string, values []string) *TeamsUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a TeamsUsersListCall request call. Exactly one of *ListTeamsUsersResponse or error will be non-nil.
+// Do executes a TeamsUsersListCall request call. Exactly one of
+// *ListTeamsUsersResponse or error will be non-nil.
 func (c *TeamsUsersListCall) Do() (*ListTeamsUsersResponse, error) {
 	urls := c.s.baseURL + "/teams_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -8678,6 +9382,9 @@ func (c *TeamsUsersListCall) Do() (*ListTeamsUsersResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -8706,7 +9413,8 @@ func (s *TeamsUsersService) Get(ID string) *TeamsUsersGetCall {
 	}
 }
 
-// Do executes a TeamsUsersGetCall request call. Exactly one of *TeamsUsersItem or error will be non-nil.
+// Do executes a TeamsUsersGetCall request call. Exactly one of *TeamsUsersItem
+// or error will be non-nil.
 func (c *TeamsUsersGetCall) Do() (*TeamsUsersItem, error) {
 	urls := c.s.baseURL + "/teams_users/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -8715,6 +9423,9 @@ func (c *TeamsUsersGetCall) Do() (*TeamsUsersItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -8766,13 +9477,15 @@ func (s *TitlesService) List() *TitlesListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Titles matching the specified setting.
+// P sets an optional parameter and its values: Only return Titles matching the
+// specified setting.
 func (c *TitlesListCall) P(key string, values []string) *TitlesListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a TitlesListCall request call. Exactly one of *ListTitlesResponse or error will be non-nil.
+// Do executes a TitlesListCall request call. Exactly one of *ListTitlesResponse
+// or error will be non-nil.
 func (c *TitlesListCall) Do() (*ListTitlesResponse, error) {
 	urls := c.s.baseURL + "/titles/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -8781,6 +9494,9 @@ func (c *TitlesListCall) Do() (*ListTitlesResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -8809,7 +9525,8 @@ func (s *TitlesService) Get(ID string) *TitlesGetCall {
 	}
 }
 
-// Do executes a TitlesGetCall request call. Exactly one of *TitlesItem or error will be non-nil.
+// Do executes a TitlesGetCall request call. Exactly one of *TitlesItem or error
+// will be non-nil.
 func (c *TitlesGetCall) Do() (*TitlesItem, error) {
 	urls := c.s.baseURL + "/titles/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -8818,6 +9535,9 @@ func (c *TitlesGetCall) Do() (*TitlesItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -8835,7 +9555,8 @@ func (c *TitlesGetCall) Do() (*TitlesItem, error) {
 
 // delete
 
-// Titles description: Titles a user can obtain, generally through achievements. It will be displayed on their profile and on the forum.
+// Titles description: Titles a user can obtain, generally through achievements.
+// It will be displayed on their profile and on the forum.
 func Titles(s *Service) *TitlesService {
 	return &TitlesService{s: s}
 }
@@ -8869,13 +9590,15 @@ func (s *TitlesUsersService) List() *TitlesUsersListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return TitlesUsers matching the specified setting.
+// P sets an optional parameter and its values: Only return TitlesUsers matching
+// the specified setting.
 func (c *TitlesUsersListCall) P(key string, values []string) *TitlesUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a TitlesUsersListCall request call. Exactly one of *ListTitlesUsersResponse or error will be non-nil.
+// Do executes a TitlesUsersListCall request call. Exactly one of
+// *ListTitlesUsersResponse or error will be non-nil.
 func (c *TitlesUsersListCall) Do() (*ListTitlesUsersResponse, error) {
 	urls := c.s.baseURL + "/titles_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -8884,6 +9607,9 @@ func (c *TitlesUsersListCall) Do() (*ListTitlesUsersResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -8912,7 +9638,8 @@ func (s *TitlesUsersService) Get(ID string) *TitlesUsersGetCall {
 	}
 }
 
-// Do executes a TitlesUsersGetCall request call. Exactly one of *TitlesUsersItem or error will be non-nil.
+// Do executes a TitlesUsersGetCall request call. Exactly one of
+// *TitlesUsersItem or error will be non-nil.
 func (c *TitlesUsersGetCall) Do() (*TitlesUsersItem, error) {
 	urls := c.s.baseURL + "/titles_users/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -8921,6 +9648,9 @@ func (c *TitlesUsersGetCall) Do() (*TitlesUsersItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -8955,9 +9685,9 @@ type TransactionsItem struct {
 	TransactableID   int64  `json:"transactable_id"`
 	TransactableType string `json:"transactable_type"`
 	User             struct {
-		ID    int64  `json:"id"`
 		Login string `json:"login"`
 		URL   string `json:"url"`
+		ID    int64  `json:"id"`
 	} `json:"user"`
 	UserID int64 `json:"user_id"`
 	Value  int64 `json:"value"`
@@ -8983,13 +9713,15 @@ func (s *TransactionsService) List() *TransactionsListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Transactions matching the specified setting.
+// P sets an optional parameter and its values: Only return Transactions
+// matching the specified setting.
 func (c *TransactionsListCall) P(key string, values []string) *TransactionsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a TransactionsListCall request call. Exactly one of *ListTransactionsResponse or error will be non-nil.
+// Do executes a TransactionsListCall request call. Exactly one of
+// *ListTransactionsResponse or error will be non-nil.
 func (c *TransactionsListCall) Do() (*ListTransactionsResponse, error) {
 	urls := c.s.baseURL + "/transactions/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -8998,6 +9730,9 @@ func (c *TransactionsListCall) Do() (*ListTransactionsResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -9026,7 +9761,8 @@ func (s *TransactionsService) Get(ID string) *TransactionsGetCall {
 	}
 }
 
-// Do executes a TransactionsGetCall request call. Exactly one of *TransactionsItem or error will be non-nil.
+// Do executes a TransactionsGetCall request call. Exactly one of
+// *TransactionsItem or error will be non-nil.
 func (c *TransactionsGetCall) Do() (*TransactionsItem, error) {
 	urls := c.s.baseURL + "/transactions/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -9035,6 +9771,9 @@ func (c *TransactionsGetCall) Do() (*TransactionsItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -9075,18 +9814,18 @@ type TranslationsItem struct {
 	TranslatableID        int64  `json:"translatable_id"`
 	TranslatableType      string `json:"translatable_type"`
 	TranslationsStructure struct {
-		SearchableBy       []string  `json:"searchable_by"`
-		IDentifiedBy       []string  `json:"identified_by"`
-		StructuresKind     string    `json:"structures_kind"`
-		TypeName           string    `json:"type_name"`
-		CreatedAt          time.Time `json:"created_at"`
-		ID                 int64     `json:"id"`
-		UpToDate           bool      `json:"up_to_date"`
+		ID                 int64    `json:"id"`
+		IDentifiedBy       []string `json:"identified_by"`
+		StructuresKind     string   `json:"structures_kind"`
+		UpToDate           bool     `json:"up_to_date"`
 		FieldsOrganisation struct {
 			Name        string `json:"name"`
 			Description string `json:"description"`
 		} `json:"fields_organisation"`
-		UpdatedAt time.Time `json:"updated_at"`
+		TypeName     string    `json:"type_name"`
+		SearchableBy []string  `json:"searchable_by"`
+		CreatedAt    time.Time `json:"created_at"`
+		UpdatedAt    time.Time `json:"updated_at"`
 	} `json:"translations_structure"`
 	TranslationsStructureID int64       `json:"translations_structure_id"`
 	UpToDate                bool        `json:"up_to_date"`
@@ -9114,13 +9853,15 @@ func (s *TranslationsService) List() *TranslationsListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Translations matching the specified setting.
+// P sets an optional parameter and its values: Only return Translations
+// matching the specified setting.
 func (c *TranslationsListCall) P(key string, values []string) *TranslationsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a TranslationsListCall request call. Exactly one of *ListTranslationsResponse or error will be non-nil.
+// Do executes a TranslationsListCall request call. Exactly one of
+// *ListTranslationsResponse or error will be non-nil.
 func (c *TranslationsListCall) Do() (*ListTranslationsResponse, error) {
 	urls := c.s.baseURL + "/translations/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -9129,6 +9870,9 @@ func (c *TranslationsListCall) Do() (*ListTranslationsResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -9157,7 +9901,8 @@ func (s *TranslationsService) Get(ID string) *TranslationsGetCall {
 	}
 }
 
-// Do executes a TranslationsGetCall request call. Exactly one of *TranslationsItem or error will be non-nil.
+// Do executes a TranslationsGetCall request call. Exactly one of
+// *TranslationsItem or error will be non-nil.
 func (c *TranslationsGetCall) Do() (*TranslationsItem, error) {
 	urls := c.s.baseURL + "/translations/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -9166,6 +9911,9 @@ func (c *TranslationsGetCall) Do() (*TranslationsItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -9240,7 +9988,8 @@ type ListUserCandidaturesResponse struct {
 	UserCandidatures []*UserCandidaturesItem
 }
 
-// List returns a UserCandidaturesListCall which can request data from the 42 API.
+// List returns a UserCandidaturesListCall which can request data from the 42
+// API.
 func (s *UserCandidaturesService) List() *UserCandidaturesListCall {
 	return &UserCandidaturesListCall{
 		s:         s.s,
@@ -9248,13 +9997,15 @@ func (s *UserCandidaturesService) List() *UserCandidaturesListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return UserCandidatures matching the specified setting.
+// P sets an optional parameter and its values: Only return UserCandidatures
+// matching the specified setting.
 func (c *UserCandidaturesListCall) P(key string, values []string) *UserCandidaturesListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a UserCandidaturesListCall request call. Exactly one of *ListUserCandidaturesResponse or error will be non-nil.
+// Do executes a UserCandidaturesListCall request call. Exactly one of
+// *ListUserCandidaturesResponse or error will be non-nil.
 func (c *UserCandidaturesListCall) Do() (*ListUserCandidaturesResponse, error) {
 	urls := c.s.baseURL + "/user_candidatures/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -9263,6 +10014,9 @@ func (c *UserCandidaturesListCall) Do() (*ListUserCandidaturesResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -9291,7 +10045,8 @@ func (s *UserCandidaturesService) Get(ID string) *UserCandidaturesGetCall {
 	}
 }
 
-// Do executes a UserCandidaturesGetCall request call. Exactly one of *UserCandidaturesItem or error will be non-nil.
+// Do executes a UserCandidaturesGetCall request call. Exactly one of
+// *UserCandidaturesItem or error will be non-nil.
 func (c *UserCandidaturesGetCall) Do() (*UserCandidaturesItem, error) {
 	urls := c.s.baseURL + "/user_candidatures/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -9300,6 +10055,9 @@ func (c *UserCandidaturesGetCall) Do() (*UserCandidaturesItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -9336,11 +10094,11 @@ type UsersItem struct {
 		Name     string `json:"name"`
 		TimeZone string `json:"time_zone"`
 		Language struct {
+			UpdatedAt  time.Time `json:"updated_at"`
+			ID         int64     `json:"id"`
 			Name       string    `json:"name"`
 			IDentifier string    `json:"identifier"`
 			CreatedAt  time.Time `json:"created_at"`
-			UpdatedAt  time.Time `json:"updated_at"`
-			ID         int64     `json:"id"`
 		} `json:"language"`
 		UsersCount  int64 `json:"users_count"`
 		VogsphereID int64 `json:"vogsphere_id"`
@@ -9353,24 +10111,24 @@ type UsersItem struct {
 	} `json:"campus_users"`
 	CorrectionPoint int64 `json:"correction_point"`
 	CursusUsers     []struct {
-		EndAt        interface{}   `json:"end_at"`
-		Level        float64       `json:"level"`
-		Skills       []interface{} `json:"skills"`
-		HasCoalition bool          `json:"has_coalition"`
+		CursusID     int64 `json:"cursus_id"`
+		HasCoalition bool  `json:"has_coalition"`
 		User         struct {
 			ID    int64  `json:"id"`
 			Login string `json:"login"`
 			URL   string `json:"url"`
 		} `json:"user"`
-		ID       int64       `json:"id"`
-		BeginAt  time.Time   `json:"begin_at"`
-		Grade    interface{} `json:"grade"`
-		CursusID int64       `json:"cursus_id"`
-		Cursus   struct {
-			Name      string    `json:"name"`
-			Slug      string    `json:"slug"`
+		BeginAt time.Time     `json:"begin_at"`
+		EndAt   interface{}   `json:"end_at"`
+		Grade   interface{}   `json:"grade"`
+		Level   float64       `json:"level"`
+		Skills  []interface{} `json:"skills"`
+		ID      int64         `json:"id"`
+		Cursus  struct {
 			ID        int64     `json:"id"`
 			CreatedAt time.Time `json:"created_at"`
+			Name      string    `json:"name"`
+			Slug      string    `json:"slug"`
 		} `json:"cursus"`
 	} `json:"cursus_users"`
 	Displayname     string `json:"displayname"`
@@ -9389,11 +10147,11 @@ type UsersItem struct {
 	ID             int64         `json:"id"`
 	ImageURL       string        `json:"image_url"`
 	LanguagesUsers []struct {
-		ID         int64     `json:"id"`
-		LanguageID int64     `json:"language_id"`
 		UserID     int64     `json:"user_id"`
 		Position   int64     `json:"position"`
 		CreatedAt  time.Time `json:"created_at"`
+		ID         int64     `json:"id"`
+		LanguageID int64     `json:"language_id"`
 	} `json:"languages_users"`
 	LastName     string        `json:"last_name"`
 	Location     interface{}   `json:"location"`
@@ -9441,13 +10199,15 @@ func (s *UsersService) List() *UsersListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Users matching the specified setting.
+// P sets an optional parameter and its values: Only return Users matching the
+// specified setting.
 func (c *UsersListCall) P(key string, values []string) *UsersListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a UsersListCall request call. Exactly one of *ListUsersResponse or error will be non-nil.
+// Do executes a UsersListCall request call. Exactly one of *ListUsersResponse
+// or error will be non-nil.
 func (c *UsersListCall) Do() (*ListUsersResponse, error) {
 	urls := c.s.baseURL + "/users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -9456,6 +10216,9 @@ func (c *UsersListCall) Do() (*ListUsersResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -9484,7 +10247,8 @@ func (s *UsersService) Get(ID string) *UsersGetCall {
 	}
 }
 
-// Do executes a UsersGetCall request call. Exactly one of *UsersItem or error will be non-nil.
+// Do executes a UsersGetCall request call. Exactly one of *UsersItem or error
+// will be non-nil.
 func (c *UsersGetCall) Do() (*UsersItem, error) {
 	urls := c.s.baseURL + "/users/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -9493,6 +10257,9 @@ func (c *UsersGetCall) Do() (*UsersItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -9546,13 +10313,15 @@ func (s *WaitlistsService) List() *WaitlistsListCall {
 	}
 }
 
-// P sets an optional parameter and its values: Only return Waitlists matching the specified setting.
+// P sets an optional parameter and its values: Only return Waitlists matching
+// the specified setting.
 func (c *WaitlistsListCall) P(key string, values []string) *WaitlistsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a WaitlistsListCall request call. Exactly one of *ListWaitlistsResponse or error will be non-nil.
+// Do executes a WaitlistsListCall request call. Exactly one of
+// *ListWaitlistsResponse or error will be non-nil.
 func (c *WaitlistsListCall) Do() (*ListWaitlistsResponse, error) {
 	urls := c.s.baseURL + "/waitlists/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -9561,6 +10330,9 @@ func (c *WaitlistsListCall) Do() (*ListWaitlistsResponse, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header
@@ -9589,7 +10361,8 @@ func (s *WaitlistsService) Get(ID string) *WaitlistsGetCall {
 	}
 }
 
-// Do executes a WaitlistsGetCall request call. Exactly one of *WaitlistsItem or error will be non-nil.
+// Do executes a WaitlistsGetCall request call. Exactly one of *WaitlistsItem or
+// error will be non-nil.
 func (c *WaitlistsGetCall) Do() (*WaitlistsItem, error) {
 	urls := c.s.baseURL + "/waitlists/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -9598,6 +10371,9 @@ func (c *WaitlistsGetCall) Do() (*WaitlistsItem, error) {
 	}
 	res, err := c.s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	c.header = res.Header

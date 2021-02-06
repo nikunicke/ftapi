@@ -47,6 +47,8 @@ func NewService(gt GrantType) (*Service, error) {
 	}
 }
 
+// Me gets the current users userdata. Exactly one of *UsersItem or error will
+// be non-nil. Any non 2xx status code is an error
 func (s *Service) Me() (*UsersItem, error) {
 	urls := s.baseURL + "/me"
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -55,6 +57,9 @@ func (s *Service) Me() (*UsersItem, error) {
 	}
 	res, err := s.Do(req)
 	if err != nil {
+		return nil, err
+	}
+	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
 	ret := &UsersItem{}

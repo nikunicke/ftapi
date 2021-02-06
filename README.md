@@ -1,6 +1,8 @@
-![logo](https://github.com/nikunicke/ftapi/blob/master/resources/ftapi.png)
+<p align="center">
+  <img src="https://github.com/nikunicke/ftapi/blob/master/resources/ftapi.png" width="500"/>
+</p>
 
-# :construction: ftAPI - WORK IN PROGRESS :construction:
+# :construction: WORK IN PROGRESS :construction:
 
 ```terminal
 go get not available yet...

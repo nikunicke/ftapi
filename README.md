@@ -1,3 +1,5 @@
+![logo](https://github.com/nikunicke/ftapi/blob/master/resources/ftapi.png)
+
 # :construction: ftAPI - WORK IN PROGRESS :construction:
 
 ```terminal

@@ -5,7 +5,7 @@
 # :construction: WORK IN PROGRESS :construction:
 
 ```terminal
-go get not available yet...
+go get github.com/nikunicke/ftapi
 ```
 
 The ftapi Go package lets you view and manage all available data from the [42 API](https://api.intra.42.fr/apidoc). The implementation of the package is based on a type of [Discovery Document](https://developers.google.com/discovery/v1/reference/apis) found in the 42 API documentation. You can view it [here](https://raw.githubusercontent.com/nikunicke/ftapi/master/ftapi.json). Unfortunately the document is missing crucial data, which results in some caveats on the package.

@@ -13,6 +13,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"net/url"
+	"strconv"
 	"time"
 )
 
@@ -35,6 +36,7 @@ type AccreditationsItem struct {
 // AccreditationsListCall description:
 type AccreditationsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -43,12 +45,14 @@ type AccreditationsListCall struct {
 type ListAccreditationsResponse struct {
 	Accreditations []*AccreditationsItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a AccreditationsListCall which can request data from the 42 API.
 func (s *AccreditationsService) List() *AccreditationsListCall {
 	return &AccreditationsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -59,8 +63,15 @@ func (c *AccreditationsListCall) P(key string, values []string) *AccreditationsL
 	return c
 }
 
+// PageToken get the specified page
+func (c *AccreditationsListCall) PageToken(page int) *AccreditationsListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a AccreditationsListCall request call. Exactly one of *ListAccreditationsResponse or error will be non-nil.
 func (c *AccreditationsListCall) Do() (*ListAccreditationsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/accreditations/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -85,6 +96,7 @@ func (c *AccreditationsListCall) Do() (*ListAccreditationsResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Accreditations); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -169,6 +181,7 @@ type AchievementsItem struct {
 // AchievementsListCall description:
 type AchievementsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -177,12 +190,14 @@ type AchievementsListCall struct {
 type ListAchievementsResponse struct {
 	Achievements   []*AchievementsItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a AchievementsListCall which can request data from the 42 API.
 func (s *AchievementsService) List() *AchievementsListCall {
 	return &AchievementsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -193,8 +208,15 @@ func (c *AchievementsListCall) P(key string, values []string) *AchievementsListC
 	return c
 }
 
+// PageToken get the specified page
+func (c *AchievementsListCall) PageToken(page int) *AchievementsListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a AchievementsListCall request call. Exactly one of *ListAchievementsResponse or error will be non-nil.
 func (c *AchievementsListCall) Do() (*ListAchievementsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/achievements/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -219,6 +241,7 @@ func (c *AchievementsListCall) Do() (*ListAchievementsResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Achievements); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -296,6 +319,7 @@ type AchievementsUsersItem struct {
 // AchievementsUsersListCall description:
 type AchievementsUsersListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -304,12 +328,14 @@ type AchievementsUsersListCall struct {
 type ListAchievementsUsersResponse struct {
 	AchievementsUsers []*AchievementsUsersItem
 	ServerResponse    `json:"-"`
+	NextPage          int
 }
 
 // List returns a AchievementsUsersListCall which can request data from the 42 API.
 func (s *AchievementsUsersService) List() *AchievementsUsersListCall {
 	return &AchievementsUsersListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -320,8 +346,15 @@ func (c *AchievementsUsersListCall) P(key string, values []string) *Achievements
 	return c
 }
 
+// PageToken get the specified page
+func (c *AchievementsUsersListCall) PageToken(page int) *AchievementsUsersListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a AchievementsUsersListCall request call. Exactly one of *ListAchievementsUsersResponse or error will be non-nil.
 func (c *AchievementsUsersListCall) Do() (*ListAchievementsUsersResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/achievements_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -346,6 +379,7 @@ func (c *AchievementsUsersListCall) Do() (*ListAchievementsUsersResponse, error)
 	if err := json.NewDecoder(res.Body).Decode(&(*target).AchievementsUsers); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -492,6 +526,7 @@ type AntiGravUnitsItem struct {
 // AntiGravUnitsListCall description:
 type AntiGravUnitsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -500,12 +535,14 @@ type AntiGravUnitsListCall struct {
 type ListAntiGravUnitsResponse struct {
 	AntiGravUnits  []*AntiGravUnitsItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a AntiGravUnitsListCall which can request data from the 42 API.
 func (s *AntiGravUnitsService) List() *AntiGravUnitsListCall {
 	return &AntiGravUnitsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -516,8 +553,15 @@ func (c *AntiGravUnitsListCall) P(key string, values []string) *AntiGravUnitsLis
 	return c
 }
 
+// PageToken get the specified page
+func (c *AntiGravUnitsListCall) PageToken(page int) *AntiGravUnitsListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a AntiGravUnitsListCall request call. Exactly one of *ListAntiGravUnitsResponse or error will be non-nil.
 func (c *AntiGravUnitsListCall) Do() (*ListAntiGravUnitsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/anti_grav_units/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -542,6 +586,7 @@ func (c *AntiGravUnitsListCall) Do() (*ListAntiGravUnitsResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).AntiGravUnits); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -607,6 +652,7 @@ type AntiGravUnitsUsersItem struct {
 // AntiGravUnitsUsersListCall description:
 type AntiGravUnitsUsersListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -615,12 +661,14 @@ type AntiGravUnitsUsersListCall struct {
 type ListAntiGravUnitsUsersResponse struct {
 	AntiGravUnitsUsers []*AntiGravUnitsUsersItem
 	ServerResponse     `json:"-"`
+	NextPage           int
 }
 
 // List returns a AntiGravUnitsUsersListCall which can request data from the 42 API.
 func (s *AntiGravUnitsUsersService) List() *AntiGravUnitsUsersListCall {
 	return &AntiGravUnitsUsersListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -631,8 +679,15 @@ func (c *AntiGravUnitsUsersListCall) P(key string, values []string) *AntiGravUni
 	return c
 }
 
+// PageToken get the specified page
+func (c *AntiGravUnitsUsersListCall) PageToken(page int) *AntiGravUnitsUsersListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a AntiGravUnitsUsersListCall request call. Exactly one of *ListAntiGravUnitsUsersResponse or error will be non-nil.
 func (c *AntiGravUnitsUsersListCall) Do() (*ListAntiGravUnitsUsersResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/anti_grav_units_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -657,6 +712,7 @@ func (c *AntiGravUnitsUsersListCall) Do() (*ListAntiGravUnitsUsersResponse, erro
 	if err := json.NewDecoder(res.Body).Decode(&(*target).AntiGravUnitsUsers); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -745,6 +801,7 @@ type AppsItem struct {
 // AppsListCall description:
 type AppsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -753,12 +810,14 @@ type AppsListCall struct {
 type ListAppsResponse struct {
 	Apps           []*AppsItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a AppsListCall which can request data from the 42 API.
 func (s *AppsService) List() *AppsListCall {
 	return &AppsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -769,8 +828,15 @@ func (c *AppsListCall) P(key string, values []string) *AppsListCall {
 	return c
 }
 
+// PageToken get the specified page
+func (c *AppsListCall) PageToken(page int) *AppsListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a AppsListCall request call. Exactly one of *ListAppsResponse or error will be non-nil.
 func (c *AppsListCall) Do() (*ListAppsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/apps/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -795,6 +861,7 @@ func (c *AppsListCall) Do() (*ListAppsResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Apps); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -858,9 +925,9 @@ type AttachmentsItem struct {
 	CreatedAt time.Time `json:"created_at"`
 	ID        int64     `json:"id"`
 	Language  struct {
+		IDentifier string `json:"identifier"`
 		ID         int64  `json:"id"`
 		Name       string `json:"name"`
-		IDentifier string `json:"identifier"`
 	} `json:"language"`
 	Name      string `json:"name"`
 	PageCount int64  `json:"page_count"`
@@ -884,6 +951,7 @@ type AttachmentsItem struct {
 // AttachmentsListCall description:
 type AttachmentsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -892,12 +960,14 @@ type AttachmentsListCall struct {
 type ListAttachmentsResponse struct {
 	Attachments    []*AttachmentsItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a AttachmentsListCall which can request data from the 42 API.
 func (s *AttachmentsService) List() *AttachmentsListCall {
 	return &AttachmentsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -908,8 +978,15 @@ func (c *AttachmentsListCall) P(key string, values []string) *AttachmentsListCal
 	return c
 }
 
+// PageToken get the specified page
+func (c *AttachmentsListCall) PageToken(page int) *AttachmentsListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a AttachmentsListCall request call. Exactly one of *ListAttachmentsResponse or error will be non-nil.
 func (c *AttachmentsListCall) Do() (*ListAttachmentsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/attachments/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -934,6 +1011,7 @@ func (c *AttachmentsListCall) Do() (*ListAttachmentsResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Attachments); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -1010,6 +1088,7 @@ type BalancesItem struct {
 // BalancesListCall description:
 type BalancesListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -1018,12 +1097,14 @@ type BalancesListCall struct {
 type ListBalancesResponse struct {
 	Balances       []*BalancesItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a BalancesListCall which can request data from the 42 API.
 func (s *BalancesService) List() *BalancesListCall {
 	return &BalancesListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -1034,8 +1115,15 @@ func (c *BalancesListCall) P(key string, values []string) *BalancesListCall {
 	return c
 }
 
+// PageToken get the specified page
+func (c *BalancesListCall) PageToken(page int) *BalancesListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a BalancesListCall request call. Exactly one of *ListBalancesResponse or error will be non-nil.
 func (c *BalancesListCall) Do() (*ListBalancesResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/balances/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -1060,6 +1148,7 @@ func (c *BalancesListCall) Do() (*ListBalancesResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Balances); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -1133,6 +1222,7 @@ type BlocDeadlinesItem struct {
 // BlocDeadlinesListCall description:
 type BlocDeadlinesListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -1141,12 +1231,14 @@ type BlocDeadlinesListCall struct {
 type ListBlocDeadlinesResponse struct {
 	BlocDeadlines  []*BlocDeadlinesItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a BlocDeadlinesListCall which can request data from the 42 API.
 func (s *BlocDeadlinesService) List() *BlocDeadlinesListCall {
 	return &BlocDeadlinesListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -1157,8 +1249,15 @@ func (c *BlocDeadlinesListCall) P(key string, values []string) *BlocDeadlinesLis
 	return c
 }
 
+// PageToken get the specified page
+func (c *BlocDeadlinesListCall) PageToken(page int) *BlocDeadlinesListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a BlocDeadlinesListCall request call. Exactly one of *ListBlocDeadlinesResponse or error will be non-nil.
 func (c *BlocDeadlinesListCall) Do() (*ListBlocDeadlinesResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/bloc_deadlines/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -1183,6 +1282,7 @@ func (c *BlocDeadlinesListCall) Do() (*ListBlocDeadlinesResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).BlocDeadlines); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -1248,13 +1348,13 @@ type BlocsService struct {
 type BlocsItem struct {
 	CampusID   int64 `json:"campus_id"`
 	Coalitions []struct {
+		Score    int64  `json:"score"`
 		UserID   int64  `json:"user_id"`
 		ID       int64  `json:"id"`
 		Name     string `json:"name"`
 		Slug     string `json:"slug"`
 		ImageURL string `json:"image_url"`
 		Color    string `json:"color"`
-		Score    int64  `json:"score"`
 	} `json:"coalitions"`
 	CreatedAt time.Time `json:"created_at"`
 	CursusID  int64     `json:"cursus_id"`
@@ -1268,6 +1368,7 @@ type BlocsItem struct {
 // BlocsListCall description:
 type BlocsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -1276,12 +1377,14 @@ type BlocsListCall struct {
 type ListBlocsResponse struct {
 	Blocs          []*BlocsItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a BlocsListCall which can request data from the 42 API.
 func (s *BlocsService) List() *BlocsListCall {
 	return &BlocsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -1292,8 +1395,15 @@ func (c *BlocsListCall) P(key string, values []string) *BlocsListCall {
 	return c
 }
 
+// PageToken get the specified page
+func (c *BlocsListCall) PageToken(page int) *BlocsListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a BlocsListCall request call. Exactly one of *ListBlocsResponse or error will be non-nil.
 func (c *BlocsListCall) Do() (*ListBlocsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/blocs/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -1318,6 +1428,7 @@ func (c *BlocsListCall) Do() (*ListBlocsResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Blocs); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -1383,6 +1494,7 @@ type BroadcastsItem struct {
 // BroadcastsListCall description:
 type BroadcastsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -1391,12 +1503,14 @@ type BroadcastsListCall struct {
 type ListBroadcastsResponse struct {
 	Broadcasts     []*BroadcastsItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a BroadcastsListCall which can request data from the 42 API.
 func (s *BroadcastsService) List() *BroadcastsListCall {
 	return &BroadcastsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -1407,8 +1521,15 @@ func (c *BroadcastsListCall) P(key string, values []string) *BroadcastsListCall 
 	return c
 }
 
+// PageToken get the specified page
+func (c *BroadcastsListCall) PageToken(page int) *BroadcastsListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a BroadcastsListCall request call. Exactly one of *ListBroadcastsResponse or error will be non-nil.
 func (c *BroadcastsListCall) Do() (*ListBroadcastsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/broadcasts/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -1433,6 +1554,7 @@ func (c *BroadcastsListCall) Do() (*ListBroadcastsResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Broadcasts); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -1466,6 +1588,7 @@ type CampusItem struct {
 // CampusListCall description:
 type CampusListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -1474,12 +1597,14 @@ type CampusListCall struct {
 type ListCampusResponse struct {
 	Campus         []*CampusItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a CampusListCall which can request data from the 42 API.
 func (s *CampusService) List() *CampusListCall {
 	return &CampusListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -1490,8 +1615,15 @@ func (c *CampusListCall) P(key string, values []string) *CampusListCall {
 	return c
 }
 
+// PageToken get the specified page
+func (c *CampusListCall) PageToken(page int) *CampusListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a CampusListCall request call. Exactly one of *ListCampusResponse or error will be non-nil.
 func (c *CampusListCall) Do() (*ListCampusResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/campus/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -1516,6 +1648,7 @@ func (c *CampusListCall) Do() (*ListCampusResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Campus); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -1590,6 +1723,7 @@ type CampusUsersItem struct {
 // CampusUsersListCall description:
 type CampusUsersListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -1598,12 +1732,14 @@ type CampusUsersListCall struct {
 type ListCampusUsersResponse struct {
 	CampusUsers    []*CampusUsersItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a CampusUsersListCall which can request data from the 42 API.
 func (s *CampusUsersService) List() *CampusUsersListCall {
 	return &CampusUsersListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -1614,8 +1750,15 @@ func (c *CampusUsersListCall) P(key string, values []string) *CampusUsersListCal
 	return c
 }
 
+// PageToken get the specified page
+func (c *CampusUsersListCall) PageToken(page int) *CampusUsersListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a CampusUsersListCall request call. Exactly one of *ListCampusUsersResponse or error will be non-nil.
 func (c *CampusUsersListCall) Do() (*ListCampusUsersResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/campus_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -1640,6 +1783,7 @@ func (c *CampusUsersListCall) Do() (*ListCampusUsersResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).CampusUsers); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -1711,6 +1855,7 @@ type CampusUsersActivitiesItem struct {
 // CampusUsersActivitiesListCall description:
 type CampusUsersActivitiesListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -1719,12 +1864,14 @@ type CampusUsersActivitiesListCall struct {
 type ListCampusUsersActivitiesResponse struct {
 	CampusUsersActivities []*CampusUsersActivitiesItem
 	ServerResponse        `json:"-"`
+	NextPage              int
 }
 
 // List returns a CampusUsersActivitiesListCall which can request data from the 42 API.
 func (s *CampusUsersActivitiesService) List() *CampusUsersActivitiesListCall {
 	return &CampusUsersActivitiesListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -1735,8 +1882,15 @@ func (c *CampusUsersActivitiesListCall) P(key string, values []string) *CampusUs
 	return c
 }
 
+// PageToken get the specified page
+func (c *CampusUsersActivitiesListCall) PageToken(page int) *CampusUsersActivitiesListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a CampusUsersActivitiesListCall request call. Exactly one of *ListCampusUsersActivitiesResponse or error will be non-nil.
 func (c *CampusUsersActivitiesListCall) Do() (*ListCampusUsersActivitiesResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/campus_users_activities/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -1761,6 +1915,7 @@ func (c *CampusUsersActivitiesListCall) Do() (*ListCampusUsersActivitiesResponse
 	if err := json.NewDecoder(res.Body).Decode(&(*target).CampusUsersActivities); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -1782,6 +1937,7 @@ type CertificatesItem struct {
 // CertificatesListCall description:
 type CertificatesListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -1790,12 +1946,14 @@ type CertificatesListCall struct {
 type ListCertificatesResponse struct {
 	Certificates   []*CertificatesItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a CertificatesListCall which can request data from the 42 API.
 func (s *CertificatesService) List() *CertificatesListCall {
 	return &CertificatesListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -1806,8 +1964,15 @@ func (c *CertificatesListCall) P(key string, values []string) *CertificatesListC
 	return c
 }
 
+// PageToken get the specified page
+func (c *CertificatesListCall) PageToken(page int) *CertificatesListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a CertificatesListCall request call. Exactly one of *ListCertificatesResponse or error will be non-nil.
 func (c *CertificatesListCall) Do() (*ListCertificatesResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/certificates/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -1832,6 +1997,7 @@ func (c *CertificatesListCall) Do() (*ListCertificatesResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Certificates); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -1897,6 +2063,7 @@ type CertificatesUsersItem struct {
 // CertificatesUsersListCall description:
 type CertificatesUsersListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -1905,12 +2072,14 @@ type CertificatesUsersListCall struct {
 type ListCertificatesUsersResponse struct {
 	CertificatesUsers []*CertificatesUsersItem
 	ServerResponse    `json:"-"`
+	NextPage          int
 }
 
 // List returns a CertificatesUsersListCall which can request data from the 42 API.
 func (s *CertificatesUsersService) List() *CertificatesUsersListCall {
 	return &CertificatesUsersListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -1921,8 +2090,15 @@ func (c *CertificatesUsersListCall) P(key string, values []string) *Certificates
 	return c
 }
 
+// PageToken get the specified page
+func (c *CertificatesUsersListCall) PageToken(page int) *CertificatesUsersListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a CertificatesUsersListCall request call. Exactly one of *ListCertificatesUsersResponse or error will be non-nil.
 func (c *CertificatesUsersListCall) Do() (*ListCertificatesUsersResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/certificates_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -1947,6 +2123,7 @@ func (c *CertificatesUsersListCall) Do() (*ListCertificatesUsersResponse, error)
 	if err := json.NewDecoder(res.Body).Decode(&(*target).CertificatesUsers); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -2012,13 +2189,13 @@ type ClosesItem struct {
 		URL   string `json:"url"`
 	} `json:"closer"`
 	CommunityServices []struct {
+		ID         int64     `json:"id"`
+		Duration   int64     `json:"duration"`
 		ScheduleAt time.Time `json:"schedule_at"`
 		Occupation string    `json:"occupation"`
 		State      string    `json:"state"`
 		CreatedAt  time.Time `json:"created_at"`
 		UpdatedAt  time.Time `json:"updated_at"`
-		ID         int64     `json:"id"`
-		Duration   int64     `json:"duration"`
 	} `json:"community_services"`
 	CreatedAt time.Time `json:"created_at"`
 	ID        int64     `json:"id"`
@@ -2026,9 +2203,9 @@ type ClosesItem struct {
 	State     string    `json:"state"`
 	UpdatedAt time.Time `json:"updated_at"`
 	User      struct {
-		URL   string `json:"url"`
 		ID    int64  `json:"id"`
 		Login string `json:"login"`
+		URL   string `json:"url"`
 	} `json:"user"`
 
 	ServerResponse `json:"-"`
@@ -2037,6 +2214,7 @@ type ClosesItem struct {
 // ClosesListCall description:
 type ClosesListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -2045,12 +2223,14 @@ type ClosesListCall struct {
 type ListClosesResponse struct {
 	Closes         []*ClosesItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a ClosesListCall which can request data from the 42 API.
 func (s *ClosesService) List() *ClosesListCall {
 	return &ClosesListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -2061,8 +2241,15 @@ func (c *ClosesListCall) P(key string, values []string) *ClosesListCall {
 	return c
 }
 
+// PageToken get the specified page
+func (c *ClosesListCall) PageToken(page int) *ClosesListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a ClosesListCall request call. Exactly one of *ListClosesResponse or error will be non-nil.
 func (c *ClosesListCall) Do() (*ListClosesResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/closes/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -2087,6 +2274,7 @@ func (c *ClosesListCall) Do() (*ListClosesResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Closes); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -2166,6 +2354,7 @@ type CoalitionsItem struct {
 // CoalitionsListCall description:
 type CoalitionsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -2174,12 +2363,14 @@ type CoalitionsListCall struct {
 type ListCoalitionsResponse struct {
 	Coalitions     []*CoalitionsItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a CoalitionsListCall which can request data from the 42 API.
 func (s *CoalitionsService) List() *CoalitionsListCall {
 	return &CoalitionsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -2190,8 +2381,15 @@ func (c *CoalitionsListCall) P(key string, values []string) *CoalitionsListCall 
 	return c
 }
 
+// PageToken get the specified page
+func (c *CoalitionsListCall) PageToken(page int) *CoalitionsListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a CoalitionsListCall request call. Exactly one of *ListCoalitionsResponse or error will be non-nil.
 func (c *CoalitionsListCall) Do() (*ListCoalitionsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/coalitions/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -2216,6 +2414,7 @@ func (c *CoalitionsListCall) Do() (*ListCoalitionsResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Coalitions); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -2291,6 +2490,7 @@ type CoalitionsUsersItem struct {
 // CoalitionsUsersListCall description:
 type CoalitionsUsersListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -2299,12 +2499,14 @@ type CoalitionsUsersListCall struct {
 type ListCoalitionsUsersResponse struct {
 	CoalitionsUsers []*CoalitionsUsersItem
 	ServerResponse  `json:"-"`
+	NextPage        int
 }
 
 // List returns a CoalitionsUsersListCall which can request data from the 42 API.
 func (s *CoalitionsUsersService) List() *CoalitionsUsersListCall {
 	return &CoalitionsUsersListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -2315,8 +2517,15 @@ func (c *CoalitionsUsersListCall) P(key string, values []string) *CoalitionsUser
 	return c
 }
 
+// PageToken get the specified page
+func (c *CoalitionsUsersListCall) PageToken(page int) *CoalitionsUsersListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a CoalitionsUsersListCall request call. Exactly one of *ListCoalitionsUsersResponse or error will be non-nil.
 func (c *CoalitionsUsersListCall) Do() (*ListCoalitionsUsersResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/coalitions_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -2341,6 +2550,7 @@ func (c *CoalitionsUsersListCall) Do() (*ListCoalitionsUsersResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).CoalitionsUsers); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -2412,6 +2622,7 @@ type CommandsItem struct {
 // CommandsListCall description:
 type CommandsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -2420,12 +2631,14 @@ type CommandsListCall struct {
 type ListCommandsResponse struct {
 	Commands       []*CommandsItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a CommandsListCall which can request data from the 42 API.
 func (s *CommandsService) List() *CommandsListCall {
 	return &CommandsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -2436,8 +2649,15 @@ func (c *CommandsListCall) P(key string, values []string) *CommandsListCall {
 	return c
 }
 
+// PageToken get the specified page
+func (c *CommandsListCall) PageToken(page int) *CommandsListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a CommandsListCall request call. Exactly one of *ListCommandsResponse or error will be non-nil.
 func (c *CommandsListCall) Do() (*ListCommandsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/commands/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -2462,6 +2682,7 @@ func (c *CommandsListCall) Do() (*ListCommandsResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Commands); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -2548,6 +2769,7 @@ type CommunityServicesItem struct {
 // CommunityServicesListCall description:
 type CommunityServicesListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -2556,12 +2778,14 @@ type CommunityServicesListCall struct {
 type ListCommunityServicesResponse struct {
 	CommunityServices []*CommunityServicesItem
 	ServerResponse    `json:"-"`
+	NextPage          int
 }
 
 // List returns a CommunityServicesListCall which can request data from the 42 API.
 func (s *CommunityServicesService) List() *CommunityServicesListCall {
 	return &CommunityServicesListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -2572,8 +2796,15 @@ func (c *CommunityServicesListCall) P(key string, values []string) *CommunitySer
 	return c
 }
 
+// PageToken get the specified page
+func (c *CommunityServicesListCall) PageToken(page int) *CommunityServicesListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a CommunityServicesListCall request call. Exactly one of *ListCommunityServicesResponse or error will be non-nil.
 func (c *CommunityServicesListCall) Do() (*ListCommunityServicesResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/community_services/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -2598,6 +2829,7 @@ func (c *CommunityServicesListCall) Do() (*ListCommunityServicesResponse, error)
 	if err := json.NewDecoder(res.Body).Decode(&(*target).CommunityServices); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -2674,6 +2906,7 @@ type CursusItem struct {
 // CursusListCall description:
 type CursusListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -2682,12 +2915,14 @@ type CursusListCall struct {
 type ListCursusResponse struct {
 	Cursus         []*CursusItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a CursusListCall which can request data from the 42 API.
 func (s *CursusService) List() *CursusListCall {
 	return &CursusListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -2698,8 +2933,15 @@ func (c *CursusListCall) P(key string, values []string) *CursusListCall {
 	return c
 }
 
+// PageToken get the specified page
+func (c *CursusListCall) PageToken(page int) *CursusListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a CursusListCall request call. Exactly one of *ListCursusResponse or error will be non-nil.
 func (c *CursusListCall) Do() (*ListCursusResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/cursus/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -2724,6 +2966,7 @@ func (c *CursusListCall) Do() (*ListCursusResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Cursus); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -2791,10 +3034,10 @@ type CursusUsersService struct {
 type CursusUsersItem struct {
 	BeginAt time.Time `json:"begin_at"`
 	Cursus  struct {
+		Name      string    `json:"name"`
 		Slug      string    `json:"slug"`
 		ID        int64     `json:"id"`
 		CreatedAt time.Time `json:"created_at"`
-		Name      string    `json:"name"`
 	} `json:"cursus"`
 	CursusID     int64         `json:"cursus_id"`
 	EndAt        interface{}   `json:"end_at"`
@@ -2804,9 +3047,9 @@ type CursusUsersItem struct {
 	Level        float64       `json:"level"`
 	Skills       []interface{} `json:"skills"`
 	User         struct {
+		ID    int64  `json:"id"`
 		Login string `json:"login"`
 		URL   string `json:"url"`
-		ID    int64  `json:"id"`
 	} `json:"user"`
 
 	ServerResponse `json:"-"`
@@ -2815,6 +3058,7 @@ type CursusUsersItem struct {
 // CursusUsersListCall description:
 type CursusUsersListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -2823,12 +3067,14 @@ type CursusUsersListCall struct {
 type ListCursusUsersResponse struct {
 	CursusUsers    []*CursusUsersItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a CursusUsersListCall which can request data from the 42 API.
 func (s *CursusUsersService) List() *CursusUsersListCall {
 	return &CursusUsersListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -2839,8 +3085,15 @@ func (c *CursusUsersListCall) P(key string, values []string) *CursusUsersListCal
 	return c
 }
 
+// PageToken get the specified page
+func (c *CursusUsersListCall) PageToken(page int) *CursusUsersListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a CursusUsersListCall request call. Exactly one of *ListCursusUsersResponse or error will be non-nil.
 func (c *CursusUsersListCall) Do() (*ListCursusUsersResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/cursus_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -2865,6 +3118,7 @@ func (c *CursusUsersListCall) Do() (*ListCursusUsersResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).CursusUsers); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -2936,6 +3190,7 @@ type DashesItem struct {
 // DashesListCall description:
 type DashesListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -2944,12 +3199,14 @@ type DashesListCall struct {
 type ListDashesResponse struct {
 	Dashes         []*DashesItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a DashesListCall which can request data from the 42 API.
 func (s *DashesService) List() *DashesListCall {
 	return &DashesListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -2960,8 +3217,15 @@ func (c *DashesListCall) P(key string, values []string) *DashesListCall {
 	return c
 }
 
+// PageToken get the specified page
+func (c *DashesListCall) PageToken(page int) *DashesListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a DashesListCall request call. Exactly one of *ListDashesResponse or error will be non-nil.
 func (c *DashesListCall) Do() (*ListDashesResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/dashes/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -2986,6 +3250,7 @@ func (c *DashesListCall) Do() (*ListDashesResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Dashes); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -3064,6 +3329,7 @@ type DashesUsersItem struct {
 // DashesUsersListCall description:
 type DashesUsersListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -3072,12 +3338,14 @@ type DashesUsersListCall struct {
 type ListDashesUsersResponse struct {
 	DashesUsers    []*DashesUsersItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a DashesUsersListCall which can request data from the 42 API.
 func (s *DashesUsersService) List() *DashesUsersListCall {
 	return &DashesUsersListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -3088,8 +3356,15 @@ func (c *DashesUsersListCall) P(key string, values []string) *DashesUsersListCal
 	return c
 }
 
+// PageToken get the specified page
+func (c *DashesUsersListCall) PageToken(page int) *DashesUsersListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a DashesUsersListCall request call. Exactly one of *ListDashesUsersResponse or error will be non-nil.
 func (c *DashesUsersListCall) Do() (*ListDashesUsersResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/dashes_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -3114,6 +3389,7 @@ func (c *DashesUsersListCall) Do() (*ListDashesUsersResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).DashesUsers); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -3180,17 +3456,17 @@ type EndpointsService struct {
 // EndpointsItem is a 42 API type
 type EndpointsItem struct {
 	Campus []struct {
-		UsersCount int64  `json:"users_count"`
-		ID         int64  `json:"id"`
-		Name       string `json:"name"`
-		TimeZone   string `json:"time_zone"`
-		Language   struct {
+		TimeZone string `json:"time_zone"`
+		Language struct {
 			ID         int64     `json:"id"`
 			Name       string    `json:"name"`
 			IDentifier string    `json:"identifier"`
 			CreatedAt  time.Time `json:"created_at"`
 			UpdatedAt  time.Time `json:"updated_at"`
 		} `json:"language"`
+		UsersCount int64  `json:"users_count"`
+		ID         int64  `json:"id"`
+		Name       string `json:"name"`
 	} `json:"campus"`
 	CreatedAt   time.Time `json:"created_at"`
 	Description string    `json:"description"`
@@ -3204,6 +3480,7 @@ type EndpointsItem struct {
 // EndpointsListCall description:
 type EndpointsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -3212,12 +3489,14 @@ type EndpointsListCall struct {
 type ListEndpointsResponse struct {
 	Endpoints      []*EndpointsItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a EndpointsListCall which can request data from the 42 API.
 func (s *EndpointsService) List() *EndpointsListCall {
 	return &EndpointsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -3228,8 +3507,15 @@ func (c *EndpointsListCall) P(key string, values []string) *EndpointsListCall {
 	return c
 }
 
+// PageToken get the specified page
+func (c *EndpointsListCall) PageToken(page int) *EndpointsListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a EndpointsListCall request call. Exactly one of *ListEndpointsResponse or error will be non-nil.
 func (c *EndpointsListCall) Do() (*ListEndpointsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/endpoints/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -3254,6 +3540,7 @@ func (c *EndpointsListCall) Do() (*ListEndpointsResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Endpoints); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -3325,6 +3612,7 @@ type EvaluationsItem struct {
 // EvaluationsListCall description:
 type EvaluationsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -3333,12 +3621,14 @@ type EvaluationsListCall struct {
 type ListEvaluationsResponse struct {
 	Evaluations    []*EvaluationsItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a EvaluationsListCall which can request data from the 42 API.
 func (s *EvaluationsService) List() *EvaluationsListCall {
 	return &EvaluationsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -3349,8 +3639,15 @@ func (c *EvaluationsListCall) P(key string, values []string) *EvaluationsListCal
 	return c
 }
 
+// PageToken get the specified page
+func (c *EvaluationsListCall) PageToken(page int) *EvaluationsListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a EvaluationsListCall request call. Exactly one of *ListEvaluationsResponse or error will be non-nil.
 func (c *EvaluationsListCall) Do() (*ListEvaluationsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/evaluations/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -3375,6 +3672,7 @@ func (c *EvaluationsListCall) Do() (*ListEvaluationsResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Evaluations); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -3454,18 +3752,18 @@ type EventsItem struct {
 	NbrSubscribers            int64     `json:"nbr_subscribers"`
 	ProhibitionOfCancellation int64     `json:"prohibition_of_cancellation"`
 	Themes                    []struct {
+		UpdatedAt time.Time `json:"updated_at"`
 		CreatedAt time.Time `json:"created_at"`
 		ID        int64     `json:"id"`
 		Name      string    `json:"name"`
-		UpdatedAt time.Time `json:"updated_at"`
 	} `json:"themes"`
 	UpdatedAt time.Time `json:"updated_at"`
 	Waitlist  struct {
+		CreatedAt        time.Time `json:"created_at"`
+		ID               int64     `json:"id"`
 		UpdatedAt        time.Time `json:"updated_at"`
 		WaitlistableID   int64     `json:"waitlistable_id"`
 		WaitlistableType string    `json:"waitlistable_type"`
-		CreatedAt        time.Time `json:"created_at"`
-		ID               int64     `json:"id"`
 	} `json:"waitlist"`
 
 	ServerResponse `json:"-"`
@@ -3474,6 +3772,7 @@ type EventsItem struct {
 // EventsListCall description:
 type EventsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -3482,12 +3781,14 @@ type EventsListCall struct {
 type ListEventsResponse struct {
 	Events         []*EventsItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a EventsListCall which can request data from the 42 API.
 func (s *EventsService) List() *EventsListCall {
 	return &EventsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -3498,8 +3799,15 @@ func (c *EventsListCall) P(key string, values []string) *EventsListCall {
 	return c
 }
 
+// PageToken get the specified page
+func (c *EventsListCall) PageToken(page int) *EventsListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a EventsListCall request call. Exactly one of *ListEventsResponse or error will be non-nil.
 func (c *EventsListCall) Do() (*ListEventsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/events/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -3524,6 +3832,7 @@ func (c *EventsListCall) Do() (*ListEventsResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Events); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -3595,6 +3904,7 @@ type EventsUsersItem struct {
 // EventsUsersListCall description:
 type EventsUsersListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -3603,12 +3913,14 @@ type EventsUsersListCall struct {
 type ListEventsUsersResponse struct {
 	EventsUsers    []*EventsUsersItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a EventsUsersListCall which can request data from the 42 API.
 func (s *EventsUsersService) List() *EventsUsersListCall {
 	return &EventsUsersListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -3619,8 +3931,15 @@ func (c *EventsUsersListCall) P(key string, values []string) *EventsUsersListCal
 	return c
 }
 
+// PageToken get the specified page
+func (c *EventsUsersListCall) PageToken(page int) *EventsUsersListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a EventsUsersListCall request call. Exactly one of *ListEventsUsersResponse or error will be non-nil.
 func (c *EventsUsersListCall) Do() (*ListEventsUsersResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/events_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -3645,6 +3964,7 @@ func (c *EventsUsersListCall) Do() (*ListEventsUsersResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).EventsUsers); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -3712,24 +4032,24 @@ type ExamsService struct {
 type ExamsItem struct {
 	BeginAt time.Time `json:"begin_at"`
 	Campus  []struct {
-		Name     string `json:"name"`
-		TimeZone string `json:"time_zone"`
 		Language struct {
-			ID         int64     `json:"id"`
-			Name       string    `json:"name"`
 			IDentifier string    `json:"identifier"`
 			CreatedAt  time.Time `json:"created_at"`
 			UpdatedAt  time.Time `json:"updated_at"`
+			ID         int64     `json:"id"`
+			Name       string    `json:"name"`
 		} `json:"language"`
-		UsersCount  int64 `json:"users_count"`
-		VogsphereID int64 `json:"vogsphere_id"`
-		ID          int64 `json:"id"`
+		UsersCount  int64  `json:"users_count"`
+		VogsphereID int64  `json:"vogsphere_id"`
+		ID          int64  `json:"id"`
+		Name        string `json:"name"`
+		TimeZone    string `json:"time_zone"`
 	} `json:"campus"`
 	Cursus []struct {
-		Name      string    `json:"name"`
-		Slug      string    `json:"slug"`
 		ID        int64     `json:"id"`
 		CreatedAt time.Time `json:"created_at"`
+		Name      string    `json:"name"`
+		Slug      string    `json:"slug"`
 	} `json:"cursus"`
 	EndAt          time.Time `json:"end_at"`
 	ID             int64     `json:"id"`
@@ -3739,18 +4059,18 @@ type ExamsItem struct {
 	Name           string    `json:"name"`
 	NbrSubscribers int64     `json:"nbr_subscribers"`
 	Projects       []struct {
-		Description string        `json:"description"`
-		Parent      interface{}   `json:"parent"`
 		Children    []interface{} `json:"children"`
 		Objectives  []string      `json:"objectives"`
 		Tier        int64         `json:"tier"`
-		Attachments []interface{} `json:"attachments"`
-		ID          int64         `json:"id"`
-		Slug        string        `json:"slug"`
 		CreatedAt   time.Time     `json:"created_at"`
 		UpdatedAt   time.Time     `json:"updated_at"`
-		Exam        bool          `json:"exam"`
 		Name        string        `json:"name"`
+		Slug        string        `json:"slug"`
+		Description string        `json:"description"`
+		Exam        bool          `json:"exam"`
+		ID          int64         `json:"id"`
+		Parent      interface{}   `json:"parent"`
+		Attachments []interface{} `json:"attachments"`
 	} `json:"projects"`
 
 	ServerResponse `json:"-"`
@@ -3759,6 +4079,7 @@ type ExamsItem struct {
 // ExamsListCall description:
 type ExamsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -3767,12 +4088,14 @@ type ExamsListCall struct {
 type ListExamsResponse struct {
 	Exams          []*ExamsItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a ExamsListCall which can request data from the 42 API.
 func (s *ExamsService) List() *ExamsListCall {
 	return &ExamsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -3783,8 +4106,15 @@ func (c *ExamsListCall) P(key string, values []string) *ExamsListCall {
 	return c
 }
 
+// PageToken get the specified page
+func (c *ExamsListCall) PageToken(page int) *ExamsListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a ExamsListCall request call. Exactly one of *ListExamsResponse or error will be non-nil.
 func (c *ExamsListCall) Do() (*ListExamsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/exams/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -3809,6 +4139,7 @@ func (c *ExamsListCall) Do() (*ListExamsResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Exams); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -3880,6 +4211,7 @@ type ExamsUsersItem struct {
 // ExamsUsersListCall description:
 type ExamsUsersListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -3888,12 +4220,14 @@ type ExamsUsersListCall struct {
 type ListExamsUsersResponse struct {
 	ExamsUsers     []*ExamsUsersItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a ExamsUsersListCall which can request data from the 42 API.
 func (s *ExamsUsersService) List() *ExamsUsersListCall {
 	return &ExamsUsersListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -3904,8 +4238,15 @@ func (c *ExamsUsersListCall) P(key string, values []string) *ExamsUsersListCall 
 	return c
 }
 
+// PageToken get the specified page
+func (c *ExamsUsersListCall) PageToken(page int) *ExamsUsersListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a ExamsUsersListCall request call. Exactly one of *ListExamsUsersResponse or error will be non-nil.
 func (c *ExamsUsersListCall) Do() (*ListExamsUsersResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/exams_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -3930,6 +4271,7 @@ func (c *ExamsUsersListCall) Do() (*ListExamsUsersResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).ExamsUsers); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -3957,6 +4299,7 @@ type ExperiencesItem struct {
 // ExperiencesListCall description:
 type ExperiencesListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -3965,12 +4308,14 @@ type ExperiencesListCall struct {
 type ListExperiencesResponse struct {
 	Experiences    []*ExperiencesItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a ExperiencesListCall which can request data from the 42 API.
 func (s *ExperiencesService) List() *ExperiencesListCall {
 	return &ExperiencesListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -3981,8 +4326,15 @@ func (c *ExperiencesListCall) P(key string, values []string) *ExperiencesListCal
 	return c
 }
 
+// PageToken get the specified page
+func (c *ExperiencesListCall) PageToken(page int) *ExperiencesListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a ExperiencesListCall request call. Exactly one of *ListExperiencesResponse or error will be non-nil.
 func (c *ExperiencesListCall) Do() (*ListExperiencesResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/experiences/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -4007,6 +4359,7 @@ func (c *ExperiencesListCall) Do() (*ListExperiencesResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Experiences); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -4086,6 +4439,7 @@ type ExpertisesItem struct {
 // ExpertisesListCall description:
 type ExpertisesListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -4094,12 +4448,14 @@ type ExpertisesListCall struct {
 type ListExpertisesResponse struct {
 	Expertises     []*ExpertisesItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a ExpertisesListCall which can request data from the 42 API.
 func (s *ExpertisesService) List() *ExpertisesListCall {
 	return &ExpertisesListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -4110,8 +4466,15 @@ func (c *ExpertisesListCall) P(key string, values []string) *ExpertisesListCall 
 	return c
 }
 
+// PageToken get the specified page
+func (c *ExpertisesListCall) PageToken(page int) *ExpertisesListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a ExpertisesListCall request call. Exactly one of *ListExpertisesResponse or error will be non-nil.
 func (c *ExpertisesListCall) Do() (*ListExpertisesResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/expertises/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -4136,6 +4499,7 @@ func (c *ExpertisesListCall) Do() (*ListExpertisesResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Expertises); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -4204,13 +4568,13 @@ type ExpertisesUsersItem struct {
 	ContactMe bool      `json:"contact_me"`
 	CreatedAt time.Time `json:"created_at"`
 	Expertise struct {
-		Name               string    `json:"name"`
-		Slug               string    `json:"slug"`
-		URL                string    `json:"url"`
 		Kind               string    `json:"kind"`
 		CreatedAt          time.Time `json:"created_at"`
 		ExpertisesUsersURL string    `json:"expertises_users_url"`
 		ID                 int64     `json:"id"`
+		Name               string    `json:"name"`
+		Slug               string    `json:"slug"`
+		URL                string    `json:"url"`
 	} `json:"expertise"`
 	ExpertiseID int64 `json:"expertise_id"`
 	ID          int64 `json:"id"`
@@ -4229,6 +4593,7 @@ type ExpertisesUsersItem struct {
 // ExpertisesUsersListCall description:
 type ExpertisesUsersListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -4237,12 +4602,14 @@ type ExpertisesUsersListCall struct {
 type ListExpertisesUsersResponse struct {
 	ExpertisesUsers []*ExpertisesUsersItem
 	ServerResponse  `json:"-"`
+	NextPage        int
 }
 
 // List returns a ExpertisesUsersListCall which can request data from the 42 API.
 func (s *ExpertisesUsersService) List() *ExpertisesUsersListCall {
 	return &ExpertisesUsersListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -4253,8 +4620,15 @@ func (c *ExpertisesUsersListCall) P(key string, values []string) *ExpertisesUser
 	return c
 }
 
+// PageToken get the specified page
+func (c *ExpertisesUsersListCall) PageToken(page int) *ExpertisesUsersListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a ExpertisesUsersListCall request call. Exactly one of *ListExpertisesUsersResponse or error will be non-nil.
 func (c *ExpertisesUsersListCall) Do() (*ListExpertisesUsersResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/expertises_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -4279,6 +4653,7 @@ func (c *ExpertisesUsersListCall) Do() (*ListExpertisesUsersResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).ExpertisesUsers); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -4350,6 +4725,7 @@ type FeedbacksItem struct {
 // FeedbacksListCall description:
 type FeedbacksListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -4358,12 +4734,14 @@ type FeedbacksListCall struct {
 type ListFeedbacksResponse struct {
 	Feedbacks      []*FeedbacksItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a FeedbacksListCall which can request data from the 42 API.
 func (s *FeedbacksService) List() *FeedbacksListCall {
 	return &FeedbacksListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -4374,8 +4752,15 @@ func (c *FeedbacksListCall) P(key string, values []string) *FeedbacksListCall {
 	return c
 }
 
+// PageToken get the specified page
+func (c *FeedbacksListCall) PageToken(page int) *FeedbacksListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a FeedbacksListCall request call. Exactly one of *ListFeedbacksResponse or error will be non-nil.
 func (c *FeedbacksListCall) Do() (*ListFeedbacksResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/feedbacks/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -4400,6 +4785,7 @@ func (c *FeedbacksListCall) Do() (*ListFeedbacksResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Feedbacks); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -4471,6 +4857,7 @@ type FlagsItem struct {
 // FlagsListCall description:
 type FlagsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -4479,12 +4866,14 @@ type FlagsListCall struct {
 type ListFlagsResponse struct {
 	Flags          []*FlagsItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a FlagsListCall which can request data from the 42 API.
 func (s *FlagsService) List() *FlagsListCall {
 	return &FlagsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -4495,8 +4884,15 @@ func (c *FlagsListCall) P(key string, values []string) *FlagsListCall {
 	return c
 }
 
+// PageToken get the specified page
+func (c *FlagsListCall) PageToken(page int) *FlagsListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a FlagsListCall request call. Exactly one of *ListFlagsResponse or error will be non-nil.
 func (c *FlagsListCall) Do() (*ListFlagsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/flags/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -4521,6 +4917,7 @@ func (c *FlagsListCall) Do() (*ListFlagsResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Flags); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -4552,6 +4949,7 @@ type FlashUsersItem struct {
 // FlashUsersListCall description:
 type FlashUsersListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -4560,12 +4958,14 @@ type FlashUsersListCall struct {
 type ListFlashUsersResponse struct {
 	FlashUsers     []*FlashUsersItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a FlashUsersListCall which can request data from the 42 API.
 func (s *FlashUsersService) List() *FlashUsersListCall {
 	return &FlashUsersListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -4576,8 +4976,15 @@ func (c *FlashUsersListCall) P(key string, values []string) *FlashUsersListCall 
 	return c
 }
 
+// PageToken get the specified page
+func (c *FlashUsersListCall) PageToken(page int) *FlashUsersListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a FlashUsersListCall request call. Exactly one of *ListFlashUsersResponse or error will be non-nil.
 func (c *FlashUsersListCall) Do() (*ListFlashUsersResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/flash_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -4602,6 +5009,7 @@ func (c *FlashUsersListCall) Do() (*ListFlashUsersResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).FlashUsers); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -4676,6 +5084,7 @@ type FlashesItem struct {
 // FlashesListCall description:
 type FlashesListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -4684,12 +5093,14 @@ type FlashesListCall struct {
 type ListFlashesResponse struct {
 	Flashes        []*FlashesItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a FlashesListCall which can request data from the 42 API.
 func (s *FlashesService) List() *FlashesListCall {
 	return &FlashesListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -4700,8 +5111,15 @@ func (c *FlashesListCall) P(key string, values []string) *FlashesListCall {
 	return c
 }
 
+// PageToken get the specified page
+func (c *FlashesListCall) PageToken(page int) *FlashesListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a FlashesListCall request call. Exactly one of *ListFlashesResponse or error will be non-nil.
 func (c *FlashesListCall) Do() (*ListFlashesResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/flashes/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -4726,6 +5144,7 @@ func (c *FlashesListCall) Do() (*ListFlashesResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Flashes); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -4796,6 +5215,7 @@ type GroupsItem struct {
 // GroupsListCall description:
 type GroupsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -4804,12 +5224,14 @@ type GroupsListCall struct {
 type ListGroupsResponse struct {
 	Groups         []*GroupsItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a GroupsListCall which can request data from the 42 API.
 func (s *GroupsService) List() *GroupsListCall {
 	return &GroupsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -4820,8 +5242,15 @@ func (c *GroupsListCall) P(key string, values []string) *GroupsListCall {
 	return c
 }
 
+// PageToken get the specified page
+func (c *GroupsListCall) PageToken(page int) *GroupsListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a GroupsListCall request call. Exactly one of *ListGroupsResponse or error will be non-nil.
 func (c *GroupsListCall) Do() (*ListGroupsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/groups/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -4846,6 +5275,7 @@ func (c *GroupsListCall) Do() (*ListGroupsResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Groups); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -4923,6 +5353,7 @@ type GroupsUsersItem struct {
 // GroupsUsersListCall description:
 type GroupsUsersListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -4931,12 +5362,14 @@ type GroupsUsersListCall struct {
 type ListGroupsUsersResponse struct {
 	GroupsUsers    []*GroupsUsersItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a GroupsUsersListCall which can request data from the 42 API.
 func (s *GroupsUsersService) List() *GroupsUsersListCall {
 	return &GroupsUsersListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -4947,8 +5380,15 @@ func (c *GroupsUsersListCall) P(key string, values []string) *GroupsUsersListCal
 	return c
 }
 
+// PageToken get the specified page
+func (c *GroupsUsersListCall) PageToken(page int) *GroupsUsersListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a GroupsUsersListCall request call. Exactly one of *ListGroupsUsersResponse or error will be non-nil.
 func (c *GroupsUsersListCall) Do() (*ListGroupsUsersResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/groups_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -4973,6 +5413,7 @@ func (c *GroupsUsersListCall) Do() (*ListGroupsUsersResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).GroupsUsers); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -5095,6 +5536,7 @@ type InternshipsItem struct {
 // InternshipsListCall description:
 type InternshipsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -5103,12 +5545,14 @@ type InternshipsListCall struct {
 type ListInternshipsResponse struct {
 	Internships    []*InternshipsItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a InternshipsListCall which can request data from the 42 API.
 func (s *InternshipsService) List() *InternshipsListCall {
 	return &InternshipsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -5119,8 +5563,15 @@ func (c *InternshipsListCall) P(key string, values []string) *InternshipsListCal
 	return c
 }
 
+// PageToken get the specified page
+func (c *InternshipsListCall) PageToken(page int) *InternshipsListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a InternshipsListCall request call. Exactly one of *ListInternshipsResponse or error will be non-nil.
 func (c *InternshipsListCall) Do() (*ListInternshipsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/internships/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -5145,6 +5596,7 @@ func (c *InternshipsListCall) Do() (*ListInternshipsResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Internships); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -5214,6 +5666,7 @@ type LanguagesItem struct {
 // LanguagesListCall description:
 type LanguagesListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -5222,12 +5675,14 @@ type LanguagesListCall struct {
 type ListLanguagesResponse struct {
 	Languages      []*LanguagesItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a LanguagesListCall which can request data from the 42 API.
 func (s *LanguagesService) List() *LanguagesListCall {
 	return &LanguagesListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -5238,8 +5693,15 @@ func (c *LanguagesListCall) P(key string, values []string) *LanguagesListCall {
 	return c
 }
 
+// PageToken get the specified page
+func (c *LanguagesListCall) PageToken(page int) *LanguagesListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a LanguagesListCall request call. Exactly one of *ListLanguagesResponse or error will be non-nil.
 func (c *LanguagesListCall) Do() (*ListLanguagesResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/languages/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -5264,6 +5726,7 @@ func (c *LanguagesListCall) Do() (*ListLanguagesResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Languages); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -5341,6 +5804,7 @@ type LanguagesUsersItem struct {
 // LanguagesUsersListCall description:
 type LanguagesUsersListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -5349,12 +5813,14 @@ type LanguagesUsersListCall struct {
 type ListLanguagesUsersResponse struct {
 	LanguagesUsers []*LanguagesUsersItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a LanguagesUsersListCall which can request data from the 42 API.
 func (s *LanguagesUsersService) List() *LanguagesUsersListCall {
 	return &LanguagesUsersListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -5365,8 +5831,15 @@ func (c *LanguagesUsersListCall) P(key string, values []string) *LanguagesUsersL
 	return c
 }
 
+// PageToken get the specified page
+func (c *LanguagesUsersListCall) PageToken(page int) *LanguagesUsersListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a LanguagesUsersListCall request call. Exactly one of *ListLanguagesUsersResponse or error will be non-nil.
 func (c *LanguagesUsersListCall) Do() (*ListLanguagesUsersResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/languages_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -5391,6 +5864,7 @@ func (c *LanguagesUsersListCall) Do() (*ListLanguagesUsersResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).LanguagesUsers); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -5462,6 +5936,7 @@ type LevelsItem struct {
 // LevelsListCall description:
 type LevelsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -5470,12 +5945,14 @@ type LevelsListCall struct {
 type ListLevelsResponse struct {
 	Levels         []*LevelsItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a LevelsListCall which can request data from the 42 API.
 func (s *LevelsService) List() *LevelsListCall {
 	return &LevelsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -5486,8 +5963,15 @@ func (c *LevelsListCall) P(key string, values []string) *LevelsListCall {
 	return c
 }
 
+// PageToken get the specified page
+func (c *LevelsListCall) PageToken(page int) *LevelsListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a LevelsListCall request call. Exactly one of *ListLevelsResponse or error will be non-nil.
 func (c *LevelsListCall) Do() (*ListLevelsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/levels/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -5512,6 +5996,7 @@ func (c *LevelsListCall) Do() (*ListLevelsResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Levels); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -5548,6 +6033,7 @@ type LocationsItem struct {
 // LocationsListCall description:
 type LocationsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -5556,12 +6042,14 @@ type LocationsListCall struct {
 type ListLocationsResponse struct {
 	Locations      []*LocationsItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a LocationsListCall which can request data from the 42 API.
 func (s *LocationsService) List() *LocationsListCall {
 	return &LocationsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -5572,8 +6060,15 @@ func (c *LocationsListCall) P(key string, values []string) *LocationsListCall {
 	return c
 }
 
+// PageToken get the specified page
+func (c *LocationsListCall) PageToken(page int) *LocationsListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a LocationsListCall request call. Exactly one of *ListLocationsResponse or error will be non-nil.
 func (c *LocationsListCall) Do() (*ListLocationsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/locations/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -5598,6 +6093,7 @@ func (c *LocationsListCall) Do() (*ListLocationsResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Locations); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -5692,6 +6188,7 @@ type MailingsItem struct {
 // MailingsListCall description:
 type MailingsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -5700,12 +6197,14 @@ type MailingsListCall struct {
 type ListMailingsResponse struct {
 	Mailings       []*MailingsItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a MailingsListCall which can request data from the 42 API.
 func (s *MailingsService) List() *MailingsListCall {
 	return &MailingsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -5716,8 +6215,15 @@ func (c *MailingsListCall) P(key string, values []string) *MailingsListCall {
 	return c
 }
 
+// PageToken get the specified page
+func (c *MailingsListCall) PageToken(page int) *MailingsListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a MailingsListCall request call. Exactly one of *ListMailingsResponse or error will be non-nil.
 func (c *MailingsListCall) Do() (*ListMailingsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/mailings/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -5742,6 +6248,7 @@ func (c *MailingsListCall) Do() (*ListMailingsResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Mailings); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -5810,9 +6317,9 @@ type NotesItem struct {
 	Content   string    `json:"content"`
 	CreatedAt time.Time `json:"created_at"`
 	FromUser  struct {
-		ID    int64  `json:"id"`
 		Login string `json:"login"`
 		URL   string `json:"url"`
+		ID    int64  `json:"id"`
 	} `json:"from_user"`
 	ID      int64  `json:"id"`
 	Subject string `json:"subject"`
@@ -5828,6 +6335,7 @@ type NotesItem struct {
 // NotesListCall description:
 type NotesListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -5836,12 +6344,14 @@ type NotesListCall struct {
 type ListNotesResponse struct {
 	Notes          []*NotesItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a NotesListCall which can request data from the 42 API.
 func (s *NotesService) List() *NotesListCall {
 	return &NotesListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -5852,8 +6362,15 @@ func (c *NotesListCall) P(key string, values []string) *NotesListCall {
 	return c
 }
 
+// PageToken get the specified page
+func (c *NotesListCall) PageToken(page int) *NotesListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a NotesListCall request call. Exactly one of *ListNotesResponse or error will be non-nil.
 func (c *NotesListCall) Do() (*ListNotesResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/notes/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -5878,6 +6395,7 @@ func (c *NotesListCall) Do() (*ListNotesResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Notes); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -5955,9 +6473,9 @@ type NotionsItem struct {
 	Slug       string        `json:"slug"`
 	Subnotions []interface{} `json:"subnotions"`
 	Tags       []struct {
-		ID   int64  `json:"id"`
 		Name string `json:"name"`
 		Kind string `json:"kind"`
+		ID   int64  `json:"id"`
 	} `json:"tags"`
 
 	ServerResponse `json:"-"`
@@ -5966,6 +6484,7 @@ type NotionsItem struct {
 // NotionsListCall description:
 type NotionsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -5974,12 +6493,14 @@ type NotionsListCall struct {
 type ListNotionsResponse struct {
 	Notions        []*NotionsItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a NotionsListCall which can request data from the 42 API.
 func (s *NotionsService) List() *NotionsListCall {
 	return &NotionsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -5990,8 +6511,15 @@ func (c *NotionsListCall) P(key string, values []string) *NotionsListCall {
 	return c
 }
 
+// PageToken get the specified page
+func (c *NotionsListCall) PageToken(page int) *NotionsListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a NotionsListCall request call. Exactly one of *ListNotionsResponse or error will be non-nil.
 func (c *NotionsListCall) Do() (*ListNotionsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/notions/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -6016,6 +6544,7 @@ func (c *NotionsListCall) Do() (*ListNotionsResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Notions); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -6087,6 +6616,7 @@ type ParamsProjectSessionsRulesItem struct {
 // ParamsProjectSessionsRulesListCall description:
 type ParamsProjectSessionsRulesListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -6095,12 +6625,14 @@ type ParamsProjectSessionsRulesListCall struct {
 type ListParamsProjectSessionsRulesResponse struct {
 	ParamsProjectSessionsRules []*ParamsProjectSessionsRulesItem
 	ServerResponse             `json:"-"`
+	NextPage                   int
 }
 
 // List returns a ParamsProjectSessionsRulesListCall which can request data from the 42 API.
 func (s *ParamsProjectSessionsRulesService) List() *ParamsProjectSessionsRulesListCall {
 	return &ParamsProjectSessionsRulesListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -6111,8 +6643,15 @@ func (c *ParamsProjectSessionsRulesListCall) P(key string, values []string) *Par
 	return c
 }
 
+// PageToken get the specified page
+func (c *ParamsProjectSessionsRulesListCall) PageToken(page int) *ParamsProjectSessionsRulesListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a ParamsProjectSessionsRulesListCall request call. Exactly one of *ListParamsProjectSessionsRulesResponse or error will be non-nil.
 func (c *ParamsProjectSessionsRulesListCall) Do() (*ListParamsProjectSessionsRulesResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/params_project_sessions_rules/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -6137,6 +6676,7 @@ func (c *ParamsProjectSessionsRulesListCall) Do() (*ListParamsProjectSessionsRul
 	if err := json.NewDecoder(res.Body).Decode(&(*target).ParamsProjectSessionsRules); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -6215,6 +6755,7 @@ type PartnershipsItem struct {
 // PartnershipsListCall description:
 type PartnershipsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -6223,12 +6764,14 @@ type PartnershipsListCall struct {
 type ListPartnershipsResponse struct {
 	Partnerships   []*PartnershipsItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a PartnershipsListCall which can request data from the 42 API.
 func (s *PartnershipsService) List() *PartnershipsListCall {
 	return &PartnershipsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -6239,8 +6782,15 @@ func (c *PartnershipsListCall) P(key string, values []string) *PartnershipsListC
 	return c
 }
 
+// PageToken get the specified page
+func (c *PartnershipsListCall) PageToken(page int) *PartnershipsListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a PartnershipsListCall request call. Exactly one of *ListPartnershipsResponse or error will be non-nil.
 func (c *PartnershipsListCall) Do() (*ListPartnershipsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/partnerships/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -6265,6 +6815,7 @@ func (c *PartnershipsListCall) Do() (*ListPartnershipsResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Partnerships); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -6334,9 +6885,9 @@ type PartnershipsUsersItem struct {
 	ID            int64       `json:"id"`
 	PartnershipID int64       `json:"partnership_id"`
 	User          struct {
-		URL   string `json:"url"`
 		ID    int64  `json:"id"`
 		Login string `json:"login"`
+		URL   string `json:"url"`
 	} `json:"user"`
 
 	ServerResponse `json:"-"`
@@ -6345,6 +6896,7 @@ type PartnershipsUsersItem struct {
 // PartnershipsUsersListCall description:
 type PartnershipsUsersListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -6353,12 +6905,14 @@ type PartnershipsUsersListCall struct {
 type ListPartnershipsUsersResponse struct {
 	PartnershipsUsers []*PartnershipsUsersItem
 	ServerResponse    `json:"-"`
+	NextPage          int
 }
 
 // List returns a PartnershipsUsersListCall which can request data from the 42 API.
 func (s *PartnershipsUsersService) List() *PartnershipsUsersListCall {
 	return &PartnershipsUsersListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -6369,8 +6923,15 @@ func (c *PartnershipsUsersListCall) P(key string, values []string) *Partnerships
 	return c
 }
 
+// PageToken get the specified page
+func (c *PartnershipsUsersListCall) PageToken(page int) *PartnershipsUsersListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a PartnershipsUsersListCall request call. Exactly one of *ListPartnershipsUsersResponse or error will be non-nil.
 func (c *PartnershipsUsersListCall) Do() (*ListPartnershipsUsersResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/partnerships_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -6395,6 +6956,7 @@ func (c *PartnershipsUsersListCall) Do() (*ListPartnershipsUsersResponse, error)
 	if err := json.NewDecoder(res.Body).Decode(&(*target).PartnershipsUsers); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -6462,9 +7024,9 @@ type PatronagesService struct {
 type PatronagesItem struct {
 	CreatedAt time.Time `json:"created_at"`
 	Godfather struct {
+		URL   string `json:"url"`
 		ID    int64  `json:"id"`
 		Login string `json:"login"`
-		URL   string `json:"url"`
 	} `json:"godfather"`
 	GodfatherID int64     `json:"godfather_id"`
 	ID          int64     `json:"id"`
@@ -6483,6 +7045,7 @@ type PatronagesItem struct {
 // PatronagesListCall description:
 type PatronagesListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -6491,12 +7054,14 @@ type PatronagesListCall struct {
 type ListPatronagesResponse struct {
 	Patronages     []*PatronagesItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a PatronagesListCall which can request data from the 42 API.
 func (s *PatronagesService) List() *PatronagesListCall {
 	return &PatronagesListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -6507,8 +7072,15 @@ func (c *PatronagesListCall) P(key string, values []string) *PatronagesListCall 
 	return c
 }
 
+// PageToken get the specified page
+func (c *PatronagesListCall) PageToken(page int) *PatronagesListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a PatronagesListCall request call. Exactly one of *ListPatronagesResponse or error will be non-nil.
 func (c *PatronagesListCall) Do() (*ListPatronagesResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/patronages/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -6533,6 +7105,7 @@ func (c *PatronagesListCall) Do() (*ListPatronagesResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Patronages); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -6603,25 +7176,25 @@ type PatronagesReportsItem struct {
 	CreatedAt time.Time     `json:"created_at"`
 	ID        int64         `json:"id"`
 	Patronage struct {
-		CreatedAt   time.Time `json:"created_at"`
-		UpdatedAt   time.Time `json:"updated_at"`
 		ID          int64     `json:"id"`
 		UserID      int64     `json:"user_id"`
 		GodfatherID int64     `json:"godfather_id"`
 		Ongoing     bool      `json:"ongoing"`
+		CreatedAt   time.Time `json:"created_at"`
+		UpdatedAt   time.Time `json:"updated_at"`
 	} `json:"patronage"`
 	PatronageID int64 `json:"patronage_id"`
 	Report      struct {
 		ID             int64     `json:"id"`
-		Name           string    `json:"name"`
-		Comment        string    `json:"comment"`
 		IntroductionMd string    `json:"introduction_md"`
-		DisclaimerMd   string    `json:"disclaimer_md"`
-		UpdatedAt      time.Time `json:"updated_at"`
-		DelayDays      int64     `json:"delay_days"`
 		GuidelinesMd   string    `json:"guidelines_md"`
 		CreatedAt      time.Time `json:"created_at"`
+		Name           string    `json:"name"`
+		Comment        string    `json:"comment"`
+		DisclaimerMd   string    `json:"disclaimer_md"`
+		UpdatedAt      time.Time `json:"updated_at"`
 		Slug           string    `json:"slug"`
+		DelayDays      int64     `json:"delay_days"`
 	} `json:"report"`
 	ReportID  int64     `json:"report_id"`
 	UpdatedAt time.Time `json:"updated_at"`
@@ -6639,6 +7212,7 @@ type PatronagesReportsItem struct {
 // PatronagesReportsListCall description:
 type PatronagesReportsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -6647,12 +7221,14 @@ type PatronagesReportsListCall struct {
 type ListPatronagesReportsResponse struct {
 	PatronagesReports []*PatronagesReportsItem
 	ServerResponse    `json:"-"`
+	NextPage          int
 }
 
 // List returns a PatronagesReportsListCall which can request data from the 42 API.
 func (s *PatronagesReportsService) List() *PatronagesReportsListCall {
 	return &PatronagesReportsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -6663,8 +7239,15 @@ func (c *PatronagesReportsListCall) P(key string, values []string) *PatronagesRe
 	return c
 }
 
+// PageToken get the specified page
+func (c *PatronagesReportsListCall) PageToken(page int) *PatronagesReportsListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a PatronagesReportsListCall request call. Exactly one of *ListPatronagesReportsResponse or error will be non-nil.
 func (c *PatronagesReportsListCall) Do() (*ListPatronagesReportsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/patronages_reports/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -6689,6 +7272,7 @@ func (c *PatronagesReportsListCall) Do() (*ListPatronagesReportsResponse, error)
 	if err := json.NewDecoder(res.Body).Decode(&(*target).PatronagesReports); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -6766,6 +7350,7 @@ type PoolsItem struct {
 // PoolsListCall description:
 type PoolsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -6774,12 +7359,14 @@ type PoolsListCall struct {
 type ListPoolsResponse struct {
 	Pools          []*PoolsItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a PoolsListCall which can request data from the 42 API.
 func (s *PoolsService) List() *PoolsListCall {
 	return &PoolsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -6790,8 +7377,15 @@ func (c *PoolsListCall) P(key string, values []string) *PoolsListCall {
 	return c
 }
 
+// PageToken get the specified page
+func (c *PoolsListCall) PageToken(page int) *PoolsListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a PoolsListCall request call. Exactly one of *ListPoolsResponse or error will be non-nil.
 func (c *PoolsListCall) Do() (*ListPoolsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/pools/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -6816,6 +7410,7 @@ func (c *PoolsListCall) Do() (*ListPoolsResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Pools); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -6902,6 +7497,7 @@ type ProductsItem struct {
 // ProductsListCall description:
 type ProductsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -6910,12 +7506,14 @@ type ProductsListCall struct {
 type ListProductsResponse struct {
 	Products       []*ProductsItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a ProductsListCall which can request data from the 42 API.
 func (s *ProductsService) List() *ProductsListCall {
 	return &ProductsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -6926,8 +7524,15 @@ func (c *ProductsListCall) P(key string, values []string) *ProductsListCall {
 	return c
 }
 
+// PageToken get the specified page
+func (c *ProductsListCall) PageToken(page int) *ProductsListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a ProductsListCall request call. Exactly one of *ListProductsResponse or error will be non-nil.
 func (c *ProductsListCall) Do() (*ListProductsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/products/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -6952,6 +7557,7 @@ func (c *ProductsListCall) Do() (*ListProductsResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Products); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -7029,6 +7635,7 @@ type ProjectDataItem struct {
 // ProjectDataListCall description:
 type ProjectDataListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -7037,12 +7644,14 @@ type ProjectDataListCall struct {
 type ListProjectDataResponse struct {
 	ProjectData    []*ProjectDataItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a ProjectDataListCall which can request data from the 42 API.
 func (s *ProjectDataService) List() *ProjectDataListCall {
 	return &ProjectDataListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -7053,8 +7662,15 @@ func (c *ProjectDataListCall) P(key string, values []string) *ProjectDataListCal
 	return c
 }
 
+// PageToken get the specified page
+func (c *ProjectDataListCall) PageToken(page int) *ProjectDataListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a ProjectDataListCall request call. Exactly one of *ListProjectDataResponse or error will be non-nil.
 func (c *ProjectDataListCall) Do() (*ListProjectDataResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/project_data/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -7079,6 +7695,7 @@ func (c *ProjectDataListCall) Do() (*ListProjectDataResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).ProjectData); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -7157,24 +7774,24 @@ type ProjectSessionsItem struct {
 	IsSubscriptable bool        `json:"is_subscriptable"`
 	MaxPeople       interface{} `json:"max_people"`
 	Project         struct {
+		Exam        bool          `json:"exam"`
+		Parent      interface{}   `json:"parent"`
 		Children    []interface{} `json:"children"`
+		Attachments []interface{} `json:"attachments"`
+		CreatedAt   time.Time     `json:"created_at"`
 		Objectives  []string      `json:"objectives"`
 		Tier        int64         `json:"tier"`
-		CreatedAt   time.Time     `json:"created_at"`
 		UpdatedAt   time.Time     `json:"updated_at"`
-		Exam        bool          `json:"exam"`
 		ID          int64         `json:"id"`
 		Name        string        `json:"name"`
-		Parent      interface{}   `json:"parent"`
-		Attachments []interface{} `json:"attachments"`
 		Slug        string        `json:"slug"`
 		Description string        `json:"description"`
 	} `json:"project"`
 	ProjectID int64 `json:"project_id"`
 	Scales    []struct {
+		IsPrimary        bool  `json:"is_primary"`
 		ID               int64 `json:"id"`
 		CorrectionNumber int64 `json:"correction_number"`
-		IsPrimary        bool  `json:"is_primary"`
 	} `json:"scales"`
 	Solo             bool          `json:"solo"`
 	TeamBehaviour    string        `json:"team_behaviour"`
@@ -7188,6 +7805,7 @@ type ProjectSessionsItem struct {
 // ProjectSessionsListCall description:
 type ProjectSessionsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -7196,12 +7814,14 @@ type ProjectSessionsListCall struct {
 type ListProjectSessionsResponse struct {
 	ProjectSessions []*ProjectSessionsItem
 	ServerResponse  `json:"-"`
+	NextPage        int
 }
 
 // List returns a ProjectSessionsListCall which can request data from the 42 API.
 func (s *ProjectSessionsService) List() *ProjectSessionsListCall {
 	return &ProjectSessionsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -7212,8 +7832,15 @@ func (c *ProjectSessionsListCall) P(key string, values []string) *ProjectSession
 	return c
 }
 
+// PageToken get the specified page
+func (c *ProjectSessionsListCall) PageToken(page int) *ProjectSessionsListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a ProjectSessionsListCall request call. Exactly one of *ListProjectSessionsResponse or error will be non-nil.
 func (c *ProjectSessionsListCall) Do() (*ListProjectSessionsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/project_sessions/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -7238,6 +7865,7 @@ func (c *ProjectSessionsListCall) Do() (*ListProjectSessionsResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).ProjectSessions); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -7309,6 +7937,7 @@ type ProjectSessionsRulesItem struct {
 // ProjectSessionsRulesListCall description:
 type ProjectSessionsRulesListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -7317,12 +7946,14 @@ type ProjectSessionsRulesListCall struct {
 type ListProjectSessionsRulesResponse struct {
 	ProjectSessionsRules []*ProjectSessionsRulesItem
 	ServerResponse       `json:"-"`
+	NextPage             int
 }
 
 // List returns a ProjectSessionsRulesListCall which can request data from the 42 API.
 func (s *ProjectSessionsRulesService) List() *ProjectSessionsRulesListCall {
 	return &ProjectSessionsRulesListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -7333,8 +7964,15 @@ func (c *ProjectSessionsRulesListCall) P(key string, values []string) *ProjectSe
 	return c
 }
 
+// PageToken get the specified page
+func (c *ProjectSessionsRulesListCall) PageToken(page int) *ProjectSessionsRulesListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a ProjectSessionsRulesListCall request call. Exactly one of *ListProjectSessionsRulesResponse or error will be non-nil.
 func (c *ProjectSessionsRulesListCall) Do() (*ListProjectSessionsRulesResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/project_sessions_rules/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -7359,6 +7997,7 @@ func (c *ProjectSessionsRulesListCall) Do() (*ListProjectSessionsRulesResponse, 
 	if err := json.NewDecoder(res.Body).Decode(&(*target).ProjectSessionsRules); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -7437,6 +8076,7 @@ type ProjectSessionsSkillsItem struct {
 // ProjectSessionsSkillsListCall description:
 type ProjectSessionsSkillsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -7445,12 +8085,14 @@ type ProjectSessionsSkillsListCall struct {
 type ListProjectSessionsSkillsResponse struct {
 	ProjectSessionsSkills []*ProjectSessionsSkillsItem
 	ServerResponse        `json:"-"`
+	NextPage              int
 }
 
 // List returns a ProjectSessionsSkillsListCall which can request data from the 42 API.
 func (s *ProjectSessionsSkillsService) List() *ProjectSessionsSkillsListCall {
 	return &ProjectSessionsSkillsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -7461,8 +8103,15 @@ func (c *ProjectSessionsSkillsListCall) P(key string, values []string) *ProjectS
 	return c
 }
 
+// PageToken get the specified page
+func (c *ProjectSessionsSkillsListCall) PageToken(page int) *ProjectSessionsSkillsListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a ProjectSessionsSkillsListCall request call. Exactly one of *ListProjectSessionsSkillsResponse or error will be non-nil.
 func (c *ProjectSessionsSkillsListCall) Do() (*ListProjectSessionsSkillsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/project_sessions_skills/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -7487,6 +8136,7 @@ func (c *ProjectSessionsSkillsListCall) Do() (*ListProjectSessionsSkillsResponse
 	if err := json.NewDecoder(res.Body).Decode(&(*target).ProjectSessionsSkills); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -7548,6 +8198,7 @@ type ProjectsService struct {
 type ProjectsItem struct {
 	Attachments []interface{} `json:"attachments"`
 	Campus      []struct {
+		ID       int64  `json:"id"`
 		Name     string `json:"name"`
 		TimeZone string `json:"time_zone"`
 		Language struct {
@@ -7559,7 +8210,6 @@ type ProjectsItem struct {
 		} `json:"language"`
 		UsersCount  int64 `json:"users_count"`
 		VogsphereID int64 `json:"vogsphere_id"`
-		ID          int64 `json:"id"`
 	} `json:"campus"`
 	Children  []interface{} `json:"children"`
 	CreatedAt time.Time     `json:"created_at"`
@@ -7576,32 +8226,32 @@ type ProjectsItem struct {
 	Objectives      []string    `json:"objectives"`
 	Parent          interface{} `json:"parent"`
 	ProjectSessions []struct {
-		EstimateTime     int64       `json:"estimate_time"`
-		TerminatingAfter interface{} `json:"terminating_after"`
-		ProjectID        int64       `json:"project_id"`
-		CampusID         interface{} `json:"campus_id"`
+		TeamBehaviour    string        `json:"team_behaviour"`
+		EstimateTime     int64         `json:"estimate_time"`
+		Uploads          []interface{} `json:"uploads"`
+		CursusID         interface{}   `json:"cursus_id"`
+		CreatedAt        time.Time     `json:"created_at"`
+		EndAt            interface{}   `json:"end_at"`
+		TerminatingAfter interface{}   `json:"terminating_after"`
+		BeginAt          interface{}   `json:"begin_at"`
+		DurationDays     interface{}   `json:"duration_days"`
+		CampusID         interface{}   `json:"campus_id"`
 		Scales           []struct {
 			ID               int64 `json:"id"`
 			CorrectionNumber int64 `json:"correction_number"`
 			IsPrimary        bool  `json:"is_primary"`
 		} `json:"scales"`
-		TeamBehaviour   string        `json:"team_behaviour"`
-		ID              int64         `json:"id"`
-		Solo            bool          `json:"solo"`
-		UpdatedAt       time.Time     `json:"updated_at"`
-		IsSubscriptable bool          `json:"is_subscriptable"`
-		BeginAt         interface{}   `json:"begin_at"`
-		DurationDays    interface{}   `json:"duration_days"`
-		CursusID        interface{}   `json:"cursus_id"`
-		MaxPeople       interface{}   `json:"max_people"`
-		Uploads         []interface{} `json:"uploads"`
-		EndAt           interface{}   `json:"end_at"`
-		CreatedAt       time.Time     `json:"created_at"`
+		ID              int64       `json:"id"`
+		Solo            bool        `json:"solo"`
+		MaxPeople       interface{} `json:"max_people"`
+		IsSubscriptable bool        `json:"is_subscriptable"`
+		ProjectID       int64       `json:"project_id"`
+		UpdatedAt       time.Time   `json:"updated_at"`
 	} `json:"project_sessions"`
 	Skills []struct {
-		CreatedAt time.Time `json:"created_at"`
 		ID        int64     `json:"id"`
 		Name      string    `json:"name"`
+		CreatedAt time.Time `json:"created_at"`
 	} `json:"skills"`
 	Slug string `json:"slug"`
 	Tags []struct {
@@ -7619,6 +8269,7 @@ type ProjectsItem struct {
 // ProjectsListCall description:
 type ProjectsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -7627,12 +8278,14 @@ type ProjectsListCall struct {
 type ListProjectsResponse struct {
 	Projects       []*ProjectsItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a ProjectsListCall which can request data from the 42 API.
 func (s *ProjectsService) List() *ProjectsListCall {
 	return &ProjectsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -7643,8 +8296,15 @@ func (c *ProjectsListCall) P(key string, values []string) *ProjectsListCall {
 	return c
 }
 
+// PageToken get the specified page
+func (c *ProjectsListCall) PageToken(page int) *ProjectsListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a ProjectsListCall request call. Exactly one of *ListProjectsResponse or error will be non-nil.
 func (c *ProjectsListCall) Do() (*ListProjectsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/projects/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -7669,6 +8329,7 @@ func (c *ProjectsListCall) Do() (*ListProjectsResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Projects); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -7740,39 +8401,39 @@ type ProjectsUsersItem struct {
 	ID            int64       `json:"id"`
 	Occurrence    int64       `json:"occurrence"`
 	Project       struct {
+		ID       int64       `json:"id"`
 		Name     string      `json:"name"`
 		Slug     string      `json:"slug"`
 		ParentID interface{} `json:"parent_id"`
-		ID       int64       `json:"id"`
 	} `json:"project"`
 	Status string `json:"status"`
 	Teams  []struct {
-		LockedAt      time.Time   `json:"locked_at"`
-		URL           string      `json:"url"`
-		ProjectID     int64       `json:"project_id"`
-		TerminatingAt interface{} `json:"terminating_at"`
-		Locked        bool        `json:"locked?"`
-		Validated     interface{} `json:"validated?"`
-		FinalMark     interface{} `json:"final_mark"`
-		CreatedAt     time.Time   `json:"created_at"`
-		RepoURL       interface{} `json:"repo_url"`
-		ID            int64       `json:"id"`
-		Status        string      `json:"status"`
-		Users         []struct {
-			ID             int64  `json:"id"`
+		Locked           bool        `json:"locked?"`
+		RepoURL          interface{} `json:"repo_url"`
+		ProjectSessionID int64       `json:"project_session_id"`
+		Name             string      `json:"name"`
+		ProjectID        int64       `json:"project_id"`
+		Users            []struct {
 			Login          string `json:"login"`
 			URL            string `json:"url"`
 			Leader         bool   `json:"leader"`
 			Occurrence     int64  `json:"occurrence"`
 			Validated      bool   `json:"validated"`
 			ProjectsUserID int64  `json:"projects_user_id"`
+			ID             int64  `json:"id"`
 		} `json:"users"`
-		Closed           bool      `json:"closed?"`
-		ProjectSessionID int64     `json:"project_session_id"`
-		Name             string    `json:"name"`
-		UpdatedAt        time.Time `json:"updated_at"`
-		RepoUUID         string    `json:"repo_uuid"`
-		ClosedAt         time.Time `json:"closed_at"`
+		TerminatingAt interface{} `json:"terminating_at"`
+		ClosedAt      time.Time   `json:"closed_at"`
+		URL           string      `json:"url"`
+		Validated     interface{} `json:"validated?"`
+		LockedAt      time.Time   `json:"locked_at"`
+		UpdatedAt     time.Time   `json:"updated_at"`
+		Status        string      `json:"status"`
+		Closed        bool        `json:"closed?"`
+		RepoUUID      string      `json:"repo_uuid"`
+		ID            int64       `json:"id"`
+		FinalMark     interface{} `json:"final_mark"`
+		CreatedAt     time.Time   `json:"created_at"`
 	} `json:"teams"`
 	User struct {
 		ID    int64  `json:"id"`
@@ -7787,6 +8448,7 @@ type ProjectsUsersItem struct {
 // ProjectsUsersListCall description:
 type ProjectsUsersListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -7795,12 +8457,14 @@ type ProjectsUsersListCall struct {
 type ListProjectsUsersResponse struct {
 	ProjectsUsers  []*ProjectsUsersItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a ProjectsUsersListCall which can request data from the 42 API.
 func (s *ProjectsUsersService) List() *ProjectsUsersListCall {
 	return &ProjectsUsersListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -7811,8 +8475,15 @@ func (c *ProjectsUsersListCall) P(key string, values []string) *ProjectsUsersLis
 	return c
 }
 
+// PageToken get the specified page
+func (c *ProjectsUsersListCall) PageToken(page int) *ProjectsUsersListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a ProjectsUsersListCall request call. Exactly one of *ListProjectsUsersResponse or error will be non-nil.
 func (c *ProjectsUsersListCall) Do() (*ListProjectsUsersResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/projects_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -7837,6 +8508,7 @@ func (c *ProjectsUsersListCall) Do() (*ListProjectsUsersResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).ProjectsUsers); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -7929,6 +8601,7 @@ type QuestsItem struct {
 // QuestsListCall description:
 type QuestsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -7937,12 +8610,14 @@ type QuestsListCall struct {
 type ListQuestsResponse struct {
 	Quests         []*QuestsItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a QuestsListCall which can request data from the 42 API.
 func (s *QuestsService) List() *QuestsListCall {
 	return &QuestsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -7953,8 +8628,15 @@ func (c *QuestsListCall) P(key string, values []string) *QuestsListCall {
 	return c
 }
 
+// PageToken get the specified page
+func (c *QuestsListCall) PageToken(page int) *QuestsListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a QuestsListCall request call. Exactly one of *ListQuestsResponse or error will be non-nil.
 func (c *QuestsListCall) Do() (*ListQuestsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/quests/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -7979,6 +8661,7 @@ func (c *QuestsListCall) Do() (*ListQuestsResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Quests); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -8050,18 +8733,18 @@ type QuestsUsersItem struct {
 	ID          int64       `json:"id"`
 	Prct        interface{} `json:"prct"`
 	Quest       struct {
-		Kind         string      `json:"kind"`
+		CreatedAt    time.Time   `json:"created_at"`
 		GradeID      interface{} `json:"grade_id"`
+		InternalName interface{} `json:"internal_name"`
+		Description  string      `json:"description"`
+		CampusID     interface{} `json:"campus_id"`
+		Kind         string      `json:"kind"`
+		CursusID     int64       `json:"cursus_id"`
+		UpdatedAt    time.Time   `json:"updated_at"`
 		Position     int64       `json:"position"`
 		ID           int64       `json:"id"`
-		Slug         string      `json:"slug"`
-		Description  string      `json:"description"`
-		CursusID     int64       `json:"cursus_id"`
-		CampusID     interface{} `json:"campus_id"`
-		CreatedAt    time.Time   `json:"created_at"`
-		UpdatedAt    time.Time   `json:"updated_at"`
 		Name         string      `json:"name"`
-		InternalName interface{} `json:"internal_name"`
+		Slug         string      `json:"slug"`
 	} `json:"quest"`
 	QuestID   int64     `json:"quest_id"`
 	UpdatedAt time.Time `json:"updated_at"`
@@ -8078,6 +8761,7 @@ type QuestsUsersItem struct {
 // QuestsUsersListCall description:
 type QuestsUsersListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -8086,12 +8770,14 @@ type QuestsUsersListCall struct {
 type ListQuestsUsersResponse struct {
 	QuestsUsers    []*QuestsUsersItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a QuestsUsersListCall which can request data from the 42 API.
 func (s *QuestsUsersService) List() *QuestsUsersListCall {
 	return &QuestsUsersListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -8102,8 +8788,15 @@ func (c *QuestsUsersListCall) P(key string, values []string) *QuestsUsersListCal
 	return c
 }
 
+// PageToken get the specified page
+func (c *QuestsUsersListCall) PageToken(page int) *QuestsUsersListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a QuestsUsersListCall request call. Exactly one of *ListQuestsUsersResponse or error will be non-nil.
 func (c *QuestsUsersListCall) Do() (*ListQuestsUsersResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/quests_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -8128,6 +8821,7 @@ func (c *QuestsUsersListCall) Do() (*ListQuestsUsersResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).QuestsUsers); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -8203,6 +8897,7 @@ type RolesItem struct {
 // RolesListCall description:
 type RolesListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -8211,12 +8906,14 @@ type RolesListCall struct {
 type ListRolesResponse struct {
 	Roles          []*RolesItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a RolesListCall which can request data from the 42 API.
 func (s *RolesService) List() *RolesListCall {
 	return &RolesListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -8227,8 +8924,15 @@ func (c *RolesListCall) P(key string, values []string) *RolesListCall {
 	return c
 }
 
+// PageToken get the specified page
+func (c *RolesListCall) PageToken(page int) *RolesListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a RolesListCall request call. Exactly one of *ListRolesResponse or error will be non-nil.
 func (c *RolesListCall) Do() (*ListRolesResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/roles/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -8253,6 +8957,7 @@ func (c *RolesListCall) Do() (*ListRolesResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Roles); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -8320,17 +9025,17 @@ type RolesEntitiesService struct {
 type RolesEntitiesItem struct {
 	CreatedAt time.Time `json:"created_at"`
 	Entity    struct {
-		Owner       struct{}      `json:"owner"`
-		RateLimit   int64         `json:"rate_limit"`
+		ID          int64         `json:"id"`
 		Image       interface{}   `json:"image"`
 		Website     interface{}   `json:"website"`
 		Public      bool          `json:"public"`
 		UpdatedAt   time.Time     `json:"updated_at"`
-		CreatedAt   time.Time     `json:"created_at"`
-		ID          int64         `json:"id"`
 		Name        string        `json:"name"`
 		Description interface{}   `json:"description"`
 		Scopes      []interface{} `json:"scopes"`
+		CreatedAt   time.Time     `json:"created_at"`
+		Owner       struct{}      `json:"owner"`
+		RateLimit   int64         `json:"rate_limit"`
 	} `json:"entity"`
 	EntityID   int64       `json:"entity_id"`
 	EntityType string      `json:"entity_type"`
@@ -8348,6 +9053,7 @@ type RolesEntitiesItem struct {
 // RolesEntitiesListCall description:
 type RolesEntitiesListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -8356,12 +9062,14 @@ type RolesEntitiesListCall struct {
 type ListRolesEntitiesResponse struct {
 	RolesEntities  []*RolesEntitiesItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a RolesEntitiesListCall which can request data from the 42 API.
 func (s *RolesEntitiesService) List() *RolesEntitiesListCall {
 	return &RolesEntitiesListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -8372,8 +9080,15 @@ func (c *RolesEntitiesListCall) P(key string, values []string) *RolesEntitiesLis
 	return c
 }
 
+// PageToken get the specified page
+func (c *RolesEntitiesListCall) PageToken(page int) *RolesEntitiesListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a RolesEntitiesListCall request call. Exactly one of *ListRolesEntitiesResponse or error will be non-nil.
 func (c *RolesEntitiesListCall) Do() (*ListRolesEntitiesResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/roles_entities/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -8398,6 +9113,7 @@ func (c *RolesEntitiesListCall) Do() (*ListRolesEntitiesResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).RolesEntities); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -8470,13 +9186,13 @@ type RulesItem struct {
 	Kind         string    `json:"kind"`
 	Name         string    `json:"name"`
 	Params       []struct {
+		UpdatedAt    time.Time `json:"updated_at"`
+		DataType     string    `json:"data_type"`
 		ID           int64     `json:"id"`
 		Name         string    `json:"name"`
 		DefaultValue string    `json:"default_value"`
 		RuleID       int64     `json:"rule_id"`
 		CreatedAt    time.Time `json:"created_at"`
-		UpdatedAt    time.Time `json:"updated_at"`
-		DataType     string    `json:"data_type"`
 	} `json:"params"`
 	ProjectSessionsRules []interface{} `json:"project_sessions_rules"`
 	Slug                 string        `json:"slug"`
@@ -8488,6 +9204,7 @@ type RulesItem struct {
 // RulesListCall description:
 type RulesListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -8496,12 +9213,14 @@ type RulesListCall struct {
 type ListRulesResponse struct {
 	Rules          []*RulesItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a RulesListCall which can request data from the 42 API.
 func (s *RulesService) List() *RulesListCall {
 	return &RulesListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -8512,8 +9231,15 @@ func (c *RulesListCall) P(key string, values []string) *RulesListCall {
 	return c
 }
 
+// PageToken get the specified page
+func (c *RulesListCall) PageToken(page int) *RulesListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a RulesListCall request call. Exactly one of *ListRulesResponse or error will be non-nil.
 func (c *RulesListCall) Do() (*ListRulesResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/rules/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -8538,6 +9264,7 @@ func (c *RulesListCall) Do() (*ListRulesResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Rules); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -8623,25 +9350,25 @@ type ScaleTeamsItem struct {
 	} `json:"flag"`
 	ID    int64 `json:"id"`
 	Scale struct {
-		ManualSubscription bool      `json:"manual_subscription"`
-		ID                 int64     `json:"id"`
-		IntroductionMd     string    `json:"introduction_md"`
-		DisclaimerMd       string    `json:"disclaimer_md"`
-		GuidelinesMd       string    `json:"guidelines_md"`
-		CorrectionNumber   int64     `json:"correction_number"`
-		Duration           int64     `json:"duration"`
-		EvaluationID       int64     `json:"evaluation_id"`
-		Name               string    `json:"name"`
-		IsPrimary          bool      `json:"is_primary"`
-		Comment            string    `json:"comment"`
-		CreatedAt          time.Time `json:"created_at"`
+		ID                 int64  `json:"id"`
+		EvaluationID       int64  `json:"evaluation_id"`
+		Name               string `json:"name"`
+		IntroductionMd     string `json:"introduction_md"`
+		DisclaimerMd       string `json:"disclaimer_md"`
+		ManualSubscription bool   `json:"manual_subscription"`
 		Languages          []struct {
+			CreatedAt  time.Time `json:"created_at"`
+			UpdatedAt  time.Time `json:"updated_at"`
 			ID         int64     `json:"id"`
 			Name       string    `json:"name"`
 			IDentifier string    `json:"identifier"`
-			CreatedAt  time.Time `json:"created_at"`
-			UpdatedAt  time.Time `json:"updated_at"`
 		} `json:"languages"`
+		IsPrimary        bool      `json:"is_primary"`
+		Comment          string    `json:"comment"`
+		GuidelinesMd     string    `json:"guidelines_md"`
+		CreatedAt        time.Time `json:"created_at"`
+		CorrectionNumber int64     `json:"correction_number"`
+		Duration         int64     `json:"duration"`
 	} `json:"scale"`
 	ScaleID   int64     `json:"scale_id"`
 	Truant    struct{}  `json:"truant"`
@@ -8653,6 +9380,7 @@ type ScaleTeamsItem struct {
 // ScaleTeamsListCall description:
 type ScaleTeamsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -8661,12 +9389,14 @@ type ScaleTeamsListCall struct {
 type ListScaleTeamsResponse struct {
 	ScaleTeams     []*ScaleTeamsItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a ScaleTeamsListCall which can request data from the 42 API.
 func (s *ScaleTeamsService) List() *ScaleTeamsListCall {
 	return &ScaleTeamsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -8677,8 +9407,15 @@ func (c *ScaleTeamsListCall) P(key string, values []string) *ScaleTeamsListCall 
 	return c
 }
 
+// PageToken get the specified page
+func (c *ScaleTeamsListCall) PageToken(page int) *ScaleTeamsListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a ScaleTeamsListCall request call. Exactly one of *ListScaleTeamsResponse or error will be non-nil.
 func (c *ScaleTeamsListCall) Do() (*ListScaleTeamsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/scale_teams/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -8703,6 +9440,7 @@ func (c *ScaleTeamsListCall) Do() (*ListScaleTeamsResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).ScaleTeams); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -8774,8 +9512,8 @@ type ScalesItem struct {
 	DisclaimerMd     string    `json:"disclaimer_md"`
 	Duration         int64     `json:"duration"`
 	Evaluation       struct {
-		Kind string `json:"kind"`
 		ID   int64  `json:"id"`
+		Kind string `json:"kind"`
 	} `json:"evaluation"`
 	EvaluationID   int64  `json:"evaluation_id"`
 	GuidelinesMd   string `json:"guidelines_md"`
@@ -8783,11 +9521,11 @@ type ScalesItem struct {
 	IntroductionMd string `json:"introduction_md"`
 	IsPrimary      bool   `json:"is_primary"`
 	Languages      []struct {
+		UpdatedAt  time.Time `json:"updated_at"`
 		ID         int64     `json:"id"`
 		Name       string    `json:"name"`
 		IDentifier string    `json:"identifier"`
 		CreatedAt  time.Time `json:"created_at"`
-		UpdatedAt  time.Time `json:"updated_at"`
 	} `json:"languages"`
 	ManualSubscription bool   `json:"manual_subscription"`
 	Name               string `json:"name"`
@@ -8796,12 +9534,12 @@ type ScalesItem struct {
 		Name        string `json:"name"`
 		Description string `json:"description"`
 		Questions   []struct {
-			ID         int64     `json:"id"`
 			Name       string    `json:"name"`
 			Guidelines string    `json:"guidelines"`
 			Rating     string    `json:"rating"`
 			Kind       string    `json:"kind"`
 			CreatedAt  time.Time `json:"created_at"`
+			ID         int64     `json:"id"`
 		} `json:"questions"`
 	} `json:"sections"`
 
@@ -8811,6 +9549,7 @@ type ScalesItem struct {
 // ScalesListCall description:
 type ScalesListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -8819,12 +9558,14 @@ type ScalesListCall struct {
 type ListScalesResponse struct {
 	Scales         []*ScalesItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a ScalesListCall which can request data from the 42 API.
 func (s *ScalesService) List() *ScalesListCall {
 	return &ScalesListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -8835,8 +9576,15 @@ func (c *ScalesListCall) P(key string, values []string) *ScalesListCall {
 	return c
 }
 
+// PageToken get the specified page
+func (c *ScalesListCall) PageToken(page int) *ScalesListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a ScalesListCall request call. Exactly one of *ListScalesResponse or error will be non-nil.
 func (c *ScalesListCall) Do() (*ListScalesResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/scales/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -8861,6 +9609,7 @@ func (c *ScalesListCall) Do() (*ListScalesResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Scales); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -8943,6 +9692,7 @@ type ScoresItem struct {
 // ScoresListCall description:
 type ScoresListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -8951,12 +9701,14 @@ type ScoresListCall struct {
 type ListScoresResponse struct {
 	Scores         []*ScoresItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a ScoresListCall which can request data from the 42 API.
 func (s *ScoresService) List() *ScoresListCall {
 	return &ScoresListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -8967,8 +9719,15 @@ func (c *ScoresListCall) P(key string, values []string) *ScoresListCall {
 	return c
 }
 
+// PageToken get the specified page
+func (c *ScoresListCall) PageToken(page int) *ScoresListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a ScoresListCall request call. Exactly one of *ListScoresResponse or error will be non-nil.
 func (c *ScoresListCall) Do() (*ListScoresResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/scores/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -8993,6 +9752,7 @@ func (c *ScoresListCall) Do() (*ListScoresResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Scores); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -9062,6 +9822,7 @@ type SkillsItem struct {
 // SkillsListCall description:
 type SkillsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -9070,12 +9831,14 @@ type SkillsListCall struct {
 type ListSkillsResponse struct {
 	Skills         []*SkillsItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a SkillsListCall which can request data from the 42 API.
 func (s *SkillsService) List() *SkillsListCall {
 	return &SkillsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -9086,8 +9849,15 @@ func (c *SkillsListCall) P(key string, values []string) *SkillsListCall {
 	return c
 }
 
+// PageToken get the specified page
+func (c *SkillsListCall) PageToken(page int) *SkillsListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a SkillsListCall request call. Exactly one of *ListSkillsResponse or error will be non-nil.
 func (c *SkillsListCall) Do() (*ListSkillsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/skills/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -9112,6 +9882,7 @@ func (c *SkillsListCall) Do() (*ListSkillsResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Skills); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -9183,6 +9954,7 @@ type SlotsItem struct {
 // SlotsListCall description:
 type SlotsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -9191,12 +9963,14 @@ type SlotsListCall struct {
 type ListSlotsResponse struct {
 	Slots          []*SlotsItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a SlotsListCall which can request data from the 42 API.
 func (s *SlotsService) List() *SlotsListCall {
 	return &SlotsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -9207,8 +9981,15 @@ func (c *SlotsListCall) P(key string, values []string) *SlotsListCall {
 	return c
 }
 
+// PageToken get the specified page
+func (c *SlotsListCall) PageToken(page int) *SlotsListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a SlotsListCall request call. Exactly one of *ListSlotsResponse or error will be non-nil.
 func (c *SlotsListCall) Do() (*ListSlotsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/slots/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -9233,6 +10014,7 @@ func (c *SlotsListCall) Do() (*ListSlotsResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Slots); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -9308,6 +10090,7 @@ type SquadsItem struct {
 // SquadsListCall description:
 type SquadsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -9316,12 +10099,14 @@ type SquadsListCall struct {
 type ListSquadsResponse struct {
 	Squads         []*SquadsItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a SquadsListCall which can request data from the 42 API.
 func (s *SquadsService) List() *SquadsListCall {
 	return &SquadsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -9332,8 +10117,15 @@ func (c *SquadsListCall) P(key string, values []string) *SquadsListCall {
 	return c
 }
 
+// PageToken get the specified page
+func (c *SquadsListCall) PageToken(page int) *SquadsListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a SquadsListCall request call. Exactly one of *ListSquadsResponse or error will be non-nil.
 func (c *SquadsListCall) Do() (*ListSquadsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/squads/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -9358,6 +10150,7 @@ func (c *SquadsListCall) Do() (*ListSquadsResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Squads); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -9427,6 +10220,7 @@ type SquadsUsersItem struct {
 // SquadsUsersListCall description:
 type SquadsUsersListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -9435,12 +10229,14 @@ type SquadsUsersListCall struct {
 type ListSquadsUsersResponse struct {
 	SquadsUsers    []*SquadsUsersItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a SquadsUsersListCall which can request data from the 42 API.
 func (s *SquadsUsersService) List() *SquadsUsersListCall {
 	return &SquadsUsersListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -9451,8 +10247,15 @@ func (c *SquadsUsersListCall) P(key string, values []string) *SquadsUsersListCal
 	return c
 }
 
+// PageToken get the specified page
+func (c *SquadsUsersListCall) PageToken(page int) *SquadsUsersListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a SquadsUsersListCall request call. Exactly one of *ListSquadsUsersResponse or error will be non-nil.
 func (c *SquadsUsersListCall) Do() (*ListSquadsUsersResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/squads_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -9477,6 +10280,7 @@ func (c *SquadsUsersListCall) Do() (*ListSquadsUsersResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).SquadsUsers); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -9506,6 +10310,7 @@ type SubnotionsItem struct {
 // SubnotionsListCall description:
 type SubnotionsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -9514,12 +10319,14 @@ type SubnotionsListCall struct {
 type ListSubnotionsResponse struct {
 	Subnotions     []*SubnotionsItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a SubnotionsListCall which can request data from the 42 API.
 func (s *SubnotionsService) List() *SubnotionsListCall {
 	return &SubnotionsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -9530,8 +10337,15 @@ func (c *SubnotionsListCall) P(key string, values []string) *SubnotionsListCall 
 	return c
 }
 
+// PageToken get the specified page
+func (c *SubnotionsListCall) PageToken(page int) *SubnotionsListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a SubnotionsListCall request call. Exactly one of *ListSubnotionsResponse or error will be non-nil.
 func (c *SubnotionsListCall) Do() (*ListSubnotionsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/subnotions/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -9556,6 +10370,7 @@ func (c *SubnotionsListCall) Do() (*ListSubnotionsResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Subnotions); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -9633,6 +10448,7 @@ type TagsItem struct {
 // TagsListCall description:
 type TagsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -9641,12 +10457,14 @@ type TagsListCall struct {
 type ListTagsResponse struct {
 	Tags           []*TagsItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a TagsListCall which can request data from the 42 API.
 func (s *TagsService) List() *TagsListCall {
 	return &TagsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -9657,8 +10475,15 @@ func (c *TagsListCall) P(key string, values []string) *TagsListCall {
 	return c
 }
 
+// PageToken get the specified page
+func (c *TagsListCall) PageToken(page int) *TagsListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a TagsListCall request call. Exactly one of *ListTagsResponse or error will be non-nil.
 func (c *TagsListCall) Do() (*ListTagsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/tags/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -9683,6 +10508,7 @@ func (c *TagsListCall) Do() (*ListTagsResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Tags); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -9754,6 +10580,7 @@ type TeamsItem struct {
 // TeamsListCall description:
 type TeamsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -9762,12 +10589,14 @@ type TeamsListCall struct {
 type ListTeamsResponse struct {
 	Teams          []*TeamsItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a TeamsListCall which can request data from the 42 API.
 func (s *TeamsService) List() *TeamsListCall {
 	return &TeamsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -9778,8 +10607,15 @@ func (c *TeamsListCall) P(key string, values []string) *TeamsListCall {
 	return c
 }
 
+// PageToken get the specified page
+func (c *TeamsListCall) PageToken(page int) *TeamsListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a TeamsListCall request call. Exactly one of *ListTeamsResponse or error will be non-nil.
 func (c *TeamsListCall) Do() (*ListTeamsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/teams/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -9804,6 +10640,7 @@ func (c *TeamsListCall) Do() (*ListTeamsResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Teams); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -9874,12 +10711,12 @@ type TeamsUploadsItem struct {
 	FinalMark int64     `json:"final_mark"`
 	ID        int64     `json:"id"`
 	Upload    struct {
-		ID           int64     `json:"id"`
-		EvaluationID int64     `json:"evaluation_id"`
-		Name         string    `json:"name"`
 		Description  string    `json:"description"`
 		CreatedAt    time.Time `json:"created_at"`
 		UpdatedAt    time.Time `json:"updated_at"`
+		ID           int64     `json:"id"`
+		EvaluationID int64     `json:"evaluation_id"`
+		Name         string    `json:"name"`
 	} `json:"upload"`
 	UploadID int64 `json:"upload_id"`
 
@@ -9889,6 +10726,7 @@ type TeamsUploadsItem struct {
 // TeamsUploadsListCall description:
 type TeamsUploadsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -9897,12 +10735,14 @@ type TeamsUploadsListCall struct {
 type ListTeamsUploadsResponse struct {
 	TeamsUploads   []*TeamsUploadsItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a TeamsUploadsListCall which can request data from the 42 API.
 func (s *TeamsUploadsService) List() *TeamsUploadsListCall {
 	return &TeamsUploadsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -9913,8 +10753,15 @@ func (c *TeamsUploadsListCall) P(key string, values []string) *TeamsUploadsListC
 	return c
 }
 
+// PageToken get the specified page
+func (c *TeamsUploadsListCall) PageToken(page int) *TeamsUploadsListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a TeamsUploadsListCall request call. Exactly one of *ListTeamsUploadsResponse or error will be non-nil.
 func (c *TeamsUploadsListCall) Do() (*ListTeamsUploadsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/teams_uploads/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -9939,6 +10786,7 @@ func (c *TeamsUploadsListCall) Do() (*ListTeamsUploadsResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).TeamsUploads); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -10009,32 +10857,32 @@ type TeamsUsersItem struct {
 	Leader     bool      `json:"leader"`
 	Occurrence int64     `json:"occurrence"`
 	Team       struct {
-		RepoUUID  string `json:"repo_uuid"`
-		ProjectID int64  `json:"project_id"`
-		Users     []struct {
+		URL              string      `json:"url"`
+		Locked           bool        `json:"locked?"`
+		Validated        interface{} `json:"validated?"`
+		RepoURL          interface{} `json:"repo_url"`
+		LockedAt         interface{} `json:"locked_at"`
+		Name             string      `json:"name"`
+		FinalMark        interface{} `json:"final_mark"`
+		ID               int64       `json:"id"`
+		ProjectID        int64       `json:"project_id"`
+		Closed           bool        `json:"closed?"`
+		ProjectSessionID int64       `json:"project_session_id"`
+		RepoUUID         string      `json:"repo_uuid"`
+		ClosedAt         interface{} `json:"closed_at"`
+		CreatedAt        time.Time   `json:"created_at"`
+		UpdatedAt        time.Time   `json:"updated_at"`
+		Status           string      `json:"status"`
+		TerminatingAt    interface{} `json:"terminating_at"`
+		Users            []struct {
+			ID             int64  `json:"id"`
+			Login          string `json:"login"`
+			URL            string `json:"url"`
 			Leader         bool   `json:"leader"`
 			Occurrence     int64  `json:"occurrence"`
 			Validated      bool   `json:"validated"`
 			ProjectsUserID int64  `json:"projects_user_id"`
-			ID             int64  `json:"id"`
-			Login          string `json:"login"`
-			URL            string `json:"url"`
 		} `json:"users"`
-		RepoURL          interface{} `json:"repo_url"`
-		TerminatingAt    interface{} `json:"terminating_at"`
-		Locked           bool        `json:"locked?"`
-		Name             string      `json:"name"`
-		CreatedAt        time.Time   `json:"created_at"`
-		Status           string      `json:"status"`
-		Closed           bool        `json:"closed?"`
-		LockedAt         interface{} `json:"locked_at"`
-		ClosedAt         interface{} `json:"closed_at"`
-		URL              string      `json:"url"`
-		FinalMark        interface{} `json:"final_mark"`
-		UpdatedAt        time.Time   `json:"updated_at"`
-		ID               int64       `json:"id"`
-		Validated        interface{} `json:"validated?"`
-		ProjectSessionID int64       `json:"project_session_id"`
 	} `json:"team"`
 	TeamID int64 `json:"team_id"`
 	User   struct {
@@ -10051,6 +10899,7 @@ type TeamsUsersItem struct {
 // TeamsUsersListCall description:
 type TeamsUsersListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -10059,12 +10908,14 @@ type TeamsUsersListCall struct {
 type ListTeamsUsersResponse struct {
 	TeamsUsers     []*TeamsUsersItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a TeamsUsersListCall which can request data from the 42 API.
 func (s *TeamsUsersService) List() *TeamsUsersListCall {
 	return &TeamsUsersListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -10075,8 +10926,15 @@ func (c *TeamsUsersListCall) P(key string, values []string) *TeamsUsersListCall 
 	return c
 }
 
+// PageToken get the specified page
+func (c *TeamsUsersListCall) PageToken(page int) *TeamsUsersListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a TeamsUsersListCall request call. Exactly one of *ListTeamsUsersResponse or error will be non-nil.
 func (c *TeamsUsersListCall) Do() (*ListTeamsUsersResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/teams_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -10101,6 +10959,7 @@ func (c *TeamsUsersListCall) Do() (*ListTeamsUsersResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).TeamsUsers); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -10172,6 +11031,7 @@ type TitlesItem struct {
 // TitlesListCall description:
 type TitlesListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -10180,12 +11040,14 @@ type TitlesListCall struct {
 type ListTitlesResponse struct {
 	Titles         []*TitlesItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a TitlesListCall which can request data from the 42 API.
 func (s *TitlesService) List() *TitlesListCall {
 	return &TitlesListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -10196,8 +11058,15 @@ func (c *TitlesListCall) P(key string, values []string) *TitlesListCall {
 	return c
 }
 
+// PageToken get the specified page
+func (c *TitlesListCall) PageToken(page int) *TitlesListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a TitlesListCall request call. Exactly one of *ListTitlesResponse or error will be non-nil.
 func (c *TitlesListCall) Do() (*ListTitlesResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/titles/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -10222,6 +11091,7 @@ func (c *TitlesListCall) Do() (*ListTitlesResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Titles); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -10293,6 +11163,7 @@ type TitlesUsersItem struct {
 // TitlesUsersListCall description:
 type TitlesUsersListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -10301,12 +11172,14 @@ type TitlesUsersListCall struct {
 type ListTitlesUsersResponse struct {
 	TitlesUsers    []*TitlesUsersItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a TitlesUsersListCall which can request data from the 42 API.
 func (s *TitlesUsersService) List() *TitlesUsersListCall {
 	return &TitlesUsersListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -10317,8 +11190,15 @@ func (c *TitlesUsersListCall) P(key string, values []string) *TitlesUsersListCal
 	return c
 }
 
+// PageToken get the specified page
+func (c *TitlesUsersListCall) PageToken(page int) *TitlesUsersListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a TitlesUsersListCall request call. Exactly one of *ListTitlesUsersResponse or error will be non-nil.
 func (c *TitlesUsersListCall) Do() (*ListTitlesUsersResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/titles_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -10343,6 +11223,7 @@ func (c *TitlesUsersListCall) Do() (*ListTitlesUsersResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).TitlesUsers); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -10413,9 +11294,9 @@ type TransactionsItem struct {
 	TransactableID   int64  `json:"transactable_id"`
 	TransactableType string `json:"transactable_type"`
 	User             struct {
-		Login string `json:"login"`
 		URL   string `json:"url"`
 		ID    int64  `json:"id"`
+		Login string `json:"login"`
 	} `json:"user"`
 	UserID int64 `json:"user_id"`
 	Value  int64 `json:"value"`
@@ -10426,6 +11307,7 @@ type TransactionsItem struct {
 // TransactionsListCall description:
 type TransactionsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -10434,12 +11316,14 @@ type TransactionsListCall struct {
 type ListTransactionsResponse struct {
 	Transactions   []*TransactionsItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a TransactionsListCall which can request data from the 42 API.
 func (s *TransactionsService) List() *TransactionsListCall {
 	return &TransactionsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -10450,8 +11334,15 @@ func (c *TransactionsListCall) P(key string, values []string) *TransactionsListC
 	return c
 }
 
+// PageToken get the specified page
+func (c *TransactionsListCall) PageToken(page int) *TransactionsListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a TransactionsListCall request call. Exactly one of *ListTransactionsResponse or error will be non-nil.
 func (c *TransactionsListCall) Do() (*ListTransactionsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/transactions/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -10476,6 +11367,7 @@ func (c *TransactionsListCall) Do() (*ListTransactionsResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Transactions); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -10552,18 +11444,18 @@ type TranslationsItem struct {
 	TranslatableID        int64  `json:"translatable_id"`
 	TranslatableType      string `json:"translatable_type"`
 	TranslationsStructure struct {
-		ID                 int64    `json:"id"`
-		SearchableBy       []string `json:"searchable_by"`
+		StructuresKind     string `json:"structures_kind"`
+		UpToDate           bool   `json:"up_to_date"`
 		FieldsOrganisation struct {
-			Name        string `json:"name"`
 			Description string `json:"description"`
+			Name        string `json:"name"`
 		} `json:"fields_organisation"`
-		CreatedAt      time.Time `json:"created_at"`
-		IDentifiedBy   []string  `json:"identified_by"`
-		StructuresKind string    `json:"structures_kind"`
-		UpToDate       bool      `json:"up_to_date"`
-		TypeName       string    `json:"type_name"`
-		UpdatedAt      time.Time `json:"updated_at"`
+		TypeName     string    `json:"type_name"`
+		CreatedAt    time.Time `json:"created_at"`
+		ID           int64     `json:"id"`
+		SearchableBy []string  `json:"searchable_by"`
+		IDentifiedBy []string  `json:"identified_by"`
+		UpdatedAt    time.Time `json:"updated_at"`
 	} `json:"translations_structure"`
 	TranslationsStructureID int64       `json:"translations_structure_id"`
 	UpToDate                bool        `json:"up_to_date"`
@@ -10576,6 +11468,7 @@ type TranslationsItem struct {
 // TranslationsListCall description:
 type TranslationsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -10584,12 +11477,14 @@ type TranslationsListCall struct {
 type ListTranslationsResponse struct {
 	Translations   []*TranslationsItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a TranslationsListCall which can request data from the 42 API.
 func (s *TranslationsService) List() *TranslationsListCall {
 	return &TranslationsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -10600,8 +11495,15 @@ func (c *TranslationsListCall) P(key string, values []string) *TranslationsListC
 	return c
 }
 
+// PageToken get the specified page
+func (c *TranslationsListCall) PageToken(page int) *TranslationsListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a TranslationsListCall request call. Exactly one of *ListTranslationsResponse or error will be non-nil.
 func (c *TranslationsListCall) Do() (*ListTranslationsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/translations/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -10626,6 +11528,7 @@ func (c *TranslationsListCall) Do() (*ListTranslationsResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Translations); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -10729,6 +11632,7 @@ type UserCandidaturesItem struct {
 // UserCandidaturesListCall description:
 type UserCandidaturesListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -10737,12 +11641,14 @@ type UserCandidaturesListCall struct {
 type ListUserCandidaturesResponse struct {
 	UserCandidatures []*UserCandidaturesItem
 	ServerResponse   `json:"-"`
+	NextPage         int
 }
 
 // List returns a UserCandidaturesListCall which can request data from the 42 API.
 func (s *UserCandidaturesService) List() *UserCandidaturesListCall {
 	return &UserCandidaturesListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -10753,8 +11659,15 @@ func (c *UserCandidaturesListCall) P(key string, values []string) *UserCandidatu
 	return c
 }
 
+// PageToken get the specified page
+func (c *UserCandidaturesListCall) PageToken(page int) *UserCandidaturesListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a UserCandidaturesListCall request call. Exactly one of *ListUserCandidaturesResponse or error will be non-nil.
 func (c *UserCandidaturesListCall) Do() (*ListUserCandidaturesResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/user_candidatures/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -10779,6 +11692,7 @@ func (c *UserCandidaturesListCall) Do() (*ListUserCandidaturesResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).UserCandidatures); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -10847,7 +11761,6 @@ type UsersItem struct {
 	Achievements  []interface{} `json:"achievements"`
 	AnonymizeDate time.Time     `json:"anonymize_date"`
 	Campus        []struct {
-		ID       int64  `json:"id"`
 		Name     string `json:"name"`
 		TimeZone string `json:"time_zone"`
 		Language struct {
@@ -10859,6 +11772,7 @@ type UsersItem struct {
 		} `json:"language"`
 		UsersCount  int64 `json:"users_count"`
 		VogsphereID int64 `json:"vogsphere_id"`
+		ID          int64 `json:"id"`
 	} `json:"campus"`
 	CampusUsers []struct {
 		ID        int64 `json:"id"`
@@ -10868,36 +11782,36 @@ type UsersItem struct {
 	} `json:"campus_users"`
 	CorrectionPoint int64 `json:"correction_point"`
 	CursusUsers     []struct {
-		BeginAt      time.Time   `json:"begin_at"`
-		Grade        interface{} `json:"grade"`
-		Level        float64     `json:"level"`
-		HasCoalition bool        `json:"has_coalition"`
-		Cursus       struct {
+		Grade        interface{}   `json:"grade"`
+		Level        float64       `json:"level"`
+		Skills       []interface{} `json:"skills"`
+		CursusID     int64         `json:"cursus_id"`
+		HasCoalition bool          `json:"has_coalition"`
+		ID           int64         `json:"id"`
+		BeginAt      time.Time     `json:"begin_at"`
+		EndAt        interface{}   `json:"end_at"`
+		User         struct {
+			URL   string `json:"url"`
+			ID    int64  `json:"id"`
+			Login string `json:"login"`
+		} `json:"user"`
+		Cursus struct {
+			ID        int64     `json:"id"`
 			CreatedAt time.Time `json:"created_at"`
 			Name      string    `json:"name"`
 			Slug      string    `json:"slug"`
-			ID        int64     `json:"id"`
 		} `json:"cursus"`
-		ID       int64         `json:"id"`
-		Skills   []interface{} `json:"skills"`
-		CursusID int64         `json:"cursus_id"`
-		User     struct {
-			ID    int64  `json:"id"`
-			Login string `json:"login"`
-			URL   string `json:"url"`
-		} `json:"user"`
-		EndAt interface{} `json:"end_at"`
 	} `json:"cursus_users"`
 	Displayname     string `json:"displayname"`
 	Email           string `json:"email"`
 	ExpertisesUsers []struct {
+		UserID      int64     `json:"user_id"`
+		ID          int64     `json:"id"`
+		ExpertiseID int64     `json:"expertise_id"`
 		Interested  bool      `json:"interested"`
 		Value       int64     `json:"value"`
 		ContactMe   bool      `json:"contact_me"`
 		CreatedAt   time.Time `json:"created_at"`
-		UserID      int64     `json:"user_id"`
-		ID          int64     `json:"id"`
-		ExpertiseID int64     `json:"expertise_id"`
 	} `json:"expertises_users"`
 	FirstName      string        `json:"first_name"`
 	Groups         []interface{} `json:"groups"`
@@ -10915,12 +11829,12 @@ type UsersItem struct {
 	Login        string        `json:"login"`
 	Partnerships []interface{} `json:"partnerships"`
 	Patroned     []struct {
+		Ongoing     bool      `json:"ongoing"`
 		CreatedAt   time.Time `json:"created_at"`
 		UpdatedAt   time.Time `json:"updated_at"`
 		ID          int64     `json:"id"`
 		UserID      int64     `json:"user_id"`
 		GodfatherID int64     `json:"godfather_id"`
-		Ongoing     bool      `json:"ongoing"`
 	} `json:"patroned"`
 	Patroning      []interface{} `json:"patroning"`
 	Phone          interface{}   `json:"phone"`
@@ -10941,6 +11855,7 @@ type UsersItem struct {
 // UsersListCall description:
 type UsersListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -10949,12 +11864,14 @@ type UsersListCall struct {
 type ListUsersResponse struct {
 	Users          []*UsersItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a UsersListCall which can request data from the 42 API.
 func (s *UsersService) List() *UsersListCall {
 	return &UsersListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -10965,8 +11882,15 @@ func (c *UsersListCall) P(key string, values []string) *UsersListCall {
 	return c
 }
 
+// PageToken get the specified page
+func (c *UsersListCall) PageToken(page int) *UsersListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a UsersListCall request call. Exactly one of *ListUsersResponse or error will be non-nil.
 func (c *UsersListCall) Do() (*ListUsersResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -10991,6 +11915,7 @@ func (c *UsersListCall) Do() (*ListUsersResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Users); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -11065,6 +11990,7 @@ type WaitlistsItem struct {
 // WaitlistsListCall description:
 type WaitlistsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -11073,12 +11999,14 @@ type WaitlistsListCall struct {
 type ListWaitlistsResponse struct {
 	Waitlists      []*WaitlistsItem
 	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a WaitlistsListCall which can request data from the 42 API.
 func (s *WaitlistsService) List() *WaitlistsListCall {
 	return &WaitlistsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
@@ -11089,8 +12017,15 @@ func (c *WaitlistsListCall) P(key string, values []string) *WaitlistsListCall {
 	return c
 }
 
+// PageToken get the specified page
+func (c *WaitlistsListCall) PageToken(page int) *WaitlistsListCall {
+	c.pageToken = page
+	return c
+}
+
 // Do executes a WaitlistsListCall request call. Exactly one of *ListWaitlistsResponse or error will be non-nil.
 func (c *WaitlistsListCall) Do() (*ListWaitlistsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/waitlists/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -11115,6 +12050,7 @@ func (c *WaitlistsListCall) Do() (*ListWaitlistsResponse, error) {
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Waitlists); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 

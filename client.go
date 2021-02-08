@@ -16,6 +16,7 @@ type Service struct {
 	baseURL string
 }
 
+// ServerResponse includes data from the response in its original form
 type ServerResponse struct {
 	Body       io.ReadCloser
 	Header     http.Header

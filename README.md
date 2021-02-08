@@ -30,7 +30,7 @@ Please note that the authorization flow is *currently* only designed for command
 *   Broadcasts, commands, exams_users, squads and squads_users are currently unavailable
 
 ## Usage
-To initiate a client service you need to specify the grant type. Currently supporting [Client Credentials](https://oauth.net/2/grant-types/client-credentials/) and [Authorizarton Code](https://oauth.net/2/grant-types/authorization-code/) grant types.
+To initiate a client service you need to specify the grant type. Currently supporting [Client Credentials](https://oauth.net/2/grant-types/client-credentials/) and [Authorization Code](https://oauth.net/2/grant-types/authorization-code/) grant types.
 ```Go
 // ftapi.AuthorizationCode or ftapi.ClientCredentials
 

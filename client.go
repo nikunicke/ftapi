@@ -2,6 +2,7 @@ package ftapi
 
 import (
 	"encoding/json"
+	"io"
 	"io/ioutil"
 	"net/http"
 
@@ -13,6 +14,12 @@ import (
 type Service struct {
 	c       *http.Client
 	baseURL string
+}
+
+type ServerResponse struct {
+	Body       io.ReadCloser
+	Header     http.Header
+	StatusCode int
 }
 
 // GrantType specifies the gran type to be used for authentication
@@ -62,7 +69,13 @@ func (s *Service) Me() (*UsersItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	ret := &UsersItem{}
+	ret := &UsersItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	if err := json.NewDecoder(res.Body).Decode(ret); err != nil {
 		return nil, err
 	}

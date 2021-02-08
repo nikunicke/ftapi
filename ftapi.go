@@ -13,6 +13,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"net/url"
+	"strconv"
 	"time"
 )
 
@@ -28,11 +29,14 @@ type AccreditationsItem struct {
 	Name      string `json:"name"`
 	UserID    int64  `json:"user_id"`
 	Validated bool   `json:"validated"`
+
+	ServerResponse `json:"-"`
 }
 
 // AccreditationsListCall description:
 type AccreditationsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -40,26 +44,34 @@ type AccreditationsListCall struct {
 // ListAccreditationsResponse represents a list response.
 type ListAccreditationsResponse struct {
 	Accreditations []*AccreditationsItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a AccreditationsListCall which can request data from the 42 API.
 func (s *AccreditationsService) List() *AccreditationsListCall {
 	return &AccreditationsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Accreditations
-// matching the specified setting.
+// P sets an optional parameter and its values: Only return Accreditations matching the specified setting.
 func (c *AccreditationsListCall) P(key string, values []string) *AccreditationsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a AccreditationsListCall request call. Exactly one of
-// *ListAccreditationsResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *AccreditationsListCall) PageToken(page int) *AccreditationsListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a AccreditationsListCall request call. Exactly one of *ListAccreditationsResponse or error will be non-nil.
 func (c *AccreditationsListCall) Do() (*ListAccreditationsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/accreditations/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -72,13 +84,19 @@ func (c *AccreditationsListCall) Do() (*ListAccreditationsResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListAccreditationsResponse{}
+	ret := &ListAccreditationsResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Accreditations = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Accreditations); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -98,8 +116,7 @@ func (s *AccreditationsService) Get(ID string) *AccreditationsGetCall {
 	}
 }
 
-// Do executes a AccreditationsGetCall request call. Exactly one of
-// *AccreditationsItem or error will be non-nil.
+// Do executes a AccreditationsGetCall request call. Exactly one of *AccreditationsItem or error will be non-nil.
 func (c *AccreditationsGetCall) Do() (*AccreditationsItem, error) {
 	urls := c.s.baseURL + "/accreditations/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -113,8 +130,13 @@ func (c *AccreditationsGetCall) Do() (*AccreditationsItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &AccreditationsItem{}
+	ret := &AccreditationsItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -152,38 +174,49 @@ type AchievementsItem struct {
 	Title        interface{}   `json:"title"`
 	UsersURL     string        `json:"users_url"`
 	Visible      bool          `json:"visible"`
+
+	ServerResponse `json:"-"`
 }
 
 // AchievementsListCall description:
 type AchievementsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListAchievementsResponse represents a list response.
 type ListAchievementsResponse struct {
-	Achievements []*AchievementsItem
+	Achievements   []*AchievementsItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a AchievementsListCall which can request data from the 42 API.
 func (s *AchievementsService) List() *AchievementsListCall {
 	return &AchievementsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Achievements
-// matching the specified setting.
+// P sets an optional parameter and its values: Only return Achievements matching the specified setting.
 func (c *AchievementsListCall) P(key string, values []string) *AchievementsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a AchievementsListCall request call. Exactly one of
-// *ListAchievementsResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *AchievementsListCall) PageToken(page int) *AchievementsListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a AchievementsListCall request call. Exactly one of *ListAchievementsResponse or error will be non-nil.
 func (c *AchievementsListCall) Do() (*ListAchievementsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/achievements/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -196,13 +229,19 @@ func (c *AchievementsListCall) Do() (*ListAchievementsResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListAchievementsResponse{}
+	ret := &ListAchievementsResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Achievements = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Achievements); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -222,8 +261,7 @@ func (s *AchievementsService) Get(ID string) *AchievementsGetCall {
 	}
 }
 
-// Do executes a AchievementsGetCall request call. Exactly one of
-// *AchievementsItem or error will be non-nil.
+// Do executes a AchievementsGetCall request call. Exactly one of *AchievementsItem or error will be non-nil.
 func (c *AchievementsGetCall) Do() (*AchievementsItem, error) {
 	urls := c.s.baseURL + "/achievements/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -237,8 +275,13 @@ func (c *AchievementsGetCall) Do() (*AchievementsItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &AchievementsItem{}
+	ret := &AchievementsItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -252,8 +295,7 @@ func (c *AchievementsGetCall) Do() (*AchievementsItem, error) {
 
 // delete
 
-// Achievements description: Meta-goals earned by users all along their
-// progression.
+// Achievements description: Meta-goals earned by users all along their progression.
 func Achievements(s *Service) *AchievementsService {
 	return &AchievementsService{s: s}
 }
@@ -270,11 +312,14 @@ type AchievementsUsersItem struct {
 	Login     string    `json:"login"`
 	URL       string    `json:"url"`
 	UserID    int64     `json:"user_id"`
+
+	ServerResponse `json:"-"`
 }
 
 // AchievementsUsersListCall description:
 type AchievementsUsersListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -282,27 +327,34 @@ type AchievementsUsersListCall struct {
 // ListAchievementsUsersResponse represents a list response.
 type ListAchievementsUsersResponse struct {
 	AchievementsUsers []*AchievementsUsersItem
+	ServerResponse    `json:"-"`
+	NextPage          int
 }
 
-// List returns a AchievementsUsersListCall which can request data from the 42
-// API.
+// List returns a AchievementsUsersListCall which can request data from the 42 API.
 func (s *AchievementsUsersService) List() *AchievementsUsersListCall {
 	return &AchievementsUsersListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return AchievementsUsers
-// matching the specified setting.
+// P sets an optional parameter and its values: Only return AchievementsUsers matching the specified setting.
 func (c *AchievementsUsersListCall) P(key string, values []string) *AchievementsUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a AchievementsUsersListCall request call. Exactly one of
-// *ListAchievementsUsersResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *AchievementsUsersListCall) PageToken(page int) *AchievementsUsersListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a AchievementsUsersListCall request call. Exactly one of *ListAchievementsUsersResponse or error will be non-nil.
 func (c *AchievementsUsersListCall) Do() (*ListAchievementsUsersResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/achievements_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -315,13 +367,19 @@ func (c *AchievementsUsersListCall) Do() (*ListAchievementsUsersResponse, error)
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListAchievementsUsersResponse{}
+	ret := &ListAchievementsUsersResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.AchievementsUsers = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).AchievementsUsers); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -341,8 +399,7 @@ func (s *AchievementsUsersService) Get(ID string) *AchievementsUsersGetCall {
 	}
 }
 
-// Do executes a AchievementsUsersGetCall request call. Exactly one of
-// *AchievementsUsersItem or error will be non-nil.
+// Do executes a AchievementsUsersGetCall request call. Exactly one of *AchievementsUsersItem or error will be non-nil.
 func (c *AchievementsUsersGetCall) Do() (*AchievementsUsersItem, error) {
 	urls := c.s.baseURL + "/achievements_users/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -356,8 +413,13 @@ func (c *AchievementsUsersGetCall) Do() (*AchievementsUsersItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &AchievementsUsersItem{}
+	ret := &AchievementsUsersItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -392,6 +454,8 @@ type AnnouncementsItem struct {
 	Text      string      `json:"text"`
 	Title     string      `json:"title"`
 	UpdatedAt time.Time   `json:"updated_at"`
+
+	ServerResponse `json:"-"`
 }
 
 // AnnouncementsGetCall description:
@@ -410,8 +474,7 @@ func (s *AnnouncementsService) Get(ID string) *AnnouncementsGetCall {
 	}
 }
 
-// Do executes a AnnouncementsGetCall request call. Exactly one of
-// *AnnouncementsItem or error will be non-nil.
+// Do executes a AnnouncementsGetCall request call. Exactly one of *AnnouncementsItem or error will be non-nil.
 func (c *AnnouncementsGetCall) Do() (*AnnouncementsItem, error) {
 	urls := c.s.baseURL + "/announcements/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -425,8 +488,13 @@ func (c *AnnouncementsGetCall) Do() (*AnnouncementsItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &AnnouncementsItem{}
+	ret := &AnnouncementsItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -440,8 +508,7 @@ func (c *AnnouncementsGetCall) Do() (*AnnouncementsItem, error) {
 
 // delete
 
-// Announcements description: An announcement made to users in a cursus on their
-// homepage.
+// Announcements description: An announcement made to users in a cursus on their homepage.
 func Announcements(s *Service) *AnnouncementsService {
 	return &AnnouncementsService{s: s}
 }
@@ -453,38 +520,48 @@ type AntiGravUnitsService struct {
 
 // AntiGravUnitsItem is a 42 API type
 type AntiGravUnitsItem struct {
+	ServerResponse `json:"-"`
 }
 
 // AntiGravUnitsListCall description:
 type AntiGravUnitsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListAntiGravUnitsResponse represents a list response.
 type ListAntiGravUnitsResponse struct {
-	AntiGravUnits []*AntiGravUnitsItem
+	AntiGravUnits  []*AntiGravUnitsItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a AntiGravUnitsListCall which can request data from the 42 API.
 func (s *AntiGravUnitsService) List() *AntiGravUnitsListCall {
 	return &AntiGravUnitsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return AntiGravUnits
-// matching the specified setting.
+// P sets an optional parameter and its values: Only return AntiGravUnits matching the specified setting.
 func (c *AntiGravUnitsListCall) P(key string, values []string) *AntiGravUnitsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a AntiGravUnitsListCall request call. Exactly one of
-// *ListAntiGravUnitsResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *AntiGravUnitsListCall) PageToken(page int) *AntiGravUnitsListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a AntiGravUnitsListCall request call. Exactly one of *ListAntiGravUnitsResponse or error will be non-nil.
 func (c *AntiGravUnitsListCall) Do() (*ListAntiGravUnitsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/anti_grav_units/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -497,13 +574,19 @@ func (c *AntiGravUnitsListCall) Do() (*ListAntiGravUnitsResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListAntiGravUnitsResponse{}
+	ret := &ListAntiGravUnitsResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.AntiGravUnits = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).AntiGravUnits); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -523,8 +606,7 @@ func (s *AntiGravUnitsService) Get(ID string) *AntiGravUnitsGetCall {
 	}
 }
 
-// Do executes a AntiGravUnitsGetCall request call. Exactly one of
-// *AntiGravUnitsItem or error will be non-nil.
+// Do executes a AntiGravUnitsGetCall request call. Exactly one of *AntiGravUnitsItem or error will be non-nil.
 func (c *AntiGravUnitsGetCall) Do() (*AntiGravUnitsItem, error) {
 	urls := c.s.baseURL + "/anti_grav_units/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -538,8 +620,13 @@ func (c *AntiGravUnitsGetCall) Do() (*AntiGravUnitsItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &AntiGravUnitsItem{}
+	ret := &AntiGravUnitsItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -559,11 +646,13 @@ type AntiGravUnitsUsersService struct {
 
 // AntiGravUnitsUsersItem is a 42 API type
 type AntiGravUnitsUsersItem struct {
+	ServerResponse `json:"-"`
 }
 
 // AntiGravUnitsUsersListCall description:
 type AntiGravUnitsUsersListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -571,27 +660,34 @@ type AntiGravUnitsUsersListCall struct {
 // ListAntiGravUnitsUsersResponse represents a list response.
 type ListAntiGravUnitsUsersResponse struct {
 	AntiGravUnitsUsers []*AntiGravUnitsUsersItem
+	ServerResponse     `json:"-"`
+	NextPage           int
 }
 
-// List returns a AntiGravUnitsUsersListCall which can request data from the 42
-// API.
+// List returns a AntiGravUnitsUsersListCall which can request data from the 42 API.
 func (s *AntiGravUnitsUsersService) List() *AntiGravUnitsUsersListCall {
 	return &AntiGravUnitsUsersListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return AntiGravUnitsUsers
-// matching the specified setting.
+// P sets an optional parameter and its values: Only return AntiGravUnitsUsers matching the specified setting.
 func (c *AntiGravUnitsUsersListCall) P(key string, values []string) *AntiGravUnitsUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a AntiGravUnitsUsersListCall request call. Exactly one of
-// *ListAntiGravUnitsUsersResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *AntiGravUnitsUsersListCall) PageToken(page int) *AntiGravUnitsUsersListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a AntiGravUnitsUsersListCall request call. Exactly one of *ListAntiGravUnitsUsersResponse or error will be non-nil.
 func (c *AntiGravUnitsUsersListCall) Do() (*ListAntiGravUnitsUsersResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/anti_grav_units_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -604,13 +700,19 @@ func (c *AntiGravUnitsUsersListCall) Do() (*ListAntiGravUnitsUsersResponse, erro
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListAntiGravUnitsUsersResponse{}
+	ret := &ListAntiGravUnitsUsersResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.AntiGravUnitsUsers = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).AntiGravUnitsUsers); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -632,8 +734,7 @@ func (s *AntiGravUnitsUsersService) Get(ID string) *AntiGravUnitsUsersGetCall {
 	}
 }
 
-// Do executes a AntiGravUnitsUsersGetCall request call. Exactly one of
-// *AntiGravUnitsUsersItem or error will be non-nil.
+// Do executes a AntiGravUnitsUsersGetCall request call. Exactly one of *AntiGravUnitsUsersItem or error will be non-nil.
 func (c *AntiGravUnitsUsersGetCall) Do() (*AntiGravUnitsUsersItem, error) {
 	urls := c.s.baseURL + "/anti_grav_units_users/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -647,8 +748,13 @@ func (c *AntiGravUnitsUsersGetCall) Do() (*AntiGravUnitsUsersItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &AntiGravUnitsUsersItem{}
+	ret := &AntiGravUnitsUsersItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -688,38 +794,49 @@ type AppsItem struct {
 	Scopes    []interface{} `json:"scopes"`
 	UpdatedAt time.Time     `json:"updated_at"`
 	Website   interface{}   `json:"website"`
+
+	ServerResponse `json:"-"`
 }
 
 // AppsListCall description:
 type AppsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListAppsResponse represents a list response.
 type ListAppsResponse struct {
-	Apps []*AppsItem
+	Apps           []*AppsItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a AppsListCall which can request data from the 42 API.
 func (s *AppsService) List() *AppsListCall {
 	return &AppsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Apps matching the
-// specified setting.
+// P sets an optional parameter and its values: Only return Apps matching the specified setting.
 func (c *AppsListCall) P(key string, values []string) *AppsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a AppsListCall request call. Exactly one of *ListAppsResponse or
-// error will be non-nil.
+// PageToken get the specified page
+func (c *AppsListCall) PageToken(page int) *AppsListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a AppsListCall request call. Exactly one of *ListAppsResponse or error will be non-nil.
 func (c *AppsListCall) Do() (*ListAppsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/apps/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -732,13 +849,19 @@ func (c *AppsListCall) Do() (*ListAppsResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListAppsResponse{}
+	ret := &ListAppsResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Apps = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Apps); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -758,8 +881,7 @@ func (s *AppsService) Get(ID string) *AppsGetCall {
 	}
 }
 
-// Do executes a AppsGetCall request call. Exactly one of *AppsItem or error
-// will be non-nil.
+// Do executes a AppsGetCall request call. Exactly one of *AppsItem or error will be non-nil.
 func (c *AppsGetCall) Do() (*AppsItem, error) {
 	urls := c.s.baseURL + "/apps/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -773,8 +895,13 @@ func (c *AppsGetCall) Do() (*AppsItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &AppsItem{}
+	ret := &AppsItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -817,38 +944,49 @@ type AttachmentsItem struct {
 	ThumbURL      interface{} `json:"thumb_url"`
 	Type          string      `json:"type"`
 	URL           interface{} `json:"url"`
+
+	ServerResponse `json:"-"`
 }
 
 // AttachmentsListCall description:
 type AttachmentsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListAttachmentsResponse represents a list response.
 type ListAttachmentsResponse struct {
-	Attachments []*AttachmentsItem
+	Attachments    []*AttachmentsItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a AttachmentsListCall which can request data from the 42 API.
 func (s *AttachmentsService) List() *AttachmentsListCall {
 	return &AttachmentsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Attachments matching
-// the specified setting.
+// P sets an optional parameter and its values: Only return Attachments matching the specified setting.
 func (c *AttachmentsListCall) P(key string, values []string) *AttachmentsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a AttachmentsListCall request call. Exactly one of
-// *ListAttachmentsResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *AttachmentsListCall) PageToken(page int) *AttachmentsListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a AttachmentsListCall request call. Exactly one of *ListAttachmentsResponse or error will be non-nil.
 func (c *AttachmentsListCall) Do() (*ListAttachmentsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/attachments/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -861,13 +999,19 @@ func (c *AttachmentsListCall) Do() (*ListAttachmentsResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListAttachmentsResponse{}
+	ret := &ListAttachmentsResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Attachments = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Attachments); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -887,8 +1031,7 @@ func (s *AttachmentsService) Get(ID string) *AttachmentsGetCall {
 	}
 }
 
-// Do executes a AttachmentsGetCall request call. Exactly one of
-// *AttachmentsItem or error will be non-nil.
+// Do executes a AttachmentsGetCall request call. Exactly one of *AttachmentsItem or error will be non-nil.
 func (c *AttachmentsGetCall) Do() (*AttachmentsItem, error) {
 	urls := c.s.baseURL + "/attachments/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -902,8 +1045,13 @@ func (c *AttachmentsGetCall) Do() (*AttachmentsItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &AttachmentsItem{}
+	ret := &AttachmentsItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -917,8 +1065,7 @@ func (c *AttachmentsGetCall) Do() (*AttachmentsItem, error) {
 
 // delete
 
-// Attachments description: All data which can be linked, like videos, pdfs, or
-// links.
+// Attachments description: All data which can be linked, like videos, pdfs, or links.
 func Attachments(s *Service) *AttachmentsService {
 	return &AttachmentsService{s: s}
 }
@@ -934,38 +1081,49 @@ type BalancesItem struct {
 	EndAt   string `json:"end_at"`
 	ID      int64  `json:"id"`
 	PoolID  int64  `json:"pool_id"`
+
+	ServerResponse `json:"-"`
 }
 
 // BalancesListCall description:
 type BalancesListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListBalancesResponse represents a list response.
 type ListBalancesResponse struct {
-	Balances []*BalancesItem
+	Balances       []*BalancesItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a BalancesListCall which can request data from the 42 API.
 func (s *BalancesService) List() *BalancesListCall {
 	return &BalancesListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Balances matching
-// the specified setting.
+// P sets an optional parameter and its values: Only return Balances matching the specified setting.
 func (c *BalancesListCall) P(key string, values []string) *BalancesListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a BalancesListCall request call. Exactly one of
-// *ListBalancesResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *BalancesListCall) PageToken(page int) *BalancesListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a BalancesListCall request call. Exactly one of *ListBalancesResponse or error will be non-nil.
 func (c *BalancesListCall) Do() (*ListBalancesResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/balances/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -978,13 +1136,19 @@ func (c *BalancesListCall) Do() (*ListBalancesResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListBalancesResponse{}
+	ret := &ListBalancesResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Balances = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Balances); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -1004,8 +1168,7 @@ func (s *BalancesService) Get(ID string) *BalancesGetCall {
 	}
 }
 
-// Do executes a BalancesGetCall request call. Exactly one of *BalancesItem or
-// error will be non-nil.
+// Do executes a BalancesGetCall request call. Exactly one of *BalancesItem or error will be non-nil.
 func (c *BalancesGetCall) Do() (*BalancesItem, error) {
 	urls := c.s.baseURL + "/balances/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -1019,8 +1182,13 @@ func (c *BalancesGetCall) Do() (*BalancesItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &BalancesItem{}
+	ret := &BalancesItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -1047,38 +1215,49 @@ type BlocDeadlinesItem struct {
 	EndAt       time.Time `json:"end_at"`
 	ID          int64     `json:"id"`
 	UpdatedAt   time.Time `json:"updated_at"`
+
+	ServerResponse `json:"-"`
 }
 
 // BlocDeadlinesListCall description:
 type BlocDeadlinesListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListBlocDeadlinesResponse represents a list response.
 type ListBlocDeadlinesResponse struct {
-	BlocDeadlines []*BlocDeadlinesItem
+	BlocDeadlines  []*BlocDeadlinesItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a BlocDeadlinesListCall which can request data from the 42 API.
 func (s *BlocDeadlinesService) List() *BlocDeadlinesListCall {
 	return &BlocDeadlinesListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return BlocDeadlines
-// matching the specified setting.
+// P sets an optional parameter and its values: Only return BlocDeadlines matching the specified setting.
 func (c *BlocDeadlinesListCall) P(key string, values []string) *BlocDeadlinesListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a BlocDeadlinesListCall request call. Exactly one of
-// *ListBlocDeadlinesResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *BlocDeadlinesListCall) PageToken(page int) *BlocDeadlinesListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a BlocDeadlinesListCall request call. Exactly one of *ListBlocDeadlinesResponse or error will be non-nil.
 func (c *BlocDeadlinesListCall) Do() (*ListBlocDeadlinesResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/bloc_deadlines/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -1091,13 +1270,19 @@ func (c *BlocDeadlinesListCall) Do() (*ListBlocDeadlinesResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListBlocDeadlinesResponse{}
+	ret := &ListBlocDeadlinesResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.BlocDeadlines = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).BlocDeadlines); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -1117,8 +1302,7 @@ func (s *BlocDeadlinesService) Get(ID string) *BlocDeadlinesGetCall {
 	}
 }
 
-// Do executes a BlocDeadlinesGetCall request call. Exactly one of
-// *BlocDeadlinesItem or error will be non-nil.
+// Do executes a BlocDeadlinesGetCall request call. Exactly one of *BlocDeadlinesItem or error will be non-nil.
 func (c *BlocDeadlinesGetCall) Do() (*BlocDeadlinesItem, error) {
 	urls := c.s.baseURL + "/bloc_deadlines/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -1132,8 +1316,13 @@ func (c *BlocDeadlinesGetCall) Do() (*BlocDeadlinesItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &BlocDeadlinesItem{}
+	ret := &BlocDeadlinesItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -1159,51 +1348,62 @@ type BlocsService struct {
 type BlocsItem struct {
 	CampusID   int64 `json:"campus_id"`
 	Coalitions []struct {
+		Score    int64  `json:"score"`
+		UserID   int64  `json:"user_id"`
 		ID       int64  `json:"id"`
 		Name     string `json:"name"`
 		Slug     string `json:"slug"`
 		ImageURL string `json:"image_url"`
 		Color    string `json:"color"`
-		Score    int64  `json:"score"`
-		UserID   int64  `json:"user_id"`
 	} `json:"coalitions"`
 	CreatedAt time.Time `json:"created_at"`
 	CursusID  int64     `json:"cursus_id"`
 	ID        int64     `json:"id"`
 	SquadSize int64     `json:"squad_size"`
 	UpdatedAt time.Time `json:"updated_at"`
+
+	ServerResponse `json:"-"`
 }
 
 // BlocsListCall description:
 type BlocsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListBlocsResponse represents a list response.
 type ListBlocsResponse struct {
-	Blocs []*BlocsItem
+	Blocs          []*BlocsItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a BlocsListCall which can request data from the 42 API.
 func (s *BlocsService) List() *BlocsListCall {
 	return &BlocsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Blocs matching the
-// specified setting.
+// P sets an optional parameter and its values: Only return Blocs matching the specified setting.
 func (c *BlocsListCall) P(key string, values []string) *BlocsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a BlocsListCall request call. Exactly one of *ListBlocsResponse
-// or error will be non-nil.
+// PageToken get the specified page
+func (c *BlocsListCall) PageToken(page int) *BlocsListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a BlocsListCall request call. Exactly one of *ListBlocsResponse or error will be non-nil.
 func (c *BlocsListCall) Do() (*ListBlocsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/blocs/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -1216,13 +1416,19 @@ func (c *BlocsListCall) Do() (*ListBlocsResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListBlocsResponse{}
+	ret := &ListBlocsResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Blocs = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Blocs); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -1242,8 +1448,7 @@ func (s *BlocsService) Get(ID string) *BlocsGetCall {
 	}
 }
 
-// Do executes a BlocsGetCall request call. Exactly one of *BlocsItem or error
-// will be non-nil.
+// Do executes a BlocsGetCall request call. Exactly one of *BlocsItem or error will be non-nil.
 func (c *BlocsGetCall) Do() (*BlocsItem, error) {
 	urls := c.s.baseURL + "/blocs/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -1257,8 +1462,13 @@ func (c *BlocsGetCall) Do() (*BlocsItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &BlocsItem{}
+	ret := &BlocsItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -1278,38 +1488,48 @@ type BroadcastsService struct {
 
 // BroadcastsItem is a 42 API type
 type BroadcastsItem struct {
+	ServerResponse `json:"-"`
 }
 
 // BroadcastsListCall description:
 type BroadcastsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListBroadcastsResponse represents a list response.
 type ListBroadcastsResponse struct {
-	Broadcasts []*BroadcastsItem
+	Broadcasts     []*BroadcastsItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a BroadcastsListCall which can request data from the 42 API.
 func (s *BroadcastsService) List() *BroadcastsListCall {
 	return &BroadcastsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Broadcasts matching
-// the specified setting.
+// P sets an optional parameter and its values: Only return Broadcasts matching the specified setting.
 func (c *BroadcastsListCall) P(key string, values []string) *BroadcastsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a BroadcastsListCall request call. Exactly one of
-// *ListBroadcastsResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *BroadcastsListCall) PageToken(page int) *BroadcastsListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a BroadcastsListCall request call. Exactly one of *ListBroadcastsResponse or error will be non-nil.
 func (c *BroadcastsListCall) Do() (*ListBroadcastsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/broadcasts/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -1322,13 +1542,19 @@ func (c *BroadcastsListCall) Do() (*ListBroadcastsResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListBroadcastsResponse{}
+	ret := &ListBroadcastsResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Broadcasts = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Broadcasts); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -1347,46 +1573,57 @@ type CampusItem struct {
 	Endpoint interface{} `json:"endpoint"`
 	ID       int64       `json:"id"`
 	Language struct {
+		ID         int64  `json:"id"`
 		Name       string `json:"name"`
 		IDentifier string `json:"identifier"`
-		ID         int64  `json:"id"`
 	} `json:"language"`
 	Name        string `json:"name"`
 	TimeZone    string `json:"time_zone"`
 	UsersCount  int64  `json:"users_count"`
 	VogsphereID int64  `json:"vogsphere_id"`
+
+	ServerResponse `json:"-"`
 }
 
 // CampusListCall description:
 type CampusListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListCampusResponse represents a list response.
 type ListCampusResponse struct {
-	Campus []*CampusItem
+	Campus         []*CampusItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a CampusListCall which can request data from the 42 API.
 func (s *CampusService) List() *CampusListCall {
 	return &CampusListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Campus matching the
-// specified setting.
+// P sets an optional parameter and its values: Only return Campus matching the specified setting.
 func (c *CampusListCall) P(key string, values []string) *CampusListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a CampusListCall request call. Exactly one of *ListCampusResponse
-// or error will be non-nil.
+// PageToken get the specified page
+func (c *CampusListCall) PageToken(page int) *CampusListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a CampusListCall request call. Exactly one of *ListCampusResponse or error will be non-nil.
 func (c *CampusListCall) Do() (*ListCampusResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/campus/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -1399,13 +1636,19 @@ func (c *CampusListCall) Do() (*ListCampusResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListCampusResponse{}
+	ret := &ListCampusResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Campus = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Campus); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -1425,8 +1668,7 @@ func (s *CampusService) Get(ID string) *CampusGetCall {
 	}
 }
 
-// Do executes a CampusGetCall request call. Exactly one of *CampusItem or error
-// will be non-nil.
+// Do executes a CampusGetCall request call. Exactly one of *CampusItem or error will be non-nil.
 func (c *CampusGetCall) Do() (*CampusItem, error) {
 	urls := c.s.baseURL + "/campus/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -1440,8 +1682,13 @@ func (c *CampusGetCall) Do() (*CampusItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &CampusItem{}
+	ret := &CampusItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -1469,38 +1716,49 @@ type CampusUsersItem struct {
 	ID        int64 `json:"id"`
 	IsPrimary bool  `json:"is_primary"`
 	UserID    int64 `json:"user_id"`
+
+	ServerResponse `json:"-"`
 }
 
 // CampusUsersListCall description:
 type CampusUsersListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListCampusUsersResponse represents a list response.
 type ListCampusUsersResponse struct {
-	CampusUsers []*CampusUsersItem
+	CampusUsers    []*CampusUsersItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a CampusUsersListCall which can request data from the 42 API.
 func (s *CampusUsersService) List() *CampusUsersListCall {
 	return &CampusUsersListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return CampusUsers matching
-// the specified setting.
+// P sets an optional parameter and its values: Only return CampusUsers matching the specified setting.
 func (c *CampusUsersListCall) P(key string, values []string) *CampusUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a CampusUsersListCall request call. Exactly one of
-// *ListCampusUsersResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *CampusUsersListCall) PageToken(page int) *CampusUsersListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a CampusUsersListCall request call. Exactly one of *ListCampusUsersResponse or error will be non-nil.
 func (c *CampusUsersListCall) Do() (*ListCampusUsersResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/campus_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -1513,13 +1771,19 @@ func (c *CampusUsersListCall) Do() (*ListCampusUsersResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListCampusUsersResponse{}
+	ret := &ListCampusUsersResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.CampusUsers = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).CampusUsers); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -1539,8 +1803,7 @@ func (s *CampusUsersService) Get(ID string) *CampusUsersGetCall {
 	}
 }
 
-// Do executes a CampusUsersGetCall request call. Exactly one of
-// *CampusUsersItem or error will be non-nil.
+// Do executes a CampusUsersGetCall request call. Exactly one of *CampusUsersItem or error will be non-nil.
 func (c *CampusUsersGetCall) Do() (*CampusUsersItem, error) {
 	urls := c.s.baseURL + "/campus_users/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -1554,8 +1817,13 @@ func (c *CampusUsersGetCall) Do() (*CampusUsersItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &CampusUsersItem{}
+	ret := &CampusUsersItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -1581,11 +1849,13 @@ type CampusUsersActivitiesService struct {
 
 // CampusUsersActivitiesItem is a 42 API type
 type CampusUsersActivitiesItem struct {
+	ServerResponse `json:"-"`
 }
 
 // CampusUsersActivitiesListCall description:
 type CampusUsersActivitiesListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -1593,27 +1863,34 @@ type CampusUsersActivitiesListCall struct {
 // ListCampusUsersActivitiesResponse represents a list response.
 type ListCampusUsersActivitiesResponse struct {
 	CampusUsersActivities []*CampusUsersActivitiesItem
+	ServerResponse        `json:"-"`
+	NextPage              int
 }
 
-// List returns a CampusUsersActivitiesListCall which can request data from the
-// 42 API.
+// List returns a CampusUsersActivitiesListCall which can request data from the 42 API.
 func (s *CampusUsersActivitiesService) List() *CampusUsersActivitiesListCall {
 	return &CampusUsersActivitiesListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return
-// CampusUsersActivities matching the specified setting.
+// P sets an optional parameter and its values: Only return CampusUsersActivities matching the specified setting.
 func (c *CampusUsersActivitiesListCall) P(key string, values []string) *CampusUsersActivitiesListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a CampusUsersActivitiesListCall request call. Exactly one of
-// *ListCampusUsersActivitiesResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *CampusUsersActivitiesListCall) PageToken(page int) *CampusUsersActivitiesListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a CampusUsersActivitiesListCall request call. Exactly one of *ListCampusUsersActivitiesResponse or error will be non-nil.
 func (c *CampusUsersActivitiesListCall) Do() (*ListCampusUsersActivitiesResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/campus_users_activities/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -1626,13 +1903,19 @@ func (c *CampusUsersActivitiesListCall) Do() (*ListCampusUsersActivitiesResponse
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListCampusUsersActivitiesResponse{}
+	ret := &ListCampusUsersActivitiesResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.CampusUsersActivities = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).CampusUsersActivities); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -1648,38 +1931,48 @@ type CertificatesService struct {
 
 // CertificatesItem is a 42 API type
 type CertificatesItem struct {
+	ServerResponse `json:"-"`
 }
 
 // CertificatesListCall description:
 type CertificatesListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListCertificatesResponse represents a list response.
 type ListCertificatesResponse struct {
-	Certificates []*CertificatesItem
+	Certificates   []*CertificatesItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a CertificatesListCall which can request data from the 42 API.
 func (s *CertificatesService) List() *CertificatesListCall {
 	return &CertificatesListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Certificates
-// matching the specified setting.
+// P sets an optional parameter and its values: Only return Certificates matching the specified setting.
 func (c *CertificatesListCall) P(key string, values []string) *CertificatesListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a CertificatesListCall request call. Exactly one of
-// *ListCertificatesResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *CertificatesListCall) PageToken(page int) *CertificatesListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a CertificatesListCall request call. Exactly one of *ListCertificatesResponse or error will be non-nil.
 func (c *CertificatesListCall) Do() (*ListCertificatesResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/certificates/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -1692,13 +1985,19 @@ func (c *CertificatesListCall) Do() (*ListCertificatesResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListCertificatesResponse{}
+	ret := &ListCertificatesResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Certificates = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Certificates); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -1718,8 +2017,7 @@ func (s *CertificatesService) Get(ID string) *CertificatesGetCall {
 	}
 }
 
-// Do executes a CertificatesGetCall request call. Exactly one of
-// *CertificatesItem or error will be non-nil.
+// Do executes a CertificatesGetCall request call. Exactly one of *CertificatesItem or error will be non-nil.
 func (c *CertificatesGetCall) Do() (*CertificatesItem, error) {
 	urls := c.s.baseURL + "/certificates/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -1733,8 +2031,13 @@ func (c *CertificatesGetCall) Do() (*CertificatesItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &CertificatesItem{}
+	ret := &CertificatesItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -1754,11 +2057,13 @@ type CertificatesUsersService struct {
 
 // CertificatesUsersItem is a 42 API type
 type CertificatesUsersItem struct {
+	ServerResponse `json:"-"`
 }
 
 // CertificatesUsersListCall description:
 type CertificatesUsersListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -1766,27 +2071,34 @@ type CertificatesUsersListCall struct {
 // ListCertificatesUsersResponse represents a list response.
 type ListCertificatesUsersResponse struct {
 	CertificatesUsers []*CertificatesUsersItem
+	ServerResponse    `json:"-"`
+	NextPage          int
 }
 
-// List returns a CertificatesUsersListCall which can request data from the 42
-// API.
+// List returns a CertificatesUsersListCall which can request data from the 42 API.
 func (s *CertificatesUsersService) List() *CertificatesUsersListCall {
 	return &CertificatesUsersListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return CertificatesUsers
-// matching the specified setting.
+// P sets an optional parameter and its values: Only return CertificatesUsers matching the specified setting.
 func (c *CertificatesUsersListCall) P(key string, values []string) *CertificatesUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a CertificatesUsersListCall request call. Exactly one of
-// *ListCertificatesUsersResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *CertificatesUsersListCall) PageToken(page int) *CertificatesUsersListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a CertificatesUsersListCall request call. Exactly one of *ListCertificatesUsersResponse or error will be non-nil.
 func (c *CertificatesUsersListCall) Do() (*ListCertificatesUsersResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/certificates_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -1799,13 +2111,19 @@ func (c *CertificatesUsersListCall) Do() (*ListCertificatesUsersResponse, error)
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListCertificatesUsersResponse{}
+	ret := &ListCertificatesUsersResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.CertificatesUsers = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).CertificatesUsers); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -1825,8 +2143,7 @@ func (s *CertificatesUsersService) Get(ID string) *CertificatesUsersGetCall {
 	}
 }
 
-// Do executes a CertificatesUsersGetCall request call. Exactly one of
-// *CertificatesUsersItem or error will be non-nil.
+// Do executes a CertificatesUsersGetCall request call. Exactly one of *CertificatesUsersItem or error will be non-nil.
 func (c *CertificatesUsersGetCall) Do() (*CertificatesUsersItem, error) {
 	urls := c.s.baseURL + "/certificates_users/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -1840,8 +2157,13 @@ func (c *CertificatesUsersGetCall) Do() (*CertificatesUsersItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &CertificatesUsersItem{}
+	ret := &CertificatesUsersItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -1867,13 +2189,13 @@ type ClosesItem struct {
 		URL   string `json:"url"`
 	} `json:"closer"`
 	CommunityServices []struct {
+		ID         int64     `json:"id"`
+		Duration   int64     `json:"duration"`
+		ScheduleAt time.Time `json:"schedule_at"`
 		Occupation string    `json:"occupation"`
 		State      string    `json:"state"`
 		CreatedAt  time.Time `json:"created_at"`
 		UpdatedAt  time.Time `json:"updated_at"`
-		ID         int64     `json:"id"`
-		Duration   int64     `json:"duration"`
-		ScheduleAt time.Time `json:"schedule_at"`
 	} `json:"community_services"`
 	CreatedAt time.Time `json:"created_at"`
 	ID        int64     `json:"id"`
@@ -1885,38 +2207,49 @@ type ClosesItem struct {
 		Login string `json:"login"`
 		URL   string `json:"url"`
 	} `json:"user"`
+
+	ServerResponse `json:"-"`
 }
 
 // ClosesListCall description:
 type ClosesListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListClosesResponse represents a list response.
 type ListClosesResponse struct {
-	Closes []*ClosesItem
+	Closes         []*ClosesItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a ClosesListCall which can request data from the 42 API.
 func (s *ClosesService) List() *ClosesListCall {
 	return &ClosesListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Closes matching the
-// specified setting.
+// P sets an optional parameter and its values: Only return Closes matching the specified setting.
 func (c *ClosesListCall) P(key string, values []string) *ClosesListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a ClosesListCall request call. Exactly one of *ListClosesResponse
-// or error will be non-nil.
+// PageToken get the specified page
+func (c *ClosesListCall) PageToken(page int) *ClosesListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a ClosesListCall request call. Exactly one of *ListClosesResponse or error will be non-nil.
 func (c *ClosesListCall) Do() (*ListClosesResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/closes/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -1929,13 +2262,19 @@ func (c *ClosesListCall) Do() (*ListClosesResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListClosesResponse{}
+	ret := &ListClosesResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Closes = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Closes); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -1955,8 +2294,7 @@ func (s *ClosesService) Get(ID string) *ClosesGetCall {
 	}
 }
 
-// Do executes a ClosesGetCall request call. Exactly one of *ClosesItem or error
-// will be non-nil.
+// Do executes a ClosesGetCall request call. Exactly one of *ClosesItem or error will be non-nil.
 func (c *ClosesGetCall) Do() (*ClosesItem, error) {
 	urls := c.s.baseURL + "/closes/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -1970,8 +2308,13 @@ func (c *ClosesGetCall) Do() (*ClosesItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ClosesItem{}
+	ret := &ClosesItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -2004,38 +2347,49 @@ type CoalitionsItem struct {
 	Score    int64  `json:"score"`
 	Slug     string `json:"slug"`
 	UserID   int64  `json:"user_id"`
+
+	ServerResponse `json:"-"`
 }
 
 // CoalitionsListCall description:
 type CoalitionsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListCoalitionsResponse represents a list response.
 type ListCoalitionsResponse struct {
-	Coalitions []*CoalitionsItem
+	Coalitions     []*CoalitionsItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a CoalitionsListCall which can request data from the 42 API.
 func (s *CoalitionsService) List() *CoalitionsListCall {
 	return &CoalitionsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Coalitions matching
-// the specified setting.
+// P sets an optional parameter and its values: Only return Coalitions matching the specified setting.
 func (c *CoalitionsListCall) P(key string, values []string) *CoalitionsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a CoalitionsListCall request call. Exactly one of
-// *ListCoalitionsResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *CoalitionsListCall) PageToken(page int) *CoalitionsListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a CoalitionsListCall request call. Exactly one of *ListCoalitionsResponse or error will be non-nil.
 func (c *CoalitionsListCall) Do() (*ListCoalitionsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/coalitions/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -2048,13 +2402,19 @@ func (c *CoalitionsListCall) Do() (*ListCoalitionsResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListCoalitionsResponse{}
+	ret := &ListCoalitionsResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Coalitions = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Coalitions); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -2074,8 +2434,7 @@ func (s *CoalitionsService) Get(ID string) *CoalitionsGetCall {
 	}
 }
 
-// Do executes a CoalitionsGetCall request call. Exactly one of *CoalitionsItem
-// or error will be non-nil.
+// Do executes a CoalitionsGetCall request call. Exactly one of *CoalitionsItem or error will be non-nil.
 func (c *CoalitionsGetCall) Do() (*CoalitionsItem, error) {
 	urls := c.s.baseURL + "/coalitions/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -2089,8 +2448,13 @@ func (c *CoalitionsGetCall) Do() (*CoalitionsItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &CoalitionsItem{}
+	ret := &CoalitionsItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -2119,11 +2483,14 @@ type CoalitionsUsersItem struct {
 	ID          int64     `json:"id"`
 	UpdatedAt   time.Time `json:"updated_at"`
 	UserID      int64     `json:"user_id"`
+
+	ServerResponse `json:"-"`
 }
 
 // CoalitionsUsersListCall description:
 type CoalitionsUsersListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -2131,27 +2498,34 @@ type CoalitionsUsersListCall struct {
 // ListCoalitionsUsersResponse represents a list response.
 type ListCoalitionsUsersResponse struct {
 	CoalitionsUsers []*CoalitionsUsersItem
+	ServerResponse  `json:"-"`
+	NextPage        int
 }
 
-// List returns a CoalitionsUsersListCall which can request data from the 42
-// API.
+// List returns a CoalitionsUsersListCall which can request data from the 42 API.
 func (s *CoalitionsUsersService) List() *CoalitionsUsersListCall {
 	return &CoalitionsUsersListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return CoalitionsUsers
-// matching the specified setting.
+// P sets an optional parameter and its values: Only return CoalitionsUsers matching the specified setting.
 func (c *CoalitionsUsersListCall) P(key string, values []string) *CoalitionsUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a CoalitionsUsersListCall request call. Exactly one of
-// *ListCoalitionsUsersResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *CoalitionsUsersListCall) PageToken(page int) *CoalitionsUsersListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a CoalitionsUsersListCall request call. Exactly one of *ListCoalitionsUsersResponse or error will be non-nil.
 func (c *CoalitionsUsersListCall) Do() (*ListCoalitionsUsersResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/coalitions_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -2164,13 +2538,19 @@ func (c *CoalitionsUsersListCall) Do() (*ListCoalitionsUsersResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListCoalitionsUsersResponse{}
+	ret := &ListCoalitionsUsersResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.CoalitionsUsers = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).CoalitionsUsers); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -2190,8 +2570,7 @@ func (s *CoalitionsUsersService) Get(ID string) *CoalitionsUsersGetCall {
 	}
 }
 
-// Do executes a CoalitionsUsersGetCall request call. Exactly one of
-// *CoalitionsUsersItem or error will be non-nil.
+// Do executes a CoalitionsUsersGetCall request call. Exactly one of *CoalitionsUsersItem or error will be non-nil.
 func (c *CoalitionsUsersGetCall) Do() (*CoalitionsUsersItem, error) {
 	urls := c.s.baseURL + "/coalitions_users/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -2205,8 +2584,13 @@ func (c *CoalitionsUsersGetCall) Do() (*CoalitionsUsersItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &CoalitionsUsersItem{}
+	ret := &CoalitionsUsersItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -2232,38 +2616,48 @@ type CommandsService struct {
 
 // CommandsItem is a 42 API type
 type CommandsItem struct {
+	ServerResponse `json:"-"`
 }
 
 // CommandsListCall description:
 type CommandsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListCommandsResponse represents a list response.
 type ListCommandsResponse struct {
-	Commands []*CommandsItem
+	Commands       []*CommandsItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a CommandsListCall which can request data from the 42 API.
 func (s *CommandsService) List() *CommandsListCall {
 	return &CommandsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Commands matching
-// the specified setting.
+// P sets an optional parameter and its values: Only return Commands matching the specified setting.
 func (c *CommandsListCall) P(key string, values []string) *CommandsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a CommandsListCall request call. Exactly one of
-// *ListCommandsResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *CommandsListCall) PageToken(page int) *CommandsListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a CommandsListCall request call. Exactly one of *ListCommandsResponse or error will be non-nil.
 func (c *CommandsListCall) Do() (*ListCommandsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/commands/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -2276,13 +2670,19 @@ func (c *CommandsListCall) Do() (*ListCommandsResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListCommandsResponse{}
+	ret := &ListCommandsResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Commands = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Commands); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -2302,8 +2702,7 @@ func (s *CommandsService) Get(ID string) *CommandsGetCall {
 	}
 }
 
-// Do executes a CommandsGetCall request call. Exactly one of *CommandsItem or
-// error will be non-nil.
+// Do executes a CommandsGetCall request call. Exactly one of *CommandsItem or error will be non-nil.
 func (c *CommandsGetCall) Do() (*CommandsItem, error) {
 	urls := c.s.baseURL + "/commands/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -2317,8 +2716,13 @@ func (c *CommandsGetCall) Do() (*CommandsItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &CommandsItem{}
+	ret := &CommandsItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -2332,8 +2736,7 @@ func (c *CommandsGetCall) Do() (*CommandsItem, error) {
 
 // delete
 
-// Commands description: Products are sold on the intranet shop, here are
-// commands
+// Commands description: Products are sold on the intranet shop, here are commands
 func Commands(s *Service) *CommandsService {
 	return &CommandsService{s: s}
 }
@@ -2346,11 +2749,11 @@ type CommunityServicesService struct {
 // CommunityServicesItem is a 42 API type
 type CommunityServicesItem struct {
 	Close struct {
+		ID        int64     `json:"id"`
+		Reason    string    `json:"reason"`
 		State     string    `json:"state"`
 		CreatedAt time.Time `json:"created_at"`
 		UpdatedAt time.Time `json:"updated_at"`
-		ID        int64     `json:"id"`
-		Reason    string    `json:"reason"`
 	} `json:"close"`
 	CreatedAt  time.Time `json:"created_at"`
 	Duration   int64     `json:"duration"`
@@ -2359,11 +2762,14 @@ type CommunityServicesItem struct {
 	ScheduleAt time.Time `json:"schedule_at"`
 	State      string    `json:"state"`
 	UpdatedAt  time.Time `json:"updated_at"`
+
+	ServerResponse `json:"-"`
 }
 
 // CommunityServicesListCall description:
 type CommunityServicesListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -2371,27 +2777,34 @@ type CommunityServicesListCall struct {
 // ListCommunityServicesResponse represents a list response.
 type ListCommunityServicesResponse struct {
 	CommunityServices []*CommunityServicesItem
+	ServerResponse    `json:"-"`
+	NextPage          int
 }
 
-// List returns a CommunityServicesListCall which can request data from the 42
-// API.
+// List returns a CommunityServicesListCall which can request data from the 42 API.
 func (s *CommunityServicesService) List() *CommunityServicesListCall {
 	return &CommunityServicesListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return CommunityServices
-// matching the specified setting.
+// P sets an optional parameter and its values: Only return CommunityServices matching the specified setting.
 func (c *CommunityServicesListCall) P(key string, values []string) *CommunityServicesListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a CommunityServicesListCall request call. Exactly one of
-// *ListCommunityServicesResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *CommunityServicesListCall) PageToken(page int) *CommunityServicesListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a CommunityServicesListCall request call. Exactly one of *ListCommunityServicesResponse or error will be non-nil.
 func (c *CommunityServicesListCall) Do() (*ListCommunityServicesResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/community_services/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -2404,13 +2817,19 @@ func (c *CommunityServicesListCall) Do() (*ListCommunityServicesResponse, error)
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListCommunityServicesResponse{}
+	ret := &ListCommunityServicesResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.CommunityServices = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).CommunityServices); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -2430,8 +2849,7 @@ func (s *CommunityServicesService) Get(ID string) *CommunityServicesGetCall {
 	}
 }
 
-// Do executes a CommunityServicesGetCall request call. Exactly one of
-// *CommunityServicesItem or error will be non-nil.
+// Do executes a CommunityServicesGetCall request call. Exactly one of *CommunityServicesItem or error will be non-nil.
 func (c *CommunityServicesGetCall) Do() (*CommunityServicesItem, error) {
 	urls := c.s.baseURL + "/community_services/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -2445,8 +2863,13 @@ func (c *CommunityServicesGetCall) Do() (*CommunityServicesItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &CommunityServicesItem{}
+	ret := &CommunityServicesItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -2460,8 +2883,7 @@ func (c *CommunityServicesGetCall) Do() (*CommunityServicesItem, error) {
 
 // delete
 
-// CommunityServices description: A task that an user have to do for the
-// community. Usually linked with a close.
+// CommunityServices description: A task that an user have to do for the community. Usually linked with a close.
 func CommunityServices(s *Service) *CommunityServicesService {
 	return &CommunityServicesService{s: s}
 }
@@ -2477,38 +2899,49 @@ type CursusItem struct {
 	ID        int64     `json:"id"`
 	Name      string    `json:"name"`
 	Slug      string    `json:"slug"`
+
+	ServerResponse `json:"-"`
 }
 
 // CursusListCall description:
 type CursusListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListCursusResponse represents a list response.
 type ListCursusResponse struct {
-	Cursus []*CursusItem
+	Cursus         []*CursusItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a CursusListCall which can request data from the 42 API.
 func (s *CursusService) List() *CursusListCall {
 	return &CursusListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Cursus matching the
-// specified setting.
+// P sets an optional parameter and its values: Only return Cursus matching the specified setting.
 func (c *CursusListCall) P(key string, values []string) *CursusListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a CursusListCall request call. Exactly one of *ListCursusResponse
-// or error will be non-nil.
+// PageToken get the specified page
+func (c *CursusListCall) PageToken(page int) *CursusListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a CursusListCall request call. Exactly one of *ListCursusResponse or error will be non-nil.
 func (c *CursusListCall) Do() (*ListCursusResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/cursus/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -2521,13 +2954,19 @@ func (c *CursusListCall) Do() (*ListCursusResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListCursusResponse{}
+	ret := &ListCursusResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Cursus = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Cursus); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -2547,8 +2986,7 @@ func (s *CursusService) Get(ID string) *CursusGetCall {
 	}
 }
 
-// Do executes a CursusGetCall request call. Exactly one of *CursusItem or error
-// will be non-nil.
+// Do executes a CursusGetCall request call. Exactly one of *CursusItem or error will be non-nil.
 func (c *CursusGetCall) Do() (*CursusItem, error) {
 	urls := c.s.baseURL + "/cursus/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -2562,8 +3000,13 @@ func (c *CursusGetCall) Do() (*CursusItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &CursusItem{}
+	ret := &CursusItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -2591,10 +3034,10 @@ type CursusUsersService struct {
 type CursusUsersItem struct {
 	BeginAt time.Time `json:"begin_at"`
 	Cursus  struct {
-		CreatedAt time.Time `json:"created_at"`
 		Name      string    `json:"name"`
 		Slug      string    `json:"slug"`
 		ID        int64     `json:"id"`
+		CreatedAt time.Time `json:"created_at"`
 	} `json:"cursus"`
 	CursusID     int64         `json:"cursus_id"`
 	EndAt        interface{}   `json:"end_at"`
@@ -2608,38 +3051,49 @@ type CursusUsersItem struct {
 		Login string `json:"login"`
 		URL   string `json:"url"`
 	} `json:"user"`
+
+	ServerResponse `json:"-"`
 }
 
 // CursusUsersListCall description:
 type CursusUsersListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListCursusUsersResponse represents a list response.
 type ListCursusUsersResponse struct {
-	CursusUsers []*CursusUsersItem
+	CursusUsers    []*CursusUsersItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a CursusUsersListCall which can request data from the 42 API.
 func (s *CursusUsersService) List() *CursusUsersListCall {
 	return &CursusUsersListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return CursusUsers matching
-// the specified setting.
+// P sets an optional parameter and its values: Only return CursusUsers matching the specified setting.
 func (c *CursusUsersListCall) P(key string, values []string) *CursusUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a CursusUsersListCall request call. Exactly one of
-// *ListCursusUsersResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *CursusUsersListCall) PageToken(page int) *CursusUsersListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a CursusUsersListCall request call. Exactly one of *ListCursusUsersResponse or error will be non-nil.
 func (c *CursusUsersListCall) Do() (*ListCursusUsersResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/cursus_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -2652,13 +3106,19 @@ func (c *CursusUsersListCall) Do() (*ListCursusUsersResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListCursusUsersResponse{}
+	ret := &ListCursusUsersResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.CursusUsers = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).CursusUsers); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -2678,8 +3138,7 @@ func (s *CursusUsersService) Get(ID string) *CursusUsersGetCall {
 	}
 }
 
-// Do executes a CursusUsersGetCall request call. Exactly one of
-// *CursusUsersItem or error will be non-nil.
+// Do executes a CursusUsersGetCall request call. Exactly one of *CursusUsersItem or error will be non-nil.
 func (c *CursusUsersGetCall) Do() (*CursusUsersItem, error) {
 	urls := c.s.baseURL + "/cursus_users/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -2693,8 +3152,13 @@ func (c *CursusUsersGetCall) Do() (*CursusUsersItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &CursusUsersItem{}
+	ret := &CursusUsersItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -2720,38 +3184,48 @@ type DashesService struct {
 
 // DashesItem is a 42 API type
 type DashesItem struct {
+	ServerResponse `json:"-"`
 }
 
 // DashesListCall description:
 type DashesListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListDashesResponse represents a list response.
 type ListDashesResponse struct {
-	Dashes []*DashesItem
+	Dashes         []*DashesItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a DashesListCall which can request data from the 42 API.
 func (s *DashesService) List() *DashesListCall {
 	return &DashesListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Dashes matching the
-// specified setting.
+// P sets an optional parameter and its values: Only return Dashes matching the specified setting.
 func (c *DashesListCall) P(key string, values []string) *DashesListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a DashesListCall request call. Exactly one of *ListDashesResponse
-// or error will be non-nil.
+// PageToken get the specified page
+func (c *DashesListCall) PageToken(page int) *DashesListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a DashesListCall request call. Exactly one of *ListDashesResponse or error will be non-nil.
 func (c *DashesListCall) Do() (*ListDashesResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/dashes/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -2764,13 +3238,19 @@ func (c *DashesListCall) Do() (*ListDashesResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListDashesResponse{}
+	ret := &ListDashesResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Dashes = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Dashes); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -2790,8 +3270,7 @@ func (s *DashesService) Get(ID string) *DashesGetCall {
 	}
 }
 
-// Do executes a DashesGetCall request call. Exactly one of *DashesItem or error
-// will be non-nil.
+// Do executes a DashesGetCall request call. Exactly one of *DashesItem or error will be non-nil.
 func (c *DashesGetCall) Do() (*DashesItem, error) {
 	urls := c.s.baseURL + "/dashes/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -2805,8 +3284,13 @@ func (c *DashesGetCall) Do() (*DashesItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &DashesItem{}
+	ret := &DashesItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -2838,38 +3322,49 @@ type DashesUsersItem struct {
 	RepoURL   interface{} `json:"repo_url"`
 	RepoUUID  interface{} `json:"repo_uuid"`
 	UserID    int64       `json:"user_id"`
+
+	ServerResponse `json:"-"`
 }
 
 // DashesUsersListCall description:
 type DashesUsersListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListDashesUsersResponse represents a list response.
 type ListDashesUsersResponse struct {
-	DashesUsers []*DashesUsersItem
+	DashesUsers    []*DashesUsersItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a DashesUsersListCall which can request data from the 42 API.
 func (s *DashesUsersService) List() *DashesUsersListCall {
 	return &DashesUsersListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return DashesUsers matching
-// the specified setting.
+// P sets an optional parameter and its values: Only return DashesUsers matching the specified setting.
 func (c *DashesUsersListCall) P(key string, values []string) *DashesUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a DashesUsersListCall request call. Exactly one of
-// *ListDashesUsersResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *DashesUsersListCall) PageToken(page int) *DashesUsersListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a DashesUsersListCall request call. Exactly one of *ListDashesUsersResponse or error will be non-nil.
 func (c *DashesUsersListCall) Do() (*ListDashesUsersResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/dashes_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -2882,13 +3377,19 @@ func (c *DashesUsersListCall) Do() (*ListDashesUsersResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListDashesUsersResponse{}
+	ret := &ListDashesUsersResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.DashesUsers = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).DashesUsers); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -2908,8 +3409,7 @@ func (s *DashesUsersService) Get(ID string) *DashesUsersGetCall {
 	}
 }
 
-// Do executes a DashesUsersGetCall request call. Exactly one of
-// *DashesUsersItem or error will be non-nil.
+// Do executes a DashesUsersGetCall request call. Exactly one of *DashesUsersItem or error will be non-nil.
 func (c *DashesUsersGetCall) Do() (*DashesUsersItem, error) {
 	urls := c.s.baseURL + "/dashes_users/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -2923,8 +3423,13 @@ func (c *DashesUsersGetCall) Do() (*DashesUsersItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &DashesUsersItem{}
+	ret := &DashesUsersItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -2953,11 +3458,11 @@ type EndpointsItem struct {
 	Campus []struct {
 		TimeZone string `json:"time_zone"`
 		Language struct {
-			CreatedAt  time.Time `json:"created_at"`
-			UpdatedAt  time.Time `json:"updated_at"`
 			ID         int64     `json:"id"`
 			Name       string    `json:"name"`
 			IDentifier string    `json:"identifier"`
+			CreatedAt  time.Time `json:"created_at"`
+			UpdatedAt  time.Time `json:"updated_at"`
 		} `json:"language"`
 		UsersCount int64  `json:"users_count"`
 		ID         int64  `json:"id"`
@@ -2968,38 +3473,49 @@ type EndpointsItem struct {
 	ID          int64     `json:"id"`
 	UpdatedAt   time.Time `json:"updated_at"`
 	URL         string    `json:"url"`
+
+	ServerResponse `json:"-"`
 }
 
 // EndpointsListCall description:
 type EndpointsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListEndpointsResponse represents a list response.
 type ListEndpointsResponse struct {
-	Endpoints []*EndpointsItem
+	Endpoints      []*EndpointsItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a EndpointsListCall which can request data from the 42 API.
 func (s *EndpointsService) List() *EndpointsListCall {
 	return &EndpointsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Endpoints matching
-// the specified setting.
+// P sets an optional parameter and its values: Only return Endpoints matching the specified setting.
 func (c *EndpointsListCall) P(key string, values []string) *EndpointsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a EndpointsListCall request call. Exactly one of
-// *ListEndpointsResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *EndpointsListCall) PageToken(page int) *EndpointsListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a EndpointsListCall request call. Exactly one of *ListEndpointsResponse or error will be non-nil.
 func (c *EndpointsListCall) Do() (*ListEndpointsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/endpoints/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -3012,13 +3528,19 @@ func (c *EndpointsListCall) Do() (*ListEndpointsResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListEndpointsResponse{}
+	ret := &ListEndpointsResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Endpoints = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Endpoints); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -3038,8 +3560,7 @@ func (s *EndpointsService) Get(ID string) *EndpointsGetCall {
 	}
 }
 
-// Do executes a EndpointsGetCall request call. Exactly one of *EndpointsItem or
-// error will be non-nil.
+// Do executes a EndpointsGetCall request call. Exactly one of *EndpointsItem or error will be non-nil.
 func (c *EndpointsGetCall) Do() (*EndpointsItem, error) {
 	urls := c.s.baseURL + "/endpoints/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -3053,8 +3574,13 @@ func (c *EndpointsGetCall) Do() (*EndpointsItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &EndpointsItem{}
+	ret := &EndpointsItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -3080,38 +3606,48 @@ type EvaluationsService struct {
 
 // EvaluationsItem is a 42 API type
 type EvaluationsItem struct {
+	ServerResponse `json:"-"`
 }
 
 // EvaluationsListCall description:
 type EvaluationsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListEvaluationsResponse represents a list response.
 type ListEvaluationsResponse struct {
-	Evaluations []*EvaluationsItem
+	Evaluations    []*EvaluationsItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a EvaluationsListCall which can request data from the 42 API.
 func (s *EvaluationsService) List() *EvaluationsListCall {
 	return &EvaluationsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Evaluations matching
-// the specified setting.
+// P sets an optional parameter and its values: Only return Evaluations matching the specified setting.
 func (c *EvaluationsListCall) P(key string, values []string) *EvaluationsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a EvaluationsListCall request call. Exactly one of
-// *ListEvaluationsResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *EvaluationsListCall) PageToken(page int) *EvaluationsListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a EvaluationsListCall request call. Exactly one of *ListEvaluationsResponse or error will be non-nil.
 func (c *EvaluationsListCall) Do() (*ListEvaluationsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/evaluations/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -3124,13 +3660,19 @@ func (c *EvaluationsListCall) Do() (*ListEvaluationsResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListEvaluationsResponse{}
+	ret := &ListEvaluationsResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Evaluations = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Evaluations); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -3150,8 +3692,7 @@ func (s *EvaluationsService) Get(ID string) *EvaluationsGetCall {
 	}
 }
 
-// Do executes a EvaluationsGetCall request call. Exactly one of
-// *EvaluationsItem or error will be non-nil.
+// Do executes a EvaluationsGetCall request call. Exactly one of *EvaluationsItem or error will be non-nil.
 func (c *EvaluationsGetCall) Do() (*EvaluationsItem, error) {
 	urls := c.s.baseURL + "/evaluations/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -3165,8 +3706,13 @@ func (c *EvaluationsGetCall) Do() (*EvaluationsItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &EvaluationsItem{}
+	ret := &EvaluationsItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -3206,10 +3752,10 @@ type EventsItem struct {
 	NbrSubscribers            int64     `json:"nbr_subscribers"`
 	ProhibitionOfCancellation int64     `json:"prohibition_of_cancellation"`
 	Themes                    []struct {
-		ID        int64     `json:"id"`
-		Name      string    `json:"name"`
 		UpdatedAt time.Time `json:"updated_at"`
 		CreatedAt time.Time `json:"created_at"`
+		ID        int64     `json:"id"`
+		Name      string    `json:"name"`
 	} `json:"themes"`
 	UpdatedAt time.Time `json:"updated_at"`
 	Waitlist  struct {
@@ -3219,38 +3765,49 @@ type EventsItem struct {
 		WaitlistableID   int64     `json:"waitlistable_id"`
 		WaitlistableType string    `json:"waitlistable_type"`
 	} `json:"waitlist"`
+
+	ServerResponse `json:"-"`
 }
 
 // EventsListCall description:
 type EventsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListEventsResponse represents a list response.
 type ListEventsResponse struct {
-	Events []*EventsItem
+	Events         []*EventsItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a EventsListCall which can request data from the 42 API.
 func (s *EventsService) List() *EventsListCall {
 	return &EventsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Events matching the
-// specified setting.
+// P sets an optional parameter and its values: Only return Events matching the specified setting.
 func (c *EventsListCall) P(key string, values []string) *EventsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a EventsListCall request call. Exactly one of *ListEventsResponse
-// or error will be non-nil.
+// PageToken get the specified page
+func (c *EventsListCall) PageToken(page int) *EventsListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a EventsListCall request call. Exactly one of *ListEventsResponse or error will be non-nil.
 func (c *EventsListCall) Do() (*ListEventsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/events/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -3263,13 +3820,19 @@ func (c *EventsListCall) Do() (*ListEventsResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListEventsResponse{}
+	ret := &ListEventsResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Events = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Events); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -3289,8 +3852,7 @@ func (s *EventsService) Get(ID string) *EventsGetCall {
 	}
 }
 
-// Do executes a EventsGetCall request call. Exactly one of *EventsItem or error
-// will be non-nil.
+// Do executes a EventsGetCall request call. Exactly one of *EventsItem or error will be non-nil.
 func (c *EventsGetCall) Do() (*EventsItem, error) {
 	urls := c.s.baseURL + "/events/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -3304,8 +3866,13 @@ func (c *EventsGetCall) Do() (*EventsItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &EventsItem{}
+	ret := &EventsItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -3331,38 +3898,48 @@ type EventsUsersService struct {
 
 // EventsUsersItem is a 42 API type
 type EventsUsersItem struct {
+	ServerResponse `json:"-"`
 }
 
 // EventsUsersListCall description:
 type EventsUsersListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListEventsUsersResponse represents a list response.
 type ListEventsUsersResponse struct {
-	EventsUsers []*EventsUsersItem
+	EventsUsers    []*EventsUsersItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a EventsUsersListCall which can request data from the 42 API.
 func (s *EventsUsersService) List() *EventsUsersListCall {
 	return &EventsUsersListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return EventsUsers matching
-// the specified setting.
+// P sets an optional parameter and its values: Only return EventsUsers matching the specified setting.
 func (c *EventsUsersListCall) P(key string, values []string) *EventsUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a EventsUsersListCall request call. Exactly one of
-// *ListEventsUsersResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *EventsUsersListCall) PageToken(page int) *EventsUsersListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a EventsUsersListCall request call. Exactly one of *ListEventsUsersResponse or error will be non-nil.
 func (c *EventsUsersListCall) Do() (*ListEventsUsersResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/events_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -3375,13 +3952,19 @@ func (c *EventsUsersListCall) Do() (*ListEventsUsersResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListEventsUsersResponse{}
+	ret := &ListEventsUsersResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.EventsUsers = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).EventsUsers); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -3401,8 +3984,7 @@ func (s *EventsUsersService) Get(ID string) *EventsUsersGetCall {
 	}
 }
 
-// Do executes a EventsUsersGetCall request call. Exactly one of
-// *EventsUsersItem or error will be non-nil.
+// Do executes a EventsUsersGetCall request call. Exactly one of *EventsUsersItem or error will be non-nil.
 func (c *EventsUsersGetCall) Do() (*EventsUsersItem, error) {
 	urls := c.s.baseURL + "/events_users/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -3416,8 +3998,13 @@ func (c *EventsUsersGetCall) Do() (*EventsUsersItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &EventsUsersItem{}
+	ret := &EventsUsersItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -3445,18 +4032,18 @@ type ExamsService struct {
 type ExamsItem struct {
 	BeginAt time.Time `json:"begin_at"`
 	Campus  []struct {
-		ID       int64  `json:"id"`
-		Name     string `json:"name"`
-		TimeZone string `json:"time_zone"`
 		Language struct {
+			IDentifier string    `json:"identifier"`
 			CreatedAt  time.Time `json:"created_at"`
 			UpdatedAt  time.Time `json:"updated_at"`
 			ID         int64     `json:"id"`
 			Name       string    `json:"name"`
-			IDentifier string    `json:"identifier"`
 		} `json:"language"`
-		UsersCount  int64 `json:"users_count"`
-		VogsphereID int64 `json:"vogsphere_id"`
+		UsersCount  int64  `json:"users_count"`
+		VogsphereID int64  `json:"vogsphere_id"`
+		ID          int64  `json:"id"`
+		Name        string `json:"name"`
+		TimeZone    string `json:"time_zone"`
 	} `json:"campus"`
 	Cursus []struct {
 		ID        int64     `json:"id"`
@@ -3472,51 +4059,62 @@ type ExamsItem struct {
 	Name           string    `json:"name"`
 	NbrSubscribers int64     `json:"nbr_subscribers"`
 	Projects       []struct {
-		ID          int64         `json:"id"`
-		Parent      interface{}   `json:"parent"`
+		Children    []interface{} `json:"children"`
 		Objectives  []string      `json:"objectives"`
-		Attachments []interface{} `json:"attachments"`
+		Tier        int64         `json:"tier"`
 		CreatedAt   time.Time     `json:"created_at"`
 		UpdatedAt   time.Time     `json:"updated_at"`
 		Name        string        `json:"name"`
 		Slug        string        `json:"slug"`
 		Description string        `json:"description"`
-		Children    []interface{} `json:"children"`
-		Tier        int64         `json:"tier"`
 		Exam        bool          `json:"exam"`
+		ID          int64         `json:"id"`
+		Parent      interface{}   `json:"parent"`
+		Attachments []interface{} `json:"attachments"`
 	} `json:"projects"`
+
+	ServerResponse `json:"-"`
 }
 
 // ExamsListCall description:
 type ExamsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListExamsResponse represents a list response.
 type ListExamsResponse struct {
-	Exams []*ExamsItem
+	Exams          []*ExamsItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a ExamsListCall which can request data from the 42 API.
 func (s *ExamsService) List() *ExamsListCall {
 	return &ExamsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Exams matching the
-// specified setting.
+// P sets an optional parameter and its values: Only return Exams matching the specified setting.
 func (c *ExamsListCall) P(key string, values []string) *ExamsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a ExamsListCall request call. Exactly one of *ListExamsResponse
-// or error will be non-nil.
+// PageToken get the specified page
+func (c *ExamsListCall) PageToken(page int) *ExamsListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a ExamsListCall request call. Exactly one of *ListExamsResponse or error will be non-nil.
 func (c *ExamsListCall) Do() (*ListExamsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/exams/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -3529,13 +4127,19 @@ func (c *ExamsListCall) Do() (*ListExamsResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListExamsResponse{}
+	ret := &ListExamsResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Exams = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Exams); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -3555,8 +4159,7 @@ func (s *ExamsService) Get(ID string) *ExamsGetCall {
 	}
 }
 
-// Do executes a ExamsGetCall request call. Exactly one of *ExamsItem or error
-// will be non-nil.
+// Do executes a ExamsGetCall request call. Exactly one of *ExamsItem or error will be non-nil.
 func (c *ExamsGetCall) Do() (*ExamsItem, error) {
 	urls := c.s.baseURL + "/exams/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -3570,8 +4173,13 @@ func (c *ExamsGetCall) Do() (*ExamsItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ExamsItem{}
+	ret := &ExamsItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -3597,38 +4205,48 @@ type ExamsUsersService struct {
 
 // ExamsUsersItem is a 42 API type
 type ExamsUsersItem struct {
+	ServerResponse `json:"-"`
 }
 
 // ExamsUsersListCall description:
 type ExamsUsersListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListExamsUsersResponse represents a list response.
 type ListExamsUsersResponse struct {
-	ExamsUsers []*ExamsUsersItem
+	ExamsUsers     []*ExamsUsersItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a ExamsUsersListCall which can request data from the 42 API.
 func (s *ExamsUsersService) List() *ExamsUsersListCall {
 	return &ExamsUsersListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return ExamsUsers matching
-// the specified setting.
+// P sets an optional parameter and its values: Only return ExamsUsers matching the specified setting.
 func (c *ExamsUsersListCall) P(key string, values []string) *ExamsUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a ExamsUsersListCall request call. Exactly one of
-// *ListExamsUsersResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *ExamsUsersListCall) PageToken(page int) *ExamsUsersListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a ExamsUsersListCall request call. Exactly one of *ListExamsUsersResponse or error will be non-nil.
 func (c *ExamsUsersListCall) Do() (*ListExamsUsersResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/exams_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -3641,13 +4259,19 @@ func (c *ExamsUsersListCall) Do() (*ListExamsUsersResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListExamsUsersResponse{}
+	ret := &ListExamsUsersResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.ExamsUsers = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).ExamsUsers); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -3669,38 +4293,48 @@ type ExperiencesService struct {
 
 // ExperiencesItem is a 42 API type
 type ExperiencesItem struct {
+	ServerResponse `json:"-"`
 }
 
 // ExperiencesListCall description:
 type ExperiencesListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListExperiencesResponse represents a list response.
 type ListExperiencesResponse struct {
-	Experiences []*ExperiencesItem
+	Experiences    []*ExperiencesItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a ExperiencesListCall which can request data from the 42 API.
 func (s *ExperiencesService) List() *ExperiencesListCall {
 	return &ExperiencesListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Experiences matching
-// the specified setting.
+// P sets an optional parameter and its values: Only return Experiences matching the specified setting.
 func (c *ExperiencesListCall) P(key string, values []string) *ExperiencesListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a ExperiencesListCall request call. Exactly one of
-// *ListExperiencesResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *ExperiencesListCall) PageToken(page int) *ExperiencesListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a ExperiencesListCall request call. Exactly one of *ListExperiencesResponse or error will be non-nil.
 func (c *ExperiencesListCall) Do() (*ListExperiencesResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/experiences/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -3713,13 +4347,19 @@ func (c *ExperiencesListCall) Do() (*ListExperiencesResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListExperiencesResponse{}
+	ret := &ListExperiencesResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Experiences = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Experiences); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -3739,8 +4379,7 @@ func (s *ExperiencesService) Get(ID string) *ExperiencesGetCall {
 	}
 }
 
-// Do executes a ExperiencesGetCall request call. Exactly one of
-// *ExperiencesItem or error will be non-nil.
+// Do executes a ExperiencesGetCall request call. Exactly one of *ExperiencesItem or error will be non-nil.
 func (c *ExperiencesGetCall) Do() (*ExperiencesItem, error) {
 	urls := c.s.baseURL + "/experiences/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -3754,8 +4393,13 @@ func (c *ExperiencesGetCall) Do() (*ExperiencesItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ExperiencesItem{}
+	ret := &ExperiencesItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -3769,8 +4413,7 @@ func (c *ExperiencesGetCall) Do() (*ExperiencesItem, error) {
 
 // delete
 
-// Experiences description: An experience gained by an user in a particular
-// skill.
+// Experiences description: An experience gained by an user in a particular skill.
 func Experiences(s *Service) *ExperiencesService {
 	return &ExperiencesService{s: s}
 }
@@ -3789,38 +4432,49 @@ type ExpertisesItem struct {
 	Name               string    `json:"name"`
 	Slug               string    `json:"slug"`
 	URL                string    `json:"url"`
+
+	ServerResponse `json:"-"`
 }
 
 // ExpertisesListCall description:
 type ExpertisesListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListExpertisesResponse represents a list response.
 type ListExpertisesResponse struct {
-	Expertises []*ExpertisesItem
+	Expertises     []*ExpertisesItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a ExpertisesListCall which can request data from the 42 API.
 func (s *ExpertisesService) List() *ExpertisesListCall {
 	return &ExpertisesListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Expertises matching
-// the specified setting.
+// P sets an optional parameter and its values: Only return Expertises matching the specified setting.
 func (c *ExpertisesListCall) P(key string, values []string) *ExpertisesListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a ExpertisesListCall request call. Exactly one of
-// *ListExpertisesResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *ExpertisesListCall) PageToken(page int) *ExpertisesListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a ExpertisesListCall request call. Exactly one of *ListExpertisesResponse or error will be non-nil.
 func (c *ExpertisesListCall) Do() (*ListExpertisesResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/expertises/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -3833,13 +4487,19 @@ func (c *ExpertisesListCall) Do() (*ListExpertisesResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListExpertisesResponse{}
+	ret := &ListExpertisesResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Expertises = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Expertises); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -3859,8 +4519,7 @@ func (s *ExpertisesService) Get(ID string) *ExpertisesGetCall {
 	}
 }
 
-// Do executes a ExpertisesGetCall request call. Exactly one of *ExpertisesItem
-// or error will be non-nil.
+// Do executes a ExpertisesGetCall request call. Exactly one of *ExpertisesItem or error will be non-nil.
 func (c *ExpertisesGetCall) Do() (*ExpertisesItem, error) {
 	urls := c.s.baseURL + "/expertises/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -3874,8 +4533,13 @@ func (c *ExpertisesGetCall) Do() (*ExpertisesItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ExpertisesItem{}
+	ret := &ExpertisesItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -3904,13 +4568,13 @@ type ExpertisesUsersItem struct {
 	ContactMe bool      `json:"contact_me"`
 	CreatedAt time.Time `json:"created_at"`
 	Expertise struct {
+		Kind               string    `json:"kind"`
+		CreatedAt          time.Time `json:"created_at"`
+		ExpertisesUsersURL string    `json:"expertises_users_url"`
 		ID                 int64     `json:"id"`
 		Name               string    `json:"name"`
 		Slug               string    `json:"slug"`
 		URL                string    `json:"url"`
-		Kind               string    `json:"kind"`
-		CreatedAt          time.Time `json:"created_at"`
-		ExpertisesUsersURL string    `json:"expertises_users_url"`
 	} `json:"expertise"`
 	ExpertiseID int64 `json:"expertise_id"`
 	ID          int64 `json:"id"`
@@ -3922,11 +4586,14 @@ type ExpertisesUsersItem struct {
 	} `json:"user"`
 	UserID int64 `json:"user_id"`
 	Value  int64 `json:"value"`
+
+	ServerResponse `json:"-"`
 }
 
 // ExpertisesUsersListCall description:
 type ExpertisesUsersListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -3934,27 +4601,34 @@ type ExpertisesUsersListCall struct {
 // ListExpertisesUsersResponse represents a list response.
 type ListExpertisesUsersResponse struct {
 	ExpertisesUsers []*ExpertisesUsersItem
+	ServerResponse  `json:"-"`
+	NextPage        int
 }
 
-// List returns a ExpertisesUsersListCall which can request data from the 42
-// API.
+// List returns a ExpertisesUsersListCall which can request data from the 42 API.
 func (s *ExpertisesUsersService) List() *ExpertisesUsersListCall {
 	return &ExpertisesUsersListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return ExpertisesUsers
-// matching the specified setting.
+// P sets an optional parameter and its values: Only return ExpertisesUsers matching the specified setting.
 func (c *ExpertisesUsersListCall) P(key string, values []string) *ExpertisesUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a ExpertisesUsersListCall request call. Exactly one of
-// *ListExpertisesUsersResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *ExpertisesUsersListCall) PageToken(page int) *ExpertisesUsersListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a ExpertisesUsersListCall request call. Exactly one of *ListExpertisesUsersResponse or error will be non-nil.
 func (c *ExpertisesUsersListCall) Do() (*ListExpertisesUsersResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/expertises_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -3967,13 +4641,19 @@ func (c *ExpertisesUsersListCall) Do() (*ListExpertisesUsersResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListExpertisesUsersResponse{}
+	ret := &ListExpertisesUsersResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.ExpertisesUsers = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).ExpertisesUsers); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -3993,8 +4673,7 @@ func (s *ExpertisesUsersService) Get(ID string) *ExpertisesUsersGetCall {
 	}
 }
 
-// Do executes a ExpertisesUsersGetCall request call. Exactly one of
-// *ExpertisesUsersItem or error will be non-nil.
+// Do executes a ExpertisesUsersGetCall request call. Exactly one of *ExpertisesUsersItem or error will be non-nil.
 func (c *ExpertisesUsersGetCall) Do() (*ExpertisesUsersItem, error) {
 	urls := c.s.baseURL + "/expertises_users/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -4008,8 +4687,13 @@ func (c *ExpertisesUsersGetCall) Do() (*ExpertisesUsersItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ExpertisesUsersItem{}
+	ret := &ExpertisesUsersItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -4035,38 +4719,48 @@ type FeedbacksService struct {
 
 // FeedbacksItem is a 42 API type
 type FeedbacksItem struct {
+	ServerResponse `json:"-"`
 }
 
 // FeedbacksListCall description:
 type FeedbacksListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListFeedbacksResponse represents a list response.
 type ListFeedbacksResponse struct {
-	Feedbacks []*FeedbacksItem
+	Feedbacks      []*FeedbacksItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a FeedbacksListCall which can request data from the 42 API.
 func (s *FeedbacksService) List() *FeedbacksListCall {
 	return &FeedbacksListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Feedbacks matching
-// the specified setting.
+// P sets an optional parameter and its values: Only return Feedbacks matching the specified setting.
 func (c *FeedbacksListCall) P(key string, values []string) *FeedbacksListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a FeedbacksListCall request call. Exactly one of
-// *ListFeedbacksResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *FeedbacksListCall) PageToken(page int) *FeedbacksListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a FeedbacksListCall request call. Exactly one of *ListFeedbacksResponse or error will be non-nil.
 func (c *FeedbacksListCall) Do() (*ListFeedbacksResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/feedbacks/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -4079,13 +4773,19 @@ func (c *FeedbacksListCall) Do() (*ListFeedbacksResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListFeedbacksResponse{}
+	ret := &ListFeedbacksResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Feedbacks = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Feedbacks); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -4105,8 +4805,7 @@ func (s *FeedbacksService) Get(ID string) *FeedbacksGetCall {
 	}
 }
 
-// Do executes a FeedbacksGetCall request call. Exactly one of *FeedbacksItem or
-// error will be non-nil.
+// Do executes a FeedbacksGetCall request call. Exactly one of *FeedbacksItem or error will be non-nil.
 func (c *FeedbacksGetCall) Do() (*FeedbacksItem, error) {
 	urls := c.s.baseURL + "/feedbacks/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -4120,8 +4819,13 @@ func (c *FeedbacksGetCall) Do() (*FeedbacksItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &FeedbacksItem{}
+	ret := &FeedbacksItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -4147,38 +4851,48 @@ type FlagsService struct {
 
 // FlagsItem is a 42 API type
 type FlagsItem struct {
+	ServerResponse `json:"-"`
 }
 
 // FlagsListCall description:
 type FlagsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListFlagsResponse represents a list response.
 type ListFlagsResponse struct {
-	Flags []*FlagsItem
+	Flags          []*FlagsItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a FlagsListCall which can request data from the 42 API.
 func (s *FlagsService) List() *FlagsListCall {
 	return &FlagsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Flags matching the
-// specified setting.
+// P sets an optional parameter and its values: Only return Flags matching the specified setting.
 func (c *FlagsListCall) P(key string, values []string) *FlagsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a FlagsListCall request call. Exactly one of *ListFlagsResponse
-// or error will be non-nil.
+// PageToken get the specified page
+func (c *FlagsListCall) PageToken(page int) *FlagsListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a FlagsListCall request call. Exactly one of *ListFlagsResponse or error will be non-nil.
 func (c *FlagsListCall) Do() (*ListFlagsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/flags/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -4191,13 +4905,19 @@ func (c *FlagsListCall) Do() (*ListFlagsResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListFlagsResponse{}
+	ret := &ListFlagsResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Flags = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Flags); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -4222,38 +4942,49 @@ type FlashUsersItem struct {
 		Login string `json:"login"`
 		URL   string `json:"url"`
 	} `json:"user"`
+
+	ServerResponse `json:"-"`
 }
 
 // FlashUsersListCall description:
 type FlashUsersListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListFlashUsersResponse represents a list response.
 type ListFlashUsersResponse struct {
-	FlashUsers []*FlashUsersItem
+	FlashUsers     []*FlashUsersItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a FlashUsersListCall which can request data from the 42 API.
 func (s *FlashUsersService) List() *FlashUsersListCall {
 	return &FlashUsersListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return FlashUsers matching
-// the specified setting.
+// P sets an optional parameter and its values: Only return FlashUsers matching the specified setting.
 func (c *FlashUsersListCall) P(key string, values []string) *FlashUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a FlashUsersListCall request call. Exactly one of
-// *ListFlashUsersResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *FlashUsersListCall) PageToken(page int) *FlashUsersListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a FlashUsersListCall request call. Exactly one of *ListFlashUsersResponse or error will be non-nil.
 func (c *FlashUsersListCall) Do() (*ListFlashUsersResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/flash_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -4266,13 +4997,19 @@ func (c *FlashUsersListCall) Do() (*ListFlashUsersResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListFlashUsersResponse{}
+	ret := &ListFlashUsersResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.FlashUsers = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).FlashUsers); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -4292,8 +5029,7 @@ func (s *FlashUsersService) Get(ID string) *FlashUsersGetCall {
 	}
 }
 
-// Do executes a FlashUsersGetCall request call. Exactly one of *FlashUsersItem
-// or error will be non-nil.
+// Do executes a FlashUsersGetCall request call. Exactly one of *FlashUsersItem or error will be non-nil.
 func (c *FlashUsersGetCall) Do() (*FlashUsersItem, error) {
 	urls := c.s.baseURL + "/flash_users/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -4307,8 +5043,13 @@ func (c *FlashUsersGetCall) Do() (*FlashUsersItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &FlashUsersItem{}
+	ret := &FlashUsersItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -4336,38 +5077,49 @@ type FlashesItem struct {
 	IDentifier string `json:"identifier"`
 	Selector   string `json:"selector"`
 	Title      string `json:"title"`
+
+	ServerResponse `json:"-"`
 }
 
 // FlashesListCall description:
 type FlashesListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListFlashesResponse represents a list response.
 type ListFlashesResponse struct {
-	Flashes []*FlashesItem
+	Flashes        []*FlashesItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a FlashesListCall which can request data from the 42 API.
 func (s *FlashesService) List() *FlashesListCall {
 	return &FlashesListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Flashes matching the
-// specified setting.
+// P sets an optional parameter and its values: Only return Flashes matching the specified setting.
 func (c *FlashesListCall) P(key string, values []string) *FlashesListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a FlashesListCall request call. Exactly one of
-// *ListFlashesResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *FlashesListCall) PageToken(page int) *FlashesListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a FlashesListCall request call. Exactly one of *ListFlashesResponse or error will be non-nil.
 func (c *FlashesListCall) Do() (*ListFlashesResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/flashes/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -4380,13 +5132,19 @@ func (c *FlashesListCall) Do() (*ListFlashesResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListFlashesResponse{}
+	ret := &ListFlashesResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Flashes = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Flashes); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -4406,8 +5164,7 @@ func (s *FlashesService) Get(ID string) *FlashesGetCall {
 	}
 }
 
-// Do executes a FlashesGetCall request call. Exactly one of *FlashesItem or
-// error will be non-nil.
+// Do executes a FlashesGetCall request call. Exactly one of *FlashesItem or error will be non-nil.
 func (c *FlashesGetCall) Do() (*FlashesItem, error) {
 	urls := c.s.baseURL + "/flashes/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -4421,8 +5178,13 @@ func (c *FlashesGetCall) Do() (*FlashesItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &FlashesItem{}
+	ret := &FlashesItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -4446,38 +5208,49 @@ type GroupsService struct {
 type GroupsItem struct {
 	ID   int64  `json:"id"`
 	Name string `json:"name"`
+
+	ServerResponse `json:"-"`
 }
 
 // GroupsListCall description:
 type GroupsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListGroupsResponse represents a list response.
 type ListGroupsResponse struct {
-	Groups []*GroupsItem
+	Groups         []*GroupsItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a GroupsListCall which can request data from the 42 API.
 func (s *GroupsService) List() *GroupsListCall {
 	return &GroupsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Groups matching the
-// specified setting.
+// P sets an optional parameter and its values: Only return Groups matching the specified setting.
 func (c *GroupsListCall) P(key string, values []string) *GroupsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a GroupsListCall request call. Exactly one of *ListGroupsResponse
-// or error will be non-nil.
+// PageToken get the specified page
+func (c *GroupsListCall) PageToken(page int) *GroupsListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a GroupsListCall request call. Exactly one of *ListGroupsResponse or error will be non-nil.
 func (c *GroupsListCall) Do() (*ListGroupsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/groups/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -4490,13 +5263,19 @@ func (c *GroupsListCall) Do() (*ListGroupsResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListGroupsResponse{}
+	ret := &ListGroupsResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Groups = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Groups); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -4516,8 +5295,7 @@ func (s *GroupsService) Get(ID string) *GroupsGetCall {
 	}
 }
 
-// Do executes a GroupsGetCall request call. Exactly one of *GroupsItem or error
-// will be non-nil.
+// Do executes a GroupsGetCall request call. Exactly one of *GroupsItem or error will be non-nil.
 func (c *GroupsGetCall) Do() (*GroupsItem, error) {
 	urls := c.s.baseURL + "/groups/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -4531,8 +5309,13 @@ func (c *GroupsGetCall) Do() (*GroupsItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &GroupsItem{}
+	ret := &GroupsItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -4546,8 +5329,7 @@ func (c *GroupsGetCall) Do() (*GroupsItem, error) {
 
 // delete
 
-// Groups description: Groups in which users belong to. It will display a label
-// on their profile and on the forum.
+// Groups description: Groups in which users belong to. It will display a label on their profile and on the forum.
 func Groups(s *Service) *GroupsService {
 	return &GroupsService{s: s}
 }
@@ -4564,38 +5346,49 @@ type GroupsUsersItem struct {
 	ID        int64     `json:"id"`
 	UpdatedAt time.Time `json:"updated_at"`
 	UserID    int64     `json:"user_id"`
+
+	ServerResponse `json:"-"`
 }
 
 // GroupsUsersListCall description:
 type GroupsUsersListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListGroupsUsersResponse represents a list response.
 type ListGroupsUsersResponse struct {
-	GroupsUsers []*GroupsUsersItem
+	GroupsUsers    []*GroupsUsersItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a GroupsUsersListCall which can request data from the 42 API.
 func (s *GroupsUsersService) List() *GroupsUsersListCall {
 	return &GroupsUsersListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return GroupsUsers matching
-// the specified setting.
+// P sets an optional parameter and its values: Only return GroupsUsers matching the specified setting.
 func (c *GroupsUsersListCall) P(key string, values []string) *GroupsUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a GroupsUsersListCall request call. Exactly one of
-// *ListGroupsUsersResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *GroupsUsersListCall) PageToken(page int) *GroupsUsersListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a GroupsUsersListCall request call. Exactly one of *ListGroupsUsersResponse or error will be non-nil.
 func (c *GroupsUsersListCall) Do() (*ListGroupsUsersResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/groups_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -4608,13 +5401,19 @@ func (c *GroupsUsersListCall) Do() (*ListGroupsUsersResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListGroupsUsersResponse{}
+	ret := &ListGroupsUsersResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.GroupsUsers = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).GroupsUsers); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -4634,8 +5433,7 @@ func (s *GroupsUsersService) Get(ID string) *GroupsUsersGetCall {
 	}
 }
 
-// Do executes a GroupsUsersGetCall request call. Exactly one of
-// *GroupsUsersItem or error will be non-nil.
+// Do executes a GroupsUsersGetCall request call. Exactly one of *GroupsUsersItem or error will be non-nil.
 func (c *GroupsUsersGetCall) Do() (*GroupsUsersItem, error) {
 	urls := c.s.baseURL + "/groups_users/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -4649,8 +5447,13 @@ func (c *GroupsUsersGetCall) Do() (*GroupsUsersItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &GroupsUsersItem{}
+	ret := &GroupsUsersItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -4718,46 +5521,57 @@ type InternshipsItem struct {
 	State             string      `json:"state"`
 	Subject           string      `json:"subject"`
 	User              struct {
+		ID    int64  `json:"id"`
 		Login string `json:"login"`
 		URL   string `json:"url"`
-		ID    int64  `json:"id"`
 	} `json:"user"`
 	UserAddress string `json:"user_address"`
 	UserCity    string `json:"user_city"`
 	UserCountry string `json:"user_country"`
 	UserPostal  string `json:"user_postal"`
+
+	ServerResponse `json:"-"`
 }
 
 // InternshipsListCall description:
 type InternshipsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListInternshipsResponse represents a list response.
 type ListInternshipsResponse struct {
-	Internships []*InternshipsItem
+	Internships    []*InternshipsItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a InternshipsListCall which can request data from the 42 API.
 func (s *InternshipsService) List() *InternshipsListCall {
 	return &InternshipsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Internships matching
-// the specified setting.
+// P sets an optional parameter and its values: Only return Internships matching the specified setting.
 func (c *InternshipsListCall) P(key string, values []string) *InternshipsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a InternshipsListCall request call. Exactly one of
-// *ListInternshipsResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *InternshipsListCall) PageToken(page int) *InternshipsListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a InternshipsListCall request call. Exactly one of *ListInternshipsResponse or error will be non-nil.
 func (c *InternshipsListCall) Do() (*ListInternshipsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/internships/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -4770,13 +5584,19 @@ func (c *InternshipsListCall) Do() (*ListInternshipsResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListInternshipsResponse{}
+	ret := &ListInternshipsResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Internships = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Internships); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -4796,8 +5616,7 @@ func (s *InternshipsService) Get(ID string) *InternshipsGetCall {
 	}
 }
 
-// Do executes a InternshipsGetCall request call. Exactly one of
-// *InternshipsItem or error will be non-nil.
+// Do executes a InternshipsGetCall request call. Exactly one of *InternshipsItem or error will be non-nil.
 func (c *InternshipsGetCall) Do() (*InternshipsItem, error) {
 	urls := c.s.baseURL + "/internships/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -4811,8 +5630,13 @@ func (c *InternshipsGetCall) Do() (*InternshipsItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &InternshipsItem{}
+	ret := &InternshipsItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -4835,38 +5659,49 @@ type LanguagesItem struct {
 	ID         int64  `json:"id"`
 	IDentifier string `json:"identifier"`
 	Name       string `json:"name"`
+
+	ServerResponse `json:"-"`
 }
 
 // LanguagesListCall description:
 type LanguagesListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListLanguagesResponse represents a list response.
 type ListLanguagesResponse struct {
-	Languages []*LanguagesItem
+	Languages      []*LanguagesItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a LanguagesListCall which can request data from the 42 API.
 func (s *LanguagesService) List() *LanguagesListCall {
 	return &LanguagesListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Languages matching
-// the specified setting.
+// P sets an optional parameter and its values: Only return Languages matching the specified setting.
 func (c *LanguagesListCall) P(key string, values []string) *LanguagesListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a LanguagesListCall request call. Exactly one of
-// *ListLanguagesResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *LanguagesListCall) PageToken(page int) *LanguagesListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a LanguagesListCall request call. Exactly one of *ListLanguagesResponse or error will be non-nil.
 func (c *LanguagesListCall) Do() (*ListLanguagesResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/languages/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -4879,13 +5714,19 @@ func (c *LanguagesListCall) Do() (*ListLanguagesResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListLanguagesResponse{}
+	ret := &ListLanguagesResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Languages = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Languages); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -4905,8 +5746,7 @@ func (s *LanguagesService) Get(ID string) *LanguagesGetCall {
 	}
 }
 
-// Do executes a LanguagesGetCall request call. Exactly one of *LanguagesItem or
-// error will be non-nil.
+// Do executes a LanguagesGetCall request call. Exactly one of *LanguagesItem or error will be non-nil.
 func (c *LanguagesGetCall) Do() (*LanguagesItem, error) {
 	urls := c.s.baseURL + "/languages/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -4920,8 +5760,13 @@ func (c *LanguagesGetCall) Do() (*LanguagesItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &LanguagesItem{}
+	ret := &LanguagesItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -4952,11 +5797,14 @@ type LanguagesUsersItem struct {
 	LanguageID int64     `json:"language_id"`
 	Position   int64     `json:"position"`
 	UserID     int64     `json:"user_id"`
+
+	ServerResponse `json:"-"`
 }
 
 // LanguagesUsersListCall description:
 type LanguagesUsersListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -4964,26 +5812,34 @@ type LanguagesUsersListCall struct {
 // ListLanguagesUsersResponse represents a list response.
 type ListLanguagesUsersResponse struct {
 	LanguagesUsers []*LanguagesUsersItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a LanguagesUsersListCall which can request data from the 42 API.
 func (s *LanguagesUsersService) List() *LanguagesUsersListCall {
 	return &LanguagesUsersListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return LanguagesUsers
-// matching the specified setting.
+// P sets an optional parameter and its values: Only return LanguagesUsers matching the specified setting.
 func (c *LanguagesUsersListCall) P(key string, values []string) *LanguagesUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a LanguagesUsersListCall request call. Exactly one of
-// *ListLanguagesUsersResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *LanguagesUsersListCall) PageToken(page int) *LanguagesUsersListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a LanguagesUsersListCall request call. Exactly one of *ListLanguagesUsersResponse or error will be non-nil.
 func (c *LanguagesUsersListCall) Do() (*ListLanguagesUsersResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/languages_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -4996,13 +5852,19 @@ func (c *LanguagesUsersListCall) Do() (*ListLanguagesUsersResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListLanguagesUsersResponse{}
+	ret := &ListLanguagesUsersResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.LanguagesUsers = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).LanguagesUsers); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -5022,8 +5884,7 @@ func (s *LanguagesUsersService) Get(ID string) *LanguagesUsersGetCall {
 	}
 }
 
-// Do executes a LanguagesUsersGetCall request call. Exactly one of
-// *LanguagesUsersItem or error will be non-nil.
+// Do executes a LanguagesUsersGetCall request call. Exactly one of *LanguagesUsersItem or error will be non-nil.
 func (c *LanguagesUsersGetCall) Do() (*LanguagesUsersItem, error) {
 	urls := c.s.baseURL + "/languages_users/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -5037,8 +5898,13 @@ func (c *LanguagesUsersGetCall) Do() (*LanguagesUsersItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &LanguagesUsersItem{}
+	ret := &LanguagesUsersItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -5064,38 +5930,48 @@ type LevelsService struct {
 
 // LevelsItem is a 42 API type
 type LevelsItem struct {
+	ServerResponse `json:"-"`
 }
 
 // LevelsListCall description:
 type LevelsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListLevelsResponse represents a list response.
 type ListLevelsResponse struct {
-	Levels []*LevelsItem
+	Levels         []*LevelsItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a LevelsListCall which can request data from the 42 API.
 func (s *LevelsService) List() *LevelsListCall {
 	return &LevelsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Levels matching the
-// specified setting.
+// P sets an optional parameter and its values: Only return Levels matching the specified setting.
 func (c *LevelsListCall) P(key string, values []string) *LevelsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a LevelsListCall request call. Exactly one of *ListLevelsResponse
-// or error will be non-nil.
+// PageToken get the specified page
+func (c *LevelsListCall) PageToken(page int) *LevelsListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a LevelsListCall request call. Exactly one of *ListLevelsResponse or error will be non-nil.
 func (c *LevelsListCall) Do() (*ListLevelsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/levels/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -5108,13 +5984,19 @@ func (c *LevelsListCall) Do() (*ListLevelsResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListLevelsResponse{}
+	ret := &ListLevelsResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Levels = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Levels); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -5140,42 +6022,53 @@ type LocationsItem struct {
 	Primary  bool        `json:"primary"`
 	Row      interface{} `json:"row"`
 	User     struct {
-		URL   string `json:"url"`
 		ID    int64  `json:"id"`
 		Login string `json:"login"`
+		URL   string `json:"url"`
 	} `json:"user"`
+
+	ServerResponse `json:"-"`
 }
 
 // LocationsListCall description:
 type LocationsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListLocationsResponse represents a list response.
 type ListLocationsResponse struct {
-	Locations []*LocationsItem
+	Locations      []*LocationsItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a LocationsListCall which can request data from the 42 API.
 func (s *LocationsService) List() *LocationsListCall {
 	return &LocationsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Locations matching
-// the specified setting.
+// P sets an optional parameter and its values: Only return Locations matching the specified setting.
 func (c *LocationsListCall) P(key string, values []string) *LocationsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a LocationsListCall request call. Exactly one of
-// *ListLocationsResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *LocationsListCall) PageToken(page int) *LocationsListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a LocationsListCall request call. Exactly one of *ListLocationsResponse or error will be non-nil.
 func (c *LocationsListCall) Do() (*ListLocationsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/locations/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -5188,13 +6081,19 @@ func (c *LocationsListCall) Do() (*ListLocationsResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListLocationsResponse{}
+	ret := &ListLocationsResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Locations = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Locations); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -5214,8 +6113,7 @@ func (s *LocationsService) Get(ID string) *LocationsGetCall {
 	}
 }
 
-// Do executes a LocationsGetCall request call. Exactly one of *LocationsItem or
-// error will be non-nil.
+// Do executes a LocationsGetCall request call. Exactly one of *LocationsItem or error will be non-nil.
 func (c *LocationsGetCall) Do() (*LocationsItem, error) {
 	urls := c.s.baseURL + "/locations/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -5229,8 +6127,13 @@ func (c *LocationsGetCall) Do() (*LocationsItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &LocationsItem{}
+	ret := &LocationsItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -5267,49 +6170,60 @@ type MailingsItem struct {
 	ID          int64         `json:"id"`
 	IDentifier  string        `json:"identifier"`
 	Meta        struct {
+		ID        int64     `json:"id"`
 		Date      time.Time `json:"date"`
 		Name      string    `json:"name"`
 		User      string    `json:"user"`
 		OtherUser string    `json:"other_user"`
-		ID        int64     `json:"id"`
 	} `json:"meta"`
 	Subject   string      `json:"subject"`
 	Subtitle  interface{} `json:"subtitle"`
 	Title     string      `json:"title"`
 	To        []string    `json:"to"`
 	UpdatedAt time.Time   `json:"updated_at"`
+
+	ServerResponse `json:"-"`
 }
 
 // MailingsListCall description:
 type MailingsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListMailingsResponse represents a list response.
 type ListMailingsResponse struct {
-	Mailings []*MailingsItem
+	Mailings       []*MailingsItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a MailingsListCall which can request data from the 42 API.
 func (s *MailingsService) List() *MailingsListCall {
 	return &MailingsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Mailings matching
-// the specified setting.
+// P sets an optional parameter and its values: Only return Mailings matching the specified setting.
 func (c *MailingsListCall) P(key string, values []string) *MailingsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a MailingsListCall request call. Exactly one of
-// *ListMailingsResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *MailingsListCall) PageToken(page int) *MailingsListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a MailingsListCall request call. Exactly one of *ListMailingsResponse or error will be non-nil.
 func (c *MailingsListCall) Do() (*ListMailingsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/mailings/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -5322,13 +6236,19 @@ func (c *MailingsListCall) Do() (*ListMailingsResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListMailingsResponse{}
+	ret := &ListMailingsResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Mailings = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Mailings); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -5348,8 +6268,7 @@ func (s *MailingsService) Get(ID string) *MailingsGetCall {
 	}
 }
 
-// Do executes a MailingsGetCall request call. Exactly one of *MailingsItem or
-// error will be non-nil.
+// Do executes a MailingsGetCall request call. Exactly one of *MailingsItem or error will be non-nil.
 func (c *MailingsGetCall) Do() (*MailingsItem, error) {
 	urls := c.s.baseURL + "/mailings/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -5363,8 +6282,13 @@ func (c *MailingsGetCall) Do() (*MailingsItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &MailingsItem{}
+	ret := &MailingsItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -5400,42 +6324,53 @@ type NotesItem struct {
 	ID      int64  `json:"id"`
 	Subject string `json:"subject"`
 	User    struct {
-		URL   string `json:"url"`
 		ID    int64  `json:"id"`
 		Login string `json:"login"`
+		URL   string `json:"url"`
 	} `json:"user"`
+
+	ServerResponse `json:"-"`
 }
 
 // NotesListCall description:
 type NotesListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListNotesResponse represents a list response.
 type ListNotesResponse struct {
-	Notes []*NotesItem
+	Notes          []*NotesItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a NotesListCall which can request data from the 42 API.
 func (s *NotesService) List() *NotesListCall {
 	return &NotesListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Notes matching the
-// specified setting.
+// P sets an optional parameter and its values: Only return Notes matching the specified setting.
 func (c *NotesListCall) P(key string, values []string) *NotesListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a NotesListCall request call. Exactly one of *ListNotesResponse
-// or error will be non-nil.
+// PageToken get the specified page
+func (c *NotesListCall) PageToken(page int) *NotesListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a NotesListCall request call. Exactly one of *ListNotesResponse or error will be non-nil.
 func (c *NotesListCall) Do() (*ListNotesResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/notes/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -5448,13 +6383,19 @@ func (c *NotesListCall) Do() (*ListNotesResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListNotesResponse{}
+	ret := &ListNotesResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Notes = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Notes); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -5474,8 +6415,7 @@ func (s *NotesService) Get(ID string) *NotesGetCall {
 	}
 }
 
-// Do executes a NotesGetCall request call. Exactly one of *NotesItem or error
-// will be non-nil.
+// Do executes a NotesGetCall request call. Exactly one of *NotesItem or error will be non-nil.
 func (c *NotesGetCall) Do() (*NotesItem, error) {
 	urls := c.s.baseURL + "/notes/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -5489,8 +6429,13 @@ func (c *NotesGetCall) Do() (*NotesItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &NotesItem{}
+	ret := &NotesItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -5518,52 +6463,63 @@ type NotionsService struct {
 type NotionsItem struct {
 	CreatedAt time.Time `json:"created_at"`
 	Cursus    []struct {
-		Name      string    `json:"name"`
-		Slug      string    `json:"slug"`
 		ID        int64     `json:"id"`
 		CreatedAt time.Time `json:"created_at"`
+		Name      string    `json:"name"`
+		Slug      string    `json:"slug"`
 	} `json:"cursus"`
 	ID         int64         `json:"id"`
 	Name       string        `json:"name"`
 	Slug       string        `json:"slug"`
 	Subnotions []interface{} `json:"subnotions"`
 	Tags       []struct {
-		ID   int64  `json:"id"`
 		Name string `json:"name"`
 		Kind string `json:"kind"`
+		ID   int64  `json:"id"`
 	} `json:"tags"`
+
+	ServerResponse `json:"-"`
 }
 
 // NotionsListCall description:
 type NotionsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListNotionsResponse represents a list response.
 type ListNotionsResponse struct {
-	Notions []*NotionsItem
+	Notions        []*NotionsItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a NotionsListCall which can request data from the 42 API.
 func (s *NotionsService) List() *NotionsListCall {
 	return &NotionsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Notions matching the
-// specified setting.
+// P sets an optional parameter and its values: Only return Notions matching the specified setting.
 func (c *NotionsListCall) P(key string, values []string) *NotionsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a NotionsListCall request call. Exactly one of
-// *ListNotionsResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *NotionsListCall) PageToken(page int) *NotionsListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a NotionsListCall request call. Exactly one of *ListNotionsResponse or error will be non-nil.
 func (c *NotionsListCall) Do() (*ListNotionsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/notions/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -5576,13 +6532,19 @@ func (c *NotionsListCall) Do() (*ListNotionsResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListNotionsResponse{}
+	ret := &ListNotionsResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Notions = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Notions); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -5602,8 +6564,7 @@ func (s *NotionsService) Get(ID string) *NotionsGetCall {
 	}
 }
 
-// Do executes a NotionsGetCall request call. Exactly one of *NotionsItem or
-// error will be non-nil.
+// Do executes a NotionsGetCall request call. Exactly one of *NotionsItem or error will be non-nil.
 func (c *NotionsGetCall) Do() (*NotionsItem, error) {
 	urls := c.s.baseURL + "/notions/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -5617,8 +6578,13 @@ func (c *NotionsGetCall) Do() (*NotionsItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &NotionsItem{}
+	ret := &NotionsItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -5644,11 +6610,13 @@ type ParamsProjectSessionsRulesService struct {
 
 // ParamsProjectSessionsRulesItem is a 42 API type
 type ParamsProjectSessionsRulesItem struct {
+	ServerResponse `json:"-"`
 }
 
 // ParamsProjectSessionsRulesListCall description:
 type ParamsProjectSessionsRulesListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -5656,27 +6624,34 @@ type ParamsProjectSessionsRulesListCall struct {
 // ListParamsProjectSessionsRulesResponse represents a list response.
 type ListParamsProjectSessionsRulesResponse struct {
 	ParamsProjectSessionsRules []*ParamsProjectSessionsRulesItem
+	ServerResponse             `json:"-"`
+	NextPage                   int
 }
 
-// List returns a ParamsProjectSessionsRulesListCall which can request data from
-// the 42 API.
+// List returns a ParamsProjectSessionsRulesListCall which can request data from the 42 API.
 func (s *ParamsProjectSessionsRulesService) List() *ParamsProjectSessionsRulesListCall {
 	return &ParamsProjectSessionsRulesListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return
-// ParamsProjectSessionsRules matching the specified setting.
+// P sets an optional parameter and its values: Only return ParamsProjectSessionsRules matching the specified setting.
 func (c *ParamsProjectSessionsRulesListCall) P(key string, values []string) *ParamsProjectSessionsRulesListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a ParamsProjectSessionsRulesListCall request call. Exactly one of
-// *ListParamsProjectSessionsRulesResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *ParamsProjectSessionsRulesListCall) PageToken(page int) *ParamsProjectSessionsRulesListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a ParamsProjectSessionsRulesListCall request call. Exactly one of *ListParamsProjectSessionsRulesResponse or error will be non-nil.
 func (c *ParamsProjectSessionsRulesListCall) Do() (*ListParamsProjectSessionsRulesResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/params_project_sessions_rules/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -5689,13 +6664,19 @@ func (c *ParamsProjectSessionsRulesListCall) Do() (*ListParamsProjectSessionsRul
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListParamsProjectSessionsRulesResponse{}
+	ret := &ListParamsProjectSessionsRulesResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.ParamsProjectSessionsRules = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).ParamsProjectSessionsRules); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -5715,8 +6696,7 @@ func (s *ParamsProjectSessionsRulesService) Get(ID string) *ParamsProjectSession
 	}
 }
 
-// Do executes a ParamsProjectSessionsRulesGetCall request call. Exactly one of
-// *ParamsProjectSessionsRulesItem or error will be non-nil.
+// Do executes a ParamsProjectSessionsRulesGetCall request call. Exactly one of *ParamsProjectSessionsRulesItem or error will be non-nil.
 func (c *ParamsProjectSessionsRulesGetCall) Do() (*ParamsProjectSessionsRulesItem, error) {
 	urls := c.s.baseURL + "/params_project_sessions_rules/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -5730,8 +6710,13 @@ func (c *ParamsProjectSessionsRulesGetCall) Do() (*ParamsProjectSessionsRulesIte
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ParamsProjectSessionsRulesItem{}
+	ret := &ParamsProjectSessionsRulesItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -5745,8 +6730,7 @@ func (c *ParamsProjectSessionsRulesGetCall) Do() (*ParamsProjectSessionsRulesIte
 
 // delete
 
-// ParamsProjectSessionsRules description: The value of a parameter for a
-// project sessions rule.
+// ParamsProjectSessionsRules description: The value of a parameter for a project sessions rule.
 func ParamsProjectSessionsRules(s *Service) *ParamsProjectSessionsRulesService {
 	return &ParamsProjectSessionsRulesService{s: s}
 }
@@ -5764,38 +6748,49 @@ type PartnershipsItem struct {
 	Slug                 string `json:"slug"`
 	Tier                 int64  `json:"tier"`
 	URL                  string `json:"url"`
+
+	ServerResponse `json:"-"`
 }
 
 // PartnershipsListCall description:
 type PartnershipsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListPartnershipsResponse represents a list response.
 type ListPartnershipsResponse struct {
-	Partnerships []*PartnershipsItem
+	Partnerships   []*PartnershipsItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a PartnershipsListCall which can request data from the 42 API.
 func (s *PartnershipsService) List() *PartnershipsListCall {
 	return &PartnershipsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Partnerships
-// matching the specified setting.
+// P sets an optional parameter and its values: Only return Partnerships matching the specified setting.
 func (c *PartnershipsListCall) P(key string, values []string) *PartnershipsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a PartnershipsListCall request call. Exactly one of
-// *ListPartnershipsResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *PartnershipsListCall) PageToken(page int) *PartnershipsListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a PartnershipsListCall request call. Exactly one of *ListPartnershipsResponse or error will be non-nil.
 func (c *PartnershipsListCall) Do() (*ListPartnershipsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/partnerships/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -5808,13 +6803,19 @@ func (c *PartnershipsListCall) Do() (*ListPartnershipsResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListPartnershipsResponse{}
+	ret := &ListPartnershipsResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Partnerships = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Partnerships); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -5834,8 +6835,7 @@ func (s *PartnershipsService) Get(ID string) *PartnershipsGetCall {
 	}
 }
 
-// Do executes a PartnershipsGetCall request call. Exactly one of
-// *PartnershipsItem or error will be non-nil.
+// Do executes a PartnershipsGetCall request call. Exactly one of *PartnershipsItem or error will be non-nil.
 func (c *PartnershipsGetCall) Do() (*PartnershipsItem, error) {
 	urls := c.s.baseURL + "/partnerships/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -5849,8 +6849,13 @@ func (c *PartnershipsGetCall) Do() (*PartnershipsItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &PartnershipsItem{}
+	ret := &PartnershipsItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -5884,11 +6889,14 @@ type PartnershipsUsersItem struct {
 		Login string `json:"login"`
 		URL   string `json:"url"`
 	} `json:"user"`
+
+	ServerResponse `json:"-"`
 }
 
 // PartnershipsUsersListCall description:
 type PartnershipsUsersListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -5896,27 +6904,34 @@ type PartnershipsUsersListCall struct {
 // ListPartnershipsUsersResponse represents a list response.
 type ListPartnershipsUsersResponse struct {
 	PartnershipsUsers []*PartnershipsUsersItem
+	ServerResponse    `json:"-"`
+	NextPage          int
 }
 
-// List returns a PartnershipsUsersListCall which can request data from the 42
-// API.
+// List returns a PartnershipsUsersListCall which can request data from the 42 API.
 func (s *PartnershipsUsersService) List() *PartnershipsUsersListCall {
 	return &PartnershipsUsersListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return PartnershipsUsers
-// matching the specified setting.
+// P sets an optional parameter and its values: Only return PartnershipsUsers matching the specified setting.
 func (c *PartnershipsUsersListCall) P(key string, values []string) *PartnershipsUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a PartnershipsUsersListCall request call. Exactly one of
-// *ListPartnershipsUsersResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *PartnershipsUsersListCall) PageToken(page int) *PartnershipsUsersListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a PartnershipsUsersListCall request call. Exactly one of *ListPartnershipsUsersResponse or error will be non-nil.
 func (c *PartnershipsUsersListCall) Do() (*ListPartnershipsUsersResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/partnerships_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -5929,13 +6944,19 @@ func (c *PartnershipsUsersListCall) Do() (*ListPartnershipsUsersResponse, error)
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListPartnershipsUsersResponse{}
+	ret := &ListPartnershipsUsersResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.PartnershipsUsers = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).PartnershipsUsers); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -5955,8 +6976,7 @@ func (s *PartnershipsUsersService) Get(ID string) *PartnershipsUsersGetCall {
 	}
 }
 
-// Do executes a PartnershipsUsersGetCall request call. Exactly one of
-// *PartnershipsUsersItem or error will be non-nil.
+// Do executes a PartnershipsUsersGetCall request call. Exactly one of *PartnershipsUsersItem or error will be non-nil.
 func (c *PartnershipsUsersGetCall) Do() (*PartnershipsUsersItem, error) {
 	urls := c.s.baseURL + "/partnerships_users/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -5970,8 +6990,13 @@ func (c *PartnershipsUsersGetCall) Do() (*PartnershipsUsersItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &PartnershipsUsersItem{}
+	ret := &PartnershipsUsersItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -5999,52 +7024,63 @@ type PatronagesService struct {
 type PatronagesItem struct {
 	CreatedAt time.Time `json:"created_at"`
 	Godfather struct {
-		Login string `json:"login"`
 		URL   string `json:"url"`
 		ID    int64  `json:"id"`
+		Login string `json:"login"`
 	} `json:"godfather"`
 	GodfatherID int64     `json:"godfather_id"`
 	ID          int64     `json:"id"`
 	Ongoing     bool      `json:"ongoing"`
 	UpdatedAt   time.Time `json:"updated_at"`
 	User        struct {
-		URL   string `json:"url"`
 		ID    int64  `json:"id"`
 		Login string `json:"login"`
+		URL   string `json:"url"`
 	} `json:"user"`
 	UserID int64 `json:"user_id"`
+
+	ServerResponse `json:"-"`
 }
 
 // PatronagesListCall description:
 type PatronagesListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListPatronagesResponse represents a list response.
 type ListPatronagesResponse struct {
-	Patronages []*PatronagesItem
+	Patronages     []*PatronagesItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a PatronagesListCall which can request data from the 42 API.
 func (s *PatronagesService) List() *PatronagesListCall {
 	return &PatronagesListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Patronages matching
-// the specified setting.
+// P sets an optional parameter and its values: Only return Patronages matching the specified setting.
 func (c *PatronagesListCall) P(key string, values []string) *PatronagesListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a PatronagesListCall request call. Exactly one of
-// *ListPatronagesResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *PatronagesListCall) PageToken(page int) *PatronagesListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a PatronagesListCall request call. Exactly one of *ListPatronagesResponse or error will be non-nil.
 func (c *PatronagesListCall) Do() (*ListPatronagesResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/patronages/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -6057,13 +7093,19 @@ func (c *PatronagesListCall) Do() (*ListPatronagesResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListPatronagesResponse{}
+	ret := &ListPatronagesResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Patronages = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Patronages); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -6083,8 +7125,7 @@ func (s *PatronagesService) Get(ID string) *PatronagesGetCall {
 	}
 }
 
-// Do executes a PatronagesGetCall request call. Exactly one of *PatronagesItem
-// or error will be non-nil.
+// Do executes a PatronagesGetCall request call. Exactly one of *PatronagesItem or error will be non-nil.
 func (c *PatronagesGetCall) Do() (*PatronagesItem, error) {
 	urls := c.s.baseURL + "/patronages/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -6098,8 +7139,13 @@ func (c *PatronagesGetCall) Do() (*PatronagesItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &PatronagesItem{}
+	ret := &PatronagesItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -6130,25 +7176,25 @@ type PatronagesReportsItem struct {
 	CreatedAt time.Time     `json:"created_at"`
 	ID        int64         `json:"id"`
 	Patronage struct {
-		CreatedAt   time.Time `json:"created_at"`
-		UpdatedAt   time.Time `json:"updated_at"`
 		ID          int64     `json:"id"`
 		UserID      int64     `json:"user_id"`
 		GodfatherID int64     `json:"godfather_id"`
 		Ongoing     bool      `json:"ongoing"`
+		CreatedAt   time.Time `json:"created_at"`
+		UpdatedAt   time.Time `json:"updated_at"`
 	} `json:"patronage"`
 	PatronageID int64 `json:"patronage_id"`
 	Report      struct {
 		ID             int64     `json:"id"`
 		IntroductionMd string    `json:"introduction_md"`
-		DisclaimerMd   string    `json:"disclaimer_md"`
 		GuidelinesMd   string    `json:"guidelines_md"`
+		CreatedAt      time.Time `json:"created_at"`
+		Name           string    `json:"name"`
+		Comment        string    `json:"comment"`
+		DisclaimerMd   string    `json:"disclaimer_md"`
 		UpdatedAt      time.Time `json:"updated_at"`
 		Slug           string    `json:"slug"`
 		DelayDays      int64     `json:"delay_days"`
-		Name           string    `json:"name"`
-		Comment        string    `json:"comment"`
-		CreatedAt      time.Time `json:"created_at"`
 	} `json:"report"`
 	ReportID  int64     `json:"report_id"`
 	UpdatedAt time.Time `json:"updated_at"`
@@ -6159,11 +7205,14 @@ type PatronagesReportsItem struct {
 	} `json:"user"`
 	UserID      int64       `json:"user_id"`
 	ValidatedAt interface{} `json:"validated_at"`
+
+	ServerResponse `json:"-"`
 }
 
 // PatronagesReportsListCall description:
 type PatronagesReportsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -6171,27 +7220,34 @@ type PatronagesReportsListCall struct {
 // ListPatronagesReportsResponse represents a list response.
 type ListPatronagesReportsResponse struct {
 	PatronagesReports []*PatronagesReportsItem
+	ServerResponse    `json:"-"`
+	NextPage          int
 }
 
-// List returns a PatronagesReportsListCall which can request data from the 42
-// API.
+// List returns a PatronagesReportsListCall which can request data from the 42 API.
 func (s *PatronagesReportsService) List() *PatronagesReportsListCall {
 	return &PatronagesReportsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return PatronagesReports
-// matching the specified setting.
+// P sets an optional parameter and its values: Only return PatronagesReports matching the specified setting.
 func (c *PatronagesReportsListCall) P(key string, values []string) *PatronagesReportsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a PatronagesReportsListCall request call. Exactly one of
-// *ListPatronagesReportsResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *PatronagesReportsListCall) PageToken(page int) *PatronagesReportsListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a PatronagesReportsListCall request call. Exactly one of *ListPatronagesReportsResponse or error will be non-nil.
 func (c *PatronagesReportsListCall) Do() (*ListPatronagesReportsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/patronages_reports/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -6204,13 +7260,19 @@ func (c *PatronagesReportsListCall) Do() (*ListPatronagesReportsResponse, error)
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListPatronagesReportsResponse{}
+	ret := &ListPatronagesReportsResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.PatronagesReports = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).PatronagesReports); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -6230,8 +7292,7 @@ func (s *PatronagesReportsService) Get(ID string) *PatronagesReportsGetCall {
 	}
 }
 
-// Do executes a PatronagesReportsGetCall request call. Exactly one of
-// *PatronagesReportsItem or error will be non-nil.
+// Do executes a PatronagesReportsGetCall request call. Exactly one of *PatronagesReportsItem or error will be non-nil.
 func (c *PatronagesReportsGetCall) Do() (*PatronagesReportsItem, error) {
 	urls := c.s.baseURL + "/patronages_reports/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -6245,8 +7306,13 @@ func (c *PatronagesReportsGetCall) Do() (*PatronagesReportsItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &PatronagesReportsItem{}
+	ret := &PatronagesReportsItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -6277,38 +7343,49 @@ type PoolsItem struct {
 	CursusID      int64 `json:"cursus_id"`
 	ID            int64 `json:"id"`
 	MaxPoints     int64 `json:"max_points"`
+
+	ServerResponse `json:"-"`
 }
 
 // PoolsListCall description:
 type PoolsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListPoolsResponse represents a list response.
 type ListPoolsResponse struct {
-	Pools []*PoolsItem
+	Pools          []*PoolsItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a PoolsListCall which can request data from the 42 API.
 func (s *PoolsService) List() *PoolsListCall {
 	return &PoolsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Pools matching the
-// specified setting.
+// P sets an optional parameter and its values: Only return Pools matching the specified setting.
 func (c *PoolsListCall) P(key string, values []string) *PoolsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a PoolsListCall request call. Exactly one of *ListPoolsResponse
-// or error will be non-nil.
+// PageToken get the specified page
+func (c *PoolsListCall) PageToken(page int) *PoolsListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a PoolsListCall request call. Exactly one of *ListPoolsResponse or error will be non-nil.
 func (c *PoolsListCall) Do() (*ListPoolsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/pools/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -6321,13 +7398,19 @@ func (c *PoolsListCall) Do() (*ListPoolsResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListPoolsResponse{}
+	ret := &ListPoolsResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Pools = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Pools); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -6347,8 +7430,7 @@ func (s *PoolsService) Get(ID string) *PoolsGetCall {
 	}
 }
 
-// Do executes a PoolsGetCall request call. Exactly one of *PoolsItem or error
-// will be non-nil.
+// Do executes a PoolsGetCall request call. Exactly one of *PoolsItem or error will be non-nil.
 func (c *PoolsGetCall) Do() (*PoolsItem, error) {
 	urls := c.s.baseURL + "/pools/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -6362,8 +7444,13 @@ func (c *PoolsGetCall) Do() (*PoolsItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &PoolsItem{}
+	ret := &PoolsItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -6403,38 +7490,49 @@ type ProductsItem struct {
 	Quantity        int64     `json:"quantity"`
 	Slug            string    `json:"slug"`
 	UpdatedAt       time.Time `json:"updated_at"`
+
+	ServerResponse `json:"-"`
 }
 
 // ProductsListCall description:
 type ProductsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListProductsResponse represents a list response.
 type ListProductsResponse struct {
-	Products []*ProductsItem
+	Products       []*ProductsItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a ProductsListCall which can request data from the 42 API.
 func (s *ProductsService) List() *ProductsListCall {
 	return &ProductsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Products matching
-// the specified setting.
+// P sets an optional parameter and its values: Only return Products matching the specified setting.
 func (c *ProductsListCall) P(key string, values []string) *ProductsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a ProductsListCall request call. Exactly one of
-// *ListProductsResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *ProductsListCall) PageToken(page int) *ProductsListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a ProductsListCall request call. Exactly one of *ListProductsResponse or error will be non-nil.
 func (c *ProductsListCall) Do() (*ListProductsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/products/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -6447,13 +7545,19 @@ func (c *ProductsListCall) Do() (*ListProductsResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListProductsResponse{}
+	ret := &ListProductsResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Products = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Products); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -6473,8 +7577,7 @@ func (s *ProductsService) Get(ID string) *ProductsGetCall {
 	}
 }
 
-// Do executes a ProductsGetCall request call. Exactly one of *ProductsItem or
-// error will be non-nil.
+// Do executes a ProductsGetCall request call. Exactly one of *ProductsItem or error will be non-nil.
 func (c *ProductsGetCall) Do() (*ProductsItem, error) {
 	urls := c.s.baseURL + "/products/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -6488,8 +7591,13 @@ func (c *ProductsGetCall) Do() (*ProductsItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ProductsItem{}
+	ret := &ProductsItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -6520,38 +7628,49 @@ type ProjectDataItem struct {
 	ID               int64         `json:"id"`
 	Kind             string        `json:"kind"`
 	ProjectSessionID int64         `json:"project_session_id"`
+
+	ServerResponse `json:"-"`
 }
 
 // ProjectDataListCall description:
 type ProjectDataListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListProjectDataResponse represents a list response.
 type ListProjectDataResponse struct {
-	ProjectData []*ProjectDataItem
+	ProjectData    []*ProjectDataItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a ProjectDataListCall which can request data from the 42 API.
 func (s *ProjectDataService) List() *ProjectDataListCall {
 	return &ProjectDataListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return ProjectData matching
-// the specified setting.
+// P sets an optional parameter and its values: Only return ProjectData matching the specified setting.
 func (c *ProjectDataListCall) P(key string, values []string) *ProjectDataListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a ProjectDataListCall request call. Exactly one of
-// *ListProjectDataResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *ProjectDataListCall) PageToken(page int) *ProjectDataListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a ProjectDataListCall request call. Exactly one of *ListProjectDataResponse or error will be non-nil.
 func (c *ProjectDataListCall) Do() (*ListProjectDataResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/project_data/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -6564,13 +7683,19 @@ func (c *ProjectDataListCall) Do() (*ListProjectDataResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListProjectDataResponse{}
+	ret := &ListProjectDataResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.ProjectData = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).ProjectData); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -6590,8 +7715,7 @@ func (s *ProjectDataService) Get(ID string) *ProjectDataGetCall {
 	}
 }
 
-// Do executes a ProjectDataGetCall request call. Exactly one of
-// *ProjectDataItem or error will be non-nil.
+// Do executes a ProjectDataGetCall request call. Exactly one of *ProjectDataItem or error will be non-nil.
 func (c *ProjectDataGetCall) Do() (*ProjectDataItem, error) {
 	urls := c.s.baseURL + "/project_data/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -6605,8 +7729,13 @@ func (c *ProjectDataGetCall) Do() (*ProjectDataItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ProjectDataItem{}
+	ret := &ProjectDataItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -6645,35 +7774,38 @@ type ProjectSessionsItem struct {
 	IsSubscriptable bool        `json:"is_subscriptable"`
 	MaxPeople       interface{} `json:"max_people"`
 	Project         struct {
-		Tier        int64         `json:"tier"`
-		CreatedAt   time.Time     `json:"created_at"`
 		Exam        bool          `json:"exam"`
+		Parent      interface{}   `json:"parent"`
+		Children    []interface{} `json:"children"`
+		Attachments []interface{} `json:"attachments"`
+		CreatedAt   time.Time     `json:"created_at"`
+		Objectives  []string      `json:"objectives"`
+		Tier        int64         `json:"tier"`
+		UpdatedAt   time.Time     `json:"updated_at"`
 		ID          int64         `json:"id"`
 		Name        string        `json:"name"`
-		Description string        `json:"description"`
-		Parent      interface{}   `json:"parent"`
-		UpdatedAt   time.Time     `json:"updated_at"`
 		Slug        string        `json:"slug"`
-		Children    []interface{} `json:"children"`
-		Objectives  []string      `json:"objectives"`
-		Attachments []interface{} `json:"attachments"`
+		Description string        `json:"description"`
 	} `json:"project"`
 	ProjectID int64 `json:"project_id"`
 	Scales    []struct {
+		IsPrimary        bool  `json:"is_primary"`
 		ID               int64 `json:"id"`
 		CorrectionNumber int64 `json:"correction_number"`
-		IsPrimary        bool  `json:"is_primary"`
 	} `json:"scales"`
 	Solo             bool          `json:"solo"`
 	TeamBehaviour    string        `json:"team_behaviour"`
 	TerminatingAfter interface{}   `json:"terminating_after"`
 	UpdatedAt        time.Time     `json:"updated_at"`
 	Uploads          []interface{} `json:"uploads"`
+
+	ServerResponse `json:"-"`
 }
 
 // ProjectSessionsListCall description:
 type ProjectSessionsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -6681,27 +7813,34 @@ type ProjectSessionsListCall struct {
 // ListProjectSessionsResponse represents a list response.
 type ListProjectSessionsResponse struct {
 	ProjectSessions []*ProjectSessionsItem
+	ServerResponse  `json:"-"`
+	NextPage        int
 }
 
-// List returns a ProjectSessionsListCall which can request data from the 42
-// API.
+// List returns a ProjectSessionsListCall which can request data from the 42 API.
 func (s *ProjectSessionsService) List() *ProjectSessionsListCall {
 	return &ProjectSessionsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return ProjectSessions
-// matching the specified setting.
+// P sets an optional parameter and its values: Only return ProjectSessions matching the specified setting.
 func (c *ProjectSessionsListCall) P(key string, values []string) *ProjectSessionsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a ProjectSessionsListCall request call. Exactly one of
-// *ListProjectSessionsResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *ProjectSessionsListCall) PageToken(page int) *ProjectSessionsListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a ProjectSessionsListCall request call. Exactly one of *ListProjectSessionsResponse or error will be non-nil.
 func (c *ProjectSessionsListCall) Do() (*ListProjectSessionsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/project_sessions/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -6714,13 +7853,19 @@ func (c *ProjectSessionsListCall) Do() (*ListProjectSessionsResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListProjectSessionsResponse{}
+	ret := &ListProjectSessionsResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.ProjectSessions = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).ProjectSessions); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -6740,8 +7885,7 @@ func (s *ProjectSessionsService) Get(ID string) *ProjectSessionsGetCall {
 	}
 }
 
-// Do executes a ProjectSessionsGetCall request call. Exactly one of
-// *ProjectSessionsItem or error will be non-nil.
+// Do executes a ProjectSessionsGetCall request call. Exactly one of *ProjectSessionsItem or error will be non-nil.
 func (c *ProjectSessionsGetCall) Do() (*ProjectSessionsItem, error) {
 	urls := c.s.baseURL + "/project_sessions/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -6755,8 +7899,13 @@ func (c *ProjectSessionsGetCall) Do() (*ProjectSessionsItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ProjectSessionsItem{}
+	ret := &ProjectSessionsItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -6770,8 +7919,7 @@ func (c *ProjectSessionsGetCall) Do() (*ProjectSessionsItem, error) {
 
 // delete
 
-// ProjectSessions description: A project session defines a particular behaviour
-// for a project, based on the cursus and / or the campus .
+// ProjectSessions description: A project session defines a particular behaviour for a project, based on the cursus and / or the campus .
 func ProjectSessions(s *Service) *ProjectSessionsService {
 	return &ProjectSessionsService{s: s}
 }
@@ -6783,11 +7931,13 @@ type ProjectSessionsRulesService struct {
 
 // ProjectSessionsRulesItem is a 42 API type
 type ProjectSessionsRulesItem struct {
+	ServerResponse `json:"-"`
 }
 
 // ProjectSessionsRulesListCall description:
 type ProjectSessionsRulesListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -6795,27 +7945,34 @@ type ProjectSessionsRulesListCall struct {
 // ListProjectSessionsRulesResponse represents a list response.
 type ListProjectSessionsRulesResponse struct {
 	ProjectSessionsRules []*ProjectSessionsRulesItem
+	ServerResponse       `json:"-"`
+	NextPage             int
 }
 
-// List returns a ProjectSessionsRulesListCall which can request data from the
-// 42 API.
+// List returns a ProjectSessionsRulesListCall which can request data from the 42 API.
 func (s *ProjectSessionsRulesService) List() *ProjectSessionsRulesListCall {
 	return &ProjectSessionsRulesListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return ProjectSessionsRules
-// matching the specified setting.
+// P sets an optional parameter and its values: Only return ProjectSessionsRules matching the specified setting.
 func (c *ProjectSessionsRulesListCall) P(key string, values []string) *ProjectSessionsRulesListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a ProjectSessionsRulesListCall request call. Exactly one of
-// *ListProjectSessionsRulesResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *ProjectSessionsRulesListCall) PageToken(page int) *ProjectSessionsRulesListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a ProjectSessionsRulesListCall request call. Exactly one of *ListProjectSessionsRulesResponse or error will be non-nil.
 func (c *ProjectSessionsRulesListCall) Do() (*ListProjectSessionsRulesResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/project_sessions_rules/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -6828,13 +7985,19 @@ func (c *ProjectSessionsRulesListCall) Do() (*ListProjectSessionsRulesResponse, 
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListProjectSessionsRulesResponse{}
+	ret := &ListProjectSessionsRulesResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.ProjectSessionsRules = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).ProjectSessionsRules); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -6854,8 +8017,7 @@ func (s *ProjectSessionsRulesService) Get(ID string) *ProjectSessionsRulesGetCal
 	}
 }
 
-// Do executes a ProjectSessionsRulesGetCall request call. Exactly one of
-// *ProjectSessionsRulesItem or error will be non-nil.
+// Do executes a ProjectSessionsRulesGetCall request call. Exactly one of *ProjectSessionsRulesItem or error will be non-nil.
 func (c *ProjectSessionsRulesGetCall) Do() (*ProjectSessionsRulesItem, error) {
 	urls := c.s.baseURL + "/project_sessions_rules/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -6869,8 +8031,13 @@ func (c *ProjectSessionsRulesGetCall) Do() (*ProjectSessionsRulesItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ProjectSessionsRulesItem{}
+	ret := &ProjectSessionsRulesItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -6902,11 +8069,14 @@ type ProjectSessionsSkillsItem struct {
 	SkillID          int64     `json:"skill_id"`
 	UpdatedAt        time.Time `json:"updated_at"`
 	Value            int64     `json:"value"`
+
+	ServerResponse `json:"-"`
 }
 
 // ProjectSessionsSkillsListCall description:
 type ProjectSessionsSkillsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -6914,27 +8084,34 @@ type ProjectSessionsSkillsListCall struct {
 // ListProjectSessionsSkillsResponse represents a list response.
 type ListProjectSessionsSkillsResponse struct {
 	ProjectSessionsSkills []*ProjectSessionsSkillsItem
+	ServerResponse        `json:"-"`
+	NextPage              int
 }
 
-// List returns a ProjectSessionsSkillsListCall which can request data from the
-// 42 API.
+// List returns a ProjectSessionsSkillsListCall which can request data from the 42 API.
 func (s *ProjectSessionsSkillsService) List() *ProjectSessionsSkillsListCall {
 	return &ProjectSessionsSkillsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return
-// ProjectSessionsSkills matching the specified setting.
+// P sets an optional parameter and its values: Only return ProjectSessionsSkills matching the specified setting.
 func (c *ProjectSessionsSkillsListCall) P(key string, values []string) *ProjectSessionsSkillsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a ProjectSessionsSkillsListCall request call. Exactly one of
-// *ListProjectSessionsSkillsResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *ProjectSessionsSkillsListCall) PageToken(page int) *ProjectSessionsSkillsListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a ProjectSessionsSkillsListCall request call. Exactly one of *ListProjectSessionsSkillsResponse or error will be non-nil.
 func (c *ProjectSessionsSkillsListCall) Do() (*ListProjectSessionsSkillsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/project_sessions_skills/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -6947,13 +8124,19 @@ func (c *ProjectSessionsSkillsListCall) Do() (*ListProjectSessionsSkillsResponse
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListProjectSessionsSkillsResponse{}
+	ret := &ListProjectSessionsSkillsResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.ProjectSessionsSkills = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).ProjectSessionsSkills); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -6973,8 +8156,7 @@ func (s *ProjectSessionsSkillsService) Get(ID string) *ProjectSessionsSkillsGetC
 	}
 }
 
-// Do executes a ProjectSessionsSkillsGetCall request call. Exactly one of
-// *ProjectSessionsSkillsItem or error will be non-nil.
+// Do executes a ProjectSessionsSkillsGetCall request call. Exactly one of *ProjectSessionsSkillsItem or error will be non-nil.
 func (c *ProjectSessionsSkillsGetCall) Do() (*ProjectSessionsSkillsItem, error) {
 	urls := c.s.baseURL + "/project_sessions_skills/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -6988,8 +8170,13 @@ func (c *ProjectSessionsSkillsGetCall) Do() (*ProjectSessionsSkillsItem, error) 
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ProjectSessionsSkillsItem{}
+	ret := &ProjectSessionsSkillsItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -7015,11 +8202,11 @@ type ProjectsItem struct {
 		Name     string `json:"name"`
 		TimeZone string `json:"time_zone"`
 		Language struct {
+			ID         int64     `json:"id"`
+			Name       string    `json:"name"`
 			IDentifier string    `json:"identifier"`
 			CreatedAt  time.Time `json:"created_at"`
 			UpdatedAt  time.Time `json:"updated_at"`
-			ID         int64     `json:"id"`
-			Name       string    `json:"name"`
 		} `json:"language"`
 		UsersCount  int64 `json:"users_count"`
 		VogsphereID int64 `json:"vogsphere_id"`
@@ -7040,31 +8227,31 @@ type ProjectsItem struct {
 	Parent          interface{} `json:"parent"`
 	ProjectSessions []struct {
 		TeamBehaviour    string        `json:"team_behaviour"`
-		ID               int64         `json:"id"`
-		Solo             bool          `json:"solo"`
-		EndAt            interface{}   `json:"end_at"`
 		EstimateTime     int64         `json:"estimate_time"`
-		CampusID         interface{}   `json:"campus_id"`
 		Uploads          []interface{} `json:"uploads"`
-		TerminatingAfter interface{}   `json:"terminating_after"`
 		CursusID         interface{}   `json:"cursus_id"`
 		CreatedAt        time.Time     `json:"created_at"`
+		EndAt            interface{}   `json:"end_at"`
+		TerminatingAfter interface{}   `json:"terminating_after"`
+		BeginAt          interface{}   `json:"begin_at"`
+		DurationDays     interface{}   `json:"duration_days"`
+		CampusID         interface{}   `json:"campus_id"`
 		Scales           []struct {
 			ID               int64 `json:"id"`
 			CorrectionNumber int64 `json:"correction_number"`
 			IsPrimary        bool  `json:"is_primary"`
 		} `json:"scales"`
-		BeginAt         interface{} `json:"begin_at"`
-		ProjectID       int64       `json:"project_id"`
-		IsSubscriptable bool        `json:"is_subscriptable"`
-		DurationDays    interface{} `json:"duration_days"`
-		UpdatedAt       time.Time   `json:"updated_at"`
+		ID              int64       `json:"id"`
+		Solo            bool        `json:"solo"`
 		MaxPeople       interface{} `json:"max_people"`
+		IsSubscriptable bool        `json:"is_subscriptable"`
+		ProjectID       int64       `json:"project_id"`
+		UpdatedAt       time.Time   `json:"updated_at"`
 	} `json:"project_sessions"`
 	Skills []struct {
-		CreatedAt time.Time `json:"created_at"`
 		ID        int64     `json:"id"`
 		Name      string    `json:"name"`
+		CreatedAt time.Time `json:"created_at"`
 	} `json:"skills"`
 	Slug string `json:"slug"`
 	Tags []struct {
@@ -7075,38 +8262,49 @@ type ProjectsItem struct {
 	Tier      int64         `json:"tier"`
 	UpdatedAt time.Time     `json:"updated_at"`
 	Videos    []interface{} `json:"videos"`
+
+	ServerResponse `json:"-"`
 }
 
 // ProjectsListCall description:
 type ProjectsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListProjectsResponse represents a list response.
 type ListProjectsResponse struct {
-	Projects []*ProjectsItem
+	Projects       []*ProjectsItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a ProjectsListCall which can request data from the 42 API.
 func (s *ProjectsService) List() *ProjectsListCall {
 	return &ProjectsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Projects matching
-// the specified setting.
+// P sets an optional parameter and its values: Only return Projects matching the specified setting.
 func (c *ProjectsListCall) P(key string, values []string) *ProjectsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a ProjectsListCall request call. Exactly one of
-// *ListProjectsResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *ProjectsListCall) PageToken(page int) *ProjectsListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a ProjectsListCall request call. Exactly one of *ListProjectsResponse or error will be non-nil.
 func (c *ProjectsListCall) Do() (*ListProjectsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/projects/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -7119,13 +8317,19 @@ func (c *ProjectsListCall) Do() (*ListProjectsResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListProjectsResponse{}
+	ret := &ListProjectsResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Projects = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Projects); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -7145,8 +8349,7 @@ func (s *ProjectsService) Get(ID string) *ProjectsGetCall {
 	}
 }
 
-// Do executes a ProjectsGetCall request call. Exactly one of *ProjectsItem or
-// error will be non-nil.
+// Do executes a ProjectsGetCall request call. Exactly one of *ProjectsItem or error will be non-nil.
 func (c *ProjectsGetCall) Do() (*ProjectsItem, error) {
 	urls := c.s.baseURL + "/projects/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -7160,8 +8363,13 @@ func (c *ProjectsGetCall) Do() (*ProjectsItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ProjectsItem{}
+	ret := &ProjectsItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -7200,71 +8408,82 @@ type ProjectsUsersItem struct {
 	} `json:"project"`
 	Status string `json:"status"`
 	Teams  []struct {
-		ID               int64       `json:"id"`
-		URL              string      `json:"url"`
-		FinalMark        interface{} `json:"final_mark"`
-		ProjectID        int64       `json:"project_id"`
-		UpdatedAt        time.Time   `json:"updated_at"`
 		Locked           bool        `json:"locked?"`
-		Status           string      `json:"status"`
-		TerminatingAt    interface{} `json:"terminating_at"`
-		LockedAt         time.Time   `json:"locked_at"`
-		ProjectSessionID int64       `json:"project_session_id"`
-		CreatedAt        time.Time   `json:"created_at"`
 		RepoURL          interface{} `json:"repo_url"`
-		RepoUUID         string      `json:"repo_uuid"`
-		ClosedAt         time.Time   `json:"closed_at"`
+		ProjectSessionID int64       `json:"project_session_id"`
 		Name             string      `json:"name"`
+		ProjectID        int64       `json:"project_id"`
 		Users            []struct {
-			ID             int64  `json:"id"`
 			Login          string `json:"login"`
 			URL            string `json:"url"`
 			Leader         bool   `json:"leader"`
 			Occurrence     int64  `json:"occurrence"`
 			Validated      bool   `json:"validated"`
 			ProjectsUserID int64  `json:"projects_user_id"`
+			ID             int64  `json:"id"`
 		} `json:"users"`
-		Validated interface{} `json:"validated?"`
-		Closed    bool        `json:"closed?"`
+		TerminatingAt interface{} `json:"terminating_at"`
+		ClosedAt      time.Time   `json:"closed_at"`
+		URL           string      `json:"url"`
+		Validated     interface{} `json:"validated?"`
+		LockedAt      time.Time   `json:"locked_at"`
+		UpdatedAt     time.Time   `json:"updated_at"`
+		Status        string      `json:"status"`
+		Closed        bool        `json:"closed?"`
+		RepoUUID      string      `json:"repo_uuid"`
+		ID            int64       `json:"id"`
+		FinalMark     interface{} `json:"final_mark"`
+		CreatedAt     time.Time   `json:"created_at"`
 	} `json:"teams"`
 	User struct {
-		URL   string `json:"url"`
 		ID    int64  `json:"id"`
 		Login string `json:"login"`
+		URL   string `json:"url"`
 	} `json:"user"`
 	Validated interface{} `json:"validated?"`
+
+	ServerResponse `json:"-"`
 }
 
 // ProjectsUsersListCall description:
 type ProjectsUsersListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListProjectsUsersResponse represents a list response.
 type ListProjectsUsersResponse struct {
-	ProjectsUsers []*ProjectsUsersItem
+	ProjectsUsers  []*ProjectsUsersItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a ProjectsUsersListCall which can request data from the 42 API.
 func (s *ProjectsUsersService) List() *ProjectsUsersListCall {
 	return &ProjectsUsersListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return ProjectsUsers
-// matching the specified setting.
+// P sets an optional parameter and its values: Only return ProjectsUsers matching the specified setting.
 func (c *ProjectsUsersListCall) P(key string, values []string) *ProjectsUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a ProjectsUsersListCall request call. Exactly one of
-// *ListProjectsUsersResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *ProjectsUsersListCall) PageToken(page int) *ProjectsUsersListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a ProjectsUsersListCall request call. Exactly one of *ListProjectsUsersResponse or error will be non-nil.
 func (c *ProjectsUsersListCall) Do() (*ListProjectsUsersResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/projects_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -7277,13 +8496,19 @@ func (c *ProjectsUsersListCall) Do() (*ListProjectsUsersResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListProjectsUsersResponse{}
+	ret := &ListProjectsUsersResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.ProjectsUsers = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).ProjectsUsers); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -7303,8 +8528,7 @@ func (s *ProjectsUsersService) Get(ID string) *ProjectsUsersGetCall {
 	}
 }
 
-// Do executes a ProjectsUsersGetCall request call. Exactly one of
-// *ProjectsUsersItem or error will be non-nil.
+// Do executes a ProjectsUsersGetCall request call. Exactly one of *ProjectsUsersItem or error will be non-nil.
 func (c *ProjectsUsersGetCall) Do() (*ProjectsUsersItem, error) {
 	urls := c.s.baseURL + "/projects_users/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -7318,8 +8542,13 @@ func (c *ProjectsUsersGetCall) Do() (*ProjectsUsersItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ProjectsUsersItem{}
+	ret := &ProjectsUsersItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -7349,10 +8578,10 @@ type QuestsItem struct {
 	CampusID  interface{} `json:"campus_id"`
 	CreatedAt time.Time   `json:"created_at"`
 	Cursus    struct {
+		ID        int64     `json:"id"`
 		CreatedAt time.Time `json:"created_at"`
 		Name      string    `json:"name"`
 		Slug      string    `json:"slug"`
-		ID        int64     `json:"id"`
 	} `json:"cursus"`
 	CursusID     int64       `json:"cursus_id"`
 	Description  string      `json:"description"`
@@ -7365,38 +8594,49 @@ type QuestsItem struct {
 	Position     int64       `json:"position"`
 	Slug         string      `json:"slug"`
 	UpdatedAt    time.Time   `json:"updated_at"`
+
+	ServerResponse `json:"-"`
 }
 
 // QuestsListCall description:
 type QuestsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListQuestsResponse represents a list response.
 type ListQuestsResponse struct {
-	Quests []*QuestsItem
+	Quests         []*QuestsItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a QuestsListCall which can request data from the 42 API.
 func (s *QuestsService) List() *QuestsListCall {
 	return &QuestsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Quests matching the
-// specified setting.
+// P sets an optional parameter and its values: Only return Quests matching the specified setting.
 func (c *QuestsListCall) P(key string, values []string) *QuestsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a QuestsListCall request call. Exactly one of *ListQuestsResponse
-// or error will be non-nil.
+// PageToken get the specified page
+func (c *QuestsListCall) PageToken(page int) *QuestsListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a QuestsListCall request call. Exactly one of *ListQuestsResponse or error will be non-nil.
 func (c *QuestsListCall) Do() (*ListQuestsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/quests/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -7409,13 +8649,19 @@ func (c *QuestsListCall) Do() (*ListQuestsResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListQuestsResponse{}
+	ret := &ListQuestsResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Quests = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Quests); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -7435,8 +8681,7 @@ func (s *QuestsService) Get(ID string) *QuestsGetCall {
 	}
 }
 
-// Do executes a QuestsGetCall request call. Exactly one of *QuestsItem or error
-// will be non-nil.
+// Do executes a QuestsGetCall request call. Exactly one of *QuestsItem or error will be non-nil.
 func (c *QuestsGetCall) Do() (*QuestsItem, error) {
 	urls := c.s.baseURL + "/quests/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -7450,8 +8695,13 @@ func (c *QuestsGetCall) Do() (*QuestsItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &QuestsItem{}
+	ret := &QuestsItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -7483,18 +8733,18 @@ type QuestsUsersItem struct {
 	ID          int64       `json:"id"`
 	Prct        interface{} `json:"prct"`
 	Quest       struct {
-		UpdatedAt    time.Time   `json:"updated_at"`
-		Position     int64       `json:"position"`
-		Slug         string      `json:"slug"`
-		Description  string      `json:"description"`
-		CursusID     int64       `json:"cursus_id"`
-		CampusID     interface{} `json:"campus_id"`
 		CreatedAt    time.Time   `json:"created_at"`
 		GradeID      interface{} `json:"grade_id"`
+		InternalName interface{} `json:"internal_name"`
+		Description  string      `json:"description"`
+		CampusID     interface{} `json:"campus_id"`
+		Kind         string      `json:"kind"`
+		CursusID     int64       `json:"cursus_id"`
+		UpdatedAt    time.Time   `json:"updated_at"`
+		Position     int64       `json:"position"`
 		ID           int64       `json:"id"`
 		Name         string      `json:"name"`
-		Kind         string      `json:"kind"`
-		InternalName interface{} `json:"internal_name"`
+		Slug         string      `json:"slug"`
 	} `json:"quest"`
 	QuestID   int64     `json:"quest_id"`
 	UpdatedAt time.Time `json:"updated_at"`
@@ -7504,38 +8754,49 @@ type QuestsUsersItem struct {
 		URL   string `json:"url"`
 	} `json:"user"`
 	ValidatedAt interface{} `json:"validated_at"`
+
+	ServerResponse `json:"-"`
 }
 
 // QuestsUsersListCall description:
 type QuestsUsersListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListQuestsUsersResponse represents a list response.
 type ListQuestsUsersResponse struct {
-	QuestsUsers []*QuestsUsersItem
+	QuestsUsers    []*QuestsUsersItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a QuestsUsersListCall which can request data from the 42 API.
 func (s *QuestsUsersService) List() *QuestsUsersListCall {
 	return &QuestsUsersListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return QuestsUsers matching
-// the specified setting.
+// P sets an optional parameter and its values: Only return QuestsUsers matching the specified setting.
 func (c *QuestsUsersListCall) P(key string, values []string) *QuestsUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a QuestsUsersListCall request call. Exactly one of
-// *ListQuestsUsersResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *QuestsUsersListCall) PageToken(page int) *QuestsUsersListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a QuestsUsersListCall request call. Exactly one of *ListQuestsUsersResponse or error will be non-nil.
 func (c *QuestsUsersListCall) Do() (*ListQuestsUsersResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/quests_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -7548,13 +8809,19 @@ func (c *QuestsUsersListCall) Do() (*ListQuestsUsersResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListQuestsUsersResponse{}
+	ret := &ListQuestsUsersResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.QuestsUsers = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).QuestsUsers); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -7574,8 +8841,7 @@ func (s *QuestsUsersService) Get(ID string) *QuestsUsersGetCall {
 	}
 }
 
-// Do executes a QuestsUsersGetCall request call. Exactly one of
-// *QuestsUsersItem or error will be non-nil.
+// Do executes a QuestsUsersGetCall request call. Exactly one of *QuestsUsersItem or error will be non-nil.
 func (c *QuestsUsersGetCall) Do() (*QuestsUsersItem, error) {
 	urls := c.s.baseURL + "/quests_users/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -7589,8 +8855,13 @@ func (c *QuestsUsersGetCall) Do() (*QuestsUsersItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &QuestsUsersItem{}
+	ret := &QuestsUsersItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -7619,38 +8890,49 @@ type RolesItem struct {
 	Description string `json:"description"`
 	ID          int64  `json:"id"`
 	Name        string `json:"name"`
+
+	ServerResponse `json:"-"`
 }
 
 // RolesListCall description:
 type RolesListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListRolesResponse represents a list response.
 type ListRolesResponse struct {
-	Roles []*RolesItem
+	Roles          []*RolesItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a RolesListCall which can request data from the 42 API.
 func (s *RolesService) List() *RolesListCall {
 	return &RolesListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Roles matching the
-// specified setting.
+// P sets an optional parameter and its values: Only return Roles matching the specified setting.
 func (c *RolesListCall) P(key string, values []string) *RolesListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a RolesListCall request call. Exactly one of *ListRolesResponse
-// or error will be non-nil.
+// PageToken get the specified page
+func (c *RolesListCall) PageToken(page int) *RolesListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a RolesListCall request call. Exactly one of *ListRolesResponse or error will be non-nil.
 func (c *RolesListCall) Do() (*ListRolesResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/roles/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -7663,13 +8945,19 @@ func (c *RolesListCall) Do() (*ListRolesResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListRolesResponse{}
+	ret := &ListRolesResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Roles = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Roles); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -7689,8 +8977,7 @@ func (s *RolesService) Get(ID string) *RolesGetCall {
 	}
 }
 
-// Do executes a RolesGetCall request call. Exactly one of *RolesItem or error
-// will be non-nil.
+// Do executes a RolesGetCall request call. Exactly one of *RolesItem or error will be non-nil.
 func (c *RolesGetCall) Do() (*RolesItem, error) {
 	urls := c.s.baseURL + "/roles/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -7704,8 +8991,13 @@ func (c *RolesGetCall) Do() (*RolesItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &RolesItem{}
+	ret := &RolesItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -7719,8 +9011,7 @@ func (c *RolesGetCall) Do() (*RolesItem, error) {
 
 // delete
 
-// Roles description: Grants particular privileges to entities like users and
-// applications
+// Roles description: Grants particular privileges to entities like users and applications
 func Roles(s *Service) *RolesService {
 	return &RolesService{s: s}
 }
@@ -7734,13 +9025,13 @@ type RolesEntitiesService struct {
 type RolesEntitiesItem struct {
 	CreatedAt time.Time `json:"created_at"`
 	Entity    struct {
-		Description interface{}   `json:"description"`
-		Image       interface{}   `json:"image"`
-		UpdatedAt   time.Time     `json:"updated_at"`
 		ID          int64         `json:"id"`
-		Name        string        `json:"name"`
+		Image       interface{}   `json:"image"`
 		Website     interface{}   `json:"website"`
 		Public      bool          `json:"public"`
+		UpdatedAt   time.Time     `json:"updated_at"`
+		Name        string        `json:"name"`
+		Description interface{}   `json:"description"`
 		Scopes      []interface{} `json:"scopes"`
 		CreatedAt   time.Time     `json:"created_at"`
 		Owner       struct{}      `json:"owner"`
@@ -7755,38 +9046,49 @@ type RolesEntitiesItem struct {
 		Name        string `json:"name"`
 		Description string `json:"description"`
 	} `json:"role"`
+
+	ServerResponse `json:"-"`
 }
 
 // RolesEntitiesListCall description:
 type RolesEntitiesListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListRolesEntitiesResponse represents a list response.
 type ListRolesEntitiesResponse struct {
-	RolesEntities []*RolesEntitiesItem
+	RolesEntities  []*RolesEntitiesItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a RolesEntitiesListCall which can request data from the 42 API.
 func (s *RolesEntitiesService) List() *RolesEntitiesListCall {
 	return &RolesEntitiesListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return RolesEntities
-// matching the specified setting.
+// P sets an optional parameter and its values: Only return RolesEntities matching the specified setting.
 func (c *RolesEntitiesListCall) P(key string, values []string) *RolesEntitiesListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a RolesEntitiesListCall request call. Exactly one of
-// *ListRolesEntitiesResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *RolesEntitiesListCall) PageToken(page int) *RolesEntitiesListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a RolesEntitiesListCall request call. Exactly one of *ListRolesEntitiesResponse or error will be non-nil.
 func (c *RolesEntitiesListCall) Do() (*ListRolesEntitiesResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/roles_entities/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -7799,13 +9101,19 @@ func (c *RolesEntitiesListCall) Do() (*ListRolesEntitiesResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListRolesEntitiesResponse{}
+	ret := &ListRolesEntitiesResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.RolesEntities = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).RolesEntities); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -7825,8 +9133,7 @@ func (s *RolesEntitiesService) Get(ID string) *RolesEntitiesGetCall {
 	}
 }
 
-// Do executes a RolesEntitiesGetCall request call. Exactly one of
-// *RolesEntitiesItem or error will be non-nil.
+// Do executes a RolesEntitiesGetCall request call. Exactly one of *RolesEntitiesItem or error will be non-nil.
 func (c *RolesEntitiesGetCall) Do() (*RolesEntitiesItem, error) {
 	urls := c.s.baseURL + "/roles_entities/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -7840,8 +9147,13 @@ func (c *RolesEntitiesGetCall) Do() (*RolesEntitiesItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &RolesEntitiesItem{}
+	ret := &RolesEntitiesItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -7874,49 +9186,60 @@ type RulesItem struct {
 	Kind         string    `json:"kind"`
 	Name         string    `json:"name"`
 	Params       []struct {
+		UpdatedAt    time.Time `json:"updated_at"`
 		DataType     string    `json:"data_type"`
 		ID           int64     `json:"id"`
 		Name         string    `json:"name"`
 		DefaultValue string    `json:"default_value"`
 		RuleID       int64     `json:"rule_id"`
 		CreatedAt    time.Time `json:"created_at"`
-		UpdatedAt    time.Time `json:"updated_at"`
 	} `json:"params"`
 	ProjectSessionsRules []interface{} `json:"project_sessions_rules"`
 	Slug                 string        `json:"slug"`
 	UpdatedAt            time.Time     `json:"updated_at"`
+
+	ServerResponse `json:"-"`
 }
 
 // RulesListCall description:
 type RulesListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListRulesResponse represents a list response.
 type ListRulesResponse struct {
-	Rules []*RulesItem
+	Rules          []*RulesItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a RulesListCall which can request data from the 42 API.
 func (s *RulesService) List() *RulesListCall {
 	return &RulesListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Rules matching the
-// specified setting.
+// P sets an optional parameter and its values: Only return Rules matching the specified setting.
 func (c *RulesListCall) P(key string, values []string) *RulesListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a RulesListCall request call. Exactly one of *ListRulesResponse
-// or error will be non-nil.
+// PageToken get the specified page
+func (c *RulesListCall) PageToken(page int) *RulesListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a RulesListCall request call. Exactly one of *ListRulesResponse or error will be non-nil.
 func (c *RulesListCall) Do() (*ListRulesResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/rules/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -7929,13 +9252,19 @@ func (c *RulesListCall) Do() (*ListRulesResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListRulesResponse{}
+	ret := &ListRulesResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Rules = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Rules); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -7955,8 +9284,7 @@ func (s *RulesService) Get(ID string) *RulesGetCall {
 	}
 }
 
-// Do executes a RulesGetCall request call. Exactly one of *RulesItem or error
-// will be non-nil.
+// Do executes a RulesGetCall request call. Exactly one of *RulesItem or error will be non-nil.
 func (c *RulesGetCall) Do() (*RulesItem, error) {
 	urls := c.s.baseURL + "/rules/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -7970,8 +9298,13 @@ func (c *RulesGetCall) Do() (*RulesItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &RulesItem{}
+	ret := &RulesItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -8008,70 +9341,81 @@ type ScaleTeamsItem struct {
 	FilledAt       interface{}   `json:"filled_at"`
 	FinalMark      interface{}   `json:"final_mark"`
 	Flag           struct {
-		CreatedAt time.Time `json:"created_at"`
-		UpdatedAt time.Time `json:"updated_at"`
 		ID        int64     `json:"id"`
 		Name      string    `json:"name"`
 		Positive  bool      `json:"positive"`
 		Icon      string    `json:"icon"`
+		CreatedAt time.Time `json:"created_at"`
+		UpdatedAt time.Time `json:"updated_at"`
 	} `json:"flag"`
 	ID    int64 `json:"id"`
 	Scale struct {
-		ID                 int64     `json:"id"`
-		Name               string    `json:"name"`
-		Comment            string    `json:"comment"`
-		GuidelinesMd       string    `json:"guidelines_md"`
-		CorrectionNumber   int64     `json:"correction_number"`
-		Duration           int64     `json:"duration"`
-		EvaluationID       int64     `json:"evaluation_id"`
-		IsPrimary          bool      `json:"is_primary"`
-		IntroductionMd     string    `json:"introduction_md"`
-		DisclaimerMd       string    `json:"disclaimer_md"`
-		CreatedAt          time.Time `json:"created_at"`
-		ManualSubscription bool      `json:"manual_subscription"`
+		ID                 int64  `json:"id"`
+		EvaluationID       int64  `json:"evaluation_id"`
+		Name               string `json:"name"`
+		IntroductionMd     string `json:"introduction_md"`
+		DisclaimerMd       string `json:"disclaimer_md"`
+		ManualSubscription bool   `json:"manual_subscription"`
 		Languages          []struct {
+			CreatedAt  time.Time `json:"created_at"`
+			UpdatedAt  time.Time `json:"updated_at"`
 			ID         int64     `json:"id"`
 			Name       string    `json:"name"`
 			IDentifier string    `json:"identifier"`
-			CreatedAt  time.Time `json:"created_at"`
-			UpdatedAt  time.Time `json:"updated_at"`
 		} `json:"languages"`
+		IsPrimary        bool      `json:"is_primary"`
+		Comment          string    `json:"comment"`
+		GuidelinesMd     string    `json:"guidelines_md"`
+		CreatedAt        time.Time `json:"created_at"`
+		CorrectionNumber int64     `json:"correction_number"`
+		Duration         int64     `json:"duration"`
 	} `json:"scale"`
 	ScaleID   int64     `json:"scale_id"`
 	Truant    struct{}  `json:"truant"`
 	UpdatedAt time.Time `json:"updated_at"`
+
+	ServerResponse `json:"-"`
 }
 
 // ScaleTeamsListCall description:
 type ScaleTeamsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListScaleTeamsResponse represents a list response.
 type ListScaleTeamsResponse struct {
-	ScaleTeams []*ScaleTeamsItem
+	ScaleTeams     []*ScaleTeamsItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a ScaleTeamsListCall which can request data from the 42 API.
 func (s *ScaleTeamsService) List() *ScaleTeamsListCall {
 	return &ScaleTeamsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return ScaleTeams matching
-// the specified setting.
+// P sets an optional parameter and its values: Only return ScaleTeams matching the specified setting.
 func (c *ScaleTeamsListCall) P(key string, values []string) *ScaleTeamsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a ScaleTeamsListCall request call. Exactly one of
-// *ListScaleTeamsResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *ScaleTeamsListCall) PageToken(page int) *ScaleTeamsListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a ScaleTeamsListCall request call. Exactly one of *ListScaleTeamsResponse or error will be non-nil.
 func (c *ScaleTeamsListCall) Do() (*ListScaleTeamsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/scale_teams/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -8084,13 +9428,19 @@ func (c *ScaleTeamsListCall) Do() (*ListScaleTeamsResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListScaleTeamsResponse{}
+	ret := &ListScaleTeamsResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.ScaleTeams = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).ScaleTeams); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -8110,8 +9460,7 @@ func (s *ScaleTeamsService) Get(ID string) *ScaleTeamsGetCall {
 	}
 }
 
-// Do executes a ScaleTeamsGetCall request call. Exactly one of *ScaleTeamsItem
-// or error will be non-nil.
+// Do executes a ScaleTeamsGetCall request call. Exactly one of *ScaleTeamsItem or error will be non-nil.
 func (c *ScaleTeamsGetCall) Do() (*ScaleTeamsItem, error) {
 	urls := c.s.baseURL + "/scale_teams/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -8125,8 +9474,13 @@ func (c *ScaleTeamsGetCall) Do() (*ScaleTeamsItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ScaleTeamsItem{}
+	ret := &ScaleTeamsItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -8140,8 +9494,7 @@ func (c *ScaleTeamsGetCall) Do() (*ScaleTeamsItem, error) {
 
 // delete
 
-// ScaleTeams description: A defence of a team (on a project), involving an
-// evaluator
+// ScaleTeams description: A defence of a team (on a project), involving an evaluator
 func ScaleTeams(s *Service) *ScaleTeamsService {
 	return &ScaleTeamsService{s: s}
 }
@@ -8168,11 +9521,11 @@ type ScalesItem struct {
 	IntroductionMd string `json:"introduction_md"`
 	IsPrimary      bool   `json:"is_primary"`
 	Languages      []struct {
-		IDentifier string    `json:"identifier"`
-		CreatedAt  time.Time `json:"created_at"`
 		UpdatedAt  time.Time `json:"updated_at"`
 		ID         int64     `json:"id"`
 		Name       string    `json:"name"`
+		IDentifier string    `json:"identifier"`
+		CreatedAt  time.Time `json:"created_at"`
 	} `json:"languages"`
 	ManualSubscription bool   `json:"manual_subscription"`
 	Name               string `json:"name"`
@@ -8189,38 +9542,49 @@ type ScalesItem struct {
 			ID         int64     `json:"id"`
 		} `json:"questions"`
 	} `json:"sections"`
+
+	ServerResponse `json:"-"`
 }
 
 // ScalesListCall description:
 type ScalesListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListScalesResponse represents a list response.
 type ListScalesResponse struct {
-	Scales []*ScalesItem
+	Scales         []*ScalesItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a ScalesListCall which can request data from the 42 API.
 func (s *ScalesService) List() *ScalesListCall {
 	return &ScalesListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Scales matching the
-// specified setting.
+// P sets an optional parameter and its values: Only return Scales matching the specified setting.
 func (c *ScalesListCall) P(key string, values []string) *ScalesListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a ScalesListCall request call. Exactly one of *ListScalesResponse
-// or error will be non-nil.
+// PageToken get the specified page
+func (c *ScalesListCall) PageToken(page int) *ScalesListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a ScalesListCall request call. Exactly one of *ListScalesResponse or error will be non-nil.
 func (c *ScalesListCall) Do() (*ListScalesResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/scales/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -8233,13 +9597,19 @@ func (c *ScalesListCall) Do() (*ListScalesResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListScalesResponse{}
+	ret := &ListScalesResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Scales = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Scales); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -8259,8 +9629,7 @@ func (s *ScalesService) Get(ID string) *ScalesGetCall {
 	}
 }
 
-// Do executes a ScalesGetCall request call. Exactly one of *ScalesItem or error
-// will be non-nil.
+// Do executes a ScalesGetCall request call. Exactly one of *ScalesItem or error will be non-nil.
 func (c *ScalesGetCall) Do() (*ScalesItem, error) {
 	urls := c.s.baseURL + "/scales/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -8274,8 +9643,13 @@ func (c *ScalesGetCall) Do() (*ScalesItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ScalesItem{}
+	ret := &ScalesItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -8289,8 +9663,7 @@ func (c *ScalesGetCall) Do() (*ScalesItem, error) {
 
 // delete
 
-// Scales description: A scale is composed by questions which allows an users to
-// rate the quality of a project .
+// Scales description: A scale is composed by questions which allows an users to rate the quality of a project .
 func Scales(s *Service) *ScalesService {
 	return &ScalesService{s: s}
 }
@@ -8312,38 +9685,49 @@ type ScoresItem struct {
 	ScoreableType    string    `json:"scoreable_type"`
 	UpdatedAt        time.Time `json:"updated_at"`
 	Value            int64     `json:"value"`
+
+	ServerResponse `json:"-"`
 }
 
 // ScoresListCall description:
 type ScoresListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListScoresResponse represents a list response.
 type ListScoresResponse struct {
-	Scores []*ScoresItem
+	Scores         []*ScoresItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a ScoresListCall which can request data from the 42 API.
 func (s *ScoresService) List() *ScoresListCall {
 	return &ScoresListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Scores matching the
-// specified setting.
+// P sets an optional parameter and its values: Only return Scores matching the specified setting.
 func (c *ScoresListCall) P(key string, values []string) *ScoresListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a ScoresListCall request call. Exactly one of *ListScoresResponse
-// or error will be non-nil.
+// PageToken get the specified page
+func (c *ScoresListCall) PageToken(page int) *ScoresListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a ScoresListCall request call. Exactly one of *ListScoresResponse or error will be non-nil.
 func (c *ScoresListCall) Do() (*ListScoresResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/scores/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -8356,13 +9740,19 @@ func (c *ScoresListCall) Do() (*ListScoresResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListScoresResponse{}
+	ret := &ListScoresResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Scores = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Scores); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -8382,8 +9772,7 @@ func (s *ScoresService) Get(ID string) *ScoresGetCall {
 	}
 }
 
-// Do executes a ScoresGetCall request call. Exactly one of *ScoresItem or error
-// will be non-nil.
+// Do executes a ScoresGetCall request call. Exactly one of *ScoresItem or error will be non-nil.
 func (c *ScoresGetCall) Do() (*ScoresItem, error) {
 	urls := c.s.baseURL + "/scores/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -8397,8 +9786,13 @@ func (c *ScoresGetCall) Do() (*ScoresItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ScoresItem{}
+	ret := &ScoresItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -8422,38 +9816,48 @@ type SkillsService struct {
 
 // SkillsItem is a 42 API type
 type SkillsItem struct {
+	ServerResponse `json:"-"`
 }
 
 // SkillsListCall description:
 type SkillsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListSkillsResponse represents a list response.
 type ListSkillsResponse struct {
-	Skills []*SkillsItem
+	Skills         []*SkillsItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a SkillsListCall which can request data from the 42 API.
 func (s *SkillsService) List() *SkillsListCall {
 	return &SkillsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Skills matching the
-// specified setting.
+// P sets an optional parameter and its values: Only return Skills matching the specified setting.
 func (c *SkillsListCall) P(key string, values []string) *SkillsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a SkillsListCall request call. Exactly one of *ListSkillsResponse
-// or error will be non-nil.
+// PageToken get the specified page
+func (c *SkillsListCall) PageToken(page int) *SkillsListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a SkillsListCall request call. Exactly one of *ListSkillsResponse or error will be non-nil.
 func (c *SkillsListCall) Do() (*ListSkillsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/skills/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -8466,13 +9870,19 @@ func (c *SkillsListCall) Do() (*ListSkillsResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListSkillsResponse{}
+	ret := &ListSkillsResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Skills = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Skills); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -8492,8 +9902,7 @@ func (s *SkillsService) Get(ID string) *SkillsGetCall {
 	}
 }
 
-// Do executes a SkillsGetCall request call. Exactly one of *SkillsItem or error
-// will be non-nil.
+// Do executes a SkillsGetCall request call. Exactly one of *SkillsItem or error will be non-nil.
 func (c *SkillsGetCall) Do() (*SkillsItem, error) {
 	urls := c.s.baseURL + "/skills/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -8507,8 +9916,13 @@ func (c *SkillsGetCall) Do() (*SkillsItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &SkillsItem{}
+	ret := &SkillsItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -8534,38 +9948,48 @@ type SlotsService struct {
 
 // SlotsItem is a 42 API type
 type SlotsItem struct {
+	ServerResponse `json:"-"`
 }
 
 // SlotsListCall description:
 type SlotsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListSlotsResponse represents a list response.
 type ListSlotsResponse struct {
-	Slots []*SlotsItem
+	Slots          []*SlotsItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a SlotsListCall which can request data from the 42 API.
 func (s *SlotsService) List() *SlotsListCall {
 	return &SlotsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Slots matching the
-// specified setting.
+// P sets an optional parameter and its values: Only return Slots matching the specified setting.
 func (c *SlotsListCall) P(key string, values []string) *SlotsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a SlotsListCall request call. Exactly one of *ListSlotsResponse
-// or error will be non-nil.
+// PageToken get the specified page
+func (c *SlotsListCall) PageToken(page int) *SlotsListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a SlotsListCall request call. Exactly one of *ListSlotsResponse or error will be non-nil.
 func (c *SlotsListCall) Do() (*ListSlotsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/slots/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -8578,13 +10002,19 @@ func (c *SlotsListCall) Do() (*ListSlotsResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListSlotsResponse{}
+	ret := &ListSlotsResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Slots = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Slots); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -8604,8 +10034,7 @@ func (s *SlotsService) Get(ID string) *SlotsGetCall {
 	}
 }
 
-// Do executes a SlotsGetCall request call. Exactly one of *SlotsItem or error
-// will be non-nil.
+// Do executes a SlotsGetCall request call. Exactly one of *SlotsItem or error will be non-nil.
 func (c *SlotsGetCall) Do() (*SlotsItem, error) {
 	urls := c.s.baseURL + "/slots/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -8619,8 +10048,13 @@ func (c *SlotsGetCall) Do() (*SlotsItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &SlotsItem{}
+	ret := &SlotsItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -8634,8 +10068,7 @@ func (c *SlotsGetCall) Do() (*SlotsItem, error) {
 
 // delete
 
-// Slots description: The slots available to users for booking a project scale
-// team.
+// Slots description: The slots available to users for booking a project scale team.
 func Slots(s *Service) *SlotsService {
 	return &SlotsService{s: s}
 }
@@ -8647,6 +10080,7 @@ type SquadsService struct {
 
 // SquadsItem is a 42 API type
 type SquadsItem struct {
+	ServerResponse `json:"-"`
 }
 
 // create
@@ -8656,33 +10090,42 @@ type SquadsItem struct {
 // SquadsListCall description:
 type SquadsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListSquadsResponse represents a list response.
 type ListSquadsResponse struct {
-	Squads []*SquadsItem
+	Squads         []*SquadsItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a SquadsListCall which can request data from the 42 API.
 func (s *SquadsService) List() *SquadsListCall {
 	return &SquadsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Squads matching the
-// specified setting.
+// P sets an optional parameter and its values: Only return Squads matching the specified setting.
 func (c *SquadsListCall) P(key string, values []string) *SquadsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a SquadsListCall request call. Exactly one of *ListSquadsResponse
-// or error will be non-nil.
+// PageToken get the specified page
+func (c *SquadsListCall) PageToken(page int) *SquadsListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a SquadsListCall request call. Exactly one of *ListSquadsResponse or error will be non-nil.
 func (c *SquadsListCall) Do() (*ListSquadsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/squads/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -8695,13 +10138,19 @@ func (c *SquadsListCall) Do() (*ListSquadsResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListSquadsResponse{}
+	ret := &ListSquadsResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Squads = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Squads); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -8721,8 +10170,7 @@ func (s *SquadsService) Get(ID string) *SquadsGetCall {
 	}
 }
 
-// Do executes a SquadsGetCall request call. Exactly one of *SquadsItem or error
-// will be non-nil.
+// Do executes a SquadsGetCall request call. Exactly one of *SquadsItem or error will be non-nil.
 func (c *SquadsGetCall) Do() (*SquadsItem, error) {
 	urls := c.s.baseURL + "/squads/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -8736,8 +10184,13 @@ func (c *SquadsGetCall) Do() (*SquadsItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &SquadsItem{}
+	ret := &SquadsItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -8757,6 +10210,7 @@ type SquadsUsersService struct {
 
 // SquadsUsersItem is a 42 API type
 type SquadsUsersItem struct {
+	ServerResponse `json:"-"`
 }
 
 // create
@@ -8766,33 +10220,42 @@ type SquadsUsersItem struct {
 // SquadsUsersListCall description:
 type SquadsUsersListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListSquadsUsersResponse represents a list response.
 type ListSquadsUsersResponse struct {
-	SquadsUsers []*SquadsUsersItem
+	SquadsUsers    []*SquadsUsersItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a SquadsUsersListCall which can request data from the 42 API.
 func (s *SquadsUsersService) List() *SquadsUsersListCall {
 	return &SquadsUsersListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return SquadsUsers matching
-// the specified setting.
+// P sets an optional parameter and its values: Only return SquadsUsers matching the specified setting.
 func (c *SquadsUsersListCall) P(key string, values []string) *SquadsUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a SquadsUsersListCall request call. Exactly one of
-// *ListSquadsUsersResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *SquadsUsersListCall) PageToken(page int) *SquadsUsersListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a SquadsUsersListCall request call. Exactly one of *ListSquadsUsersResponse or error will be non-nil.
 func (c *SquadsUsersListCall) Do() (*ListSquadsUsersResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/squads_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -8805,18 +10268,23 @@ func (c *SquadsUsersListCall) Do() (*ListSquadsUsersResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListSquadsUsersResponse{}
+	ret := &ListSquadsUsersResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.SquadsUsers = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).SquadsUsers); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
-// SquadsUsers description: A squads_users will group users inside a same
-// coalition
+// SquadsUsers description: A squads_users will group users inside a same coalition
 func SquadsUsers(s *Service) *SquadsUsersService {
 	return &SquadsUsersService{s: s}
 }
@@ -8835,38 +10303,49 @@ type SubnotionsItem struct {
 	Notepad     interface{}   `json:"notepad"`
 	Notion      interface{}   `json:"notion"`
 	Slug        string        `json:"slug"`
+
+	ServerResponse `json:"-"`
 }
 
 // SubnotionsListCall description:
 type SubnotionsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListSubnotionsResponse represents a list response.
 type ListSubnotionsResponse struct {
-	Subnotions []*SubnotionsItem
+	Subnotions     []*SubnotionsItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a SubnotionsListCall which can request data from the 42 API.
 func (s *SubnotionsService) List() *SubnotionsListCall {
 	return &SubnotionsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Subnotions matching
-// the specified setting.
+// P sets an optional parameter and its values: Only return Subnotions matching the specified setting.
 func (c *SubnotionsListCall) P(key string, values []string) *SubnotionsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a SubnotionsListCall request call. Exactly one of
-// *ListSubnotionsResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *SubnotionsListCall) PageToken(page int) *SubnotionsListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a SubnotionsListCall request call. Exactly one of *ListSubnotionsResponse or error will be non-nil.
 func (c *SubnotionsListCall) Do() (*ListSubnotionsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/subnotions/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -8879,13 +10358,19 @@ func (c *SubnotionsListCall) Do() (*ListSubnotionsResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListSubnotionsResponse{}
+	ret := &ListSubnotionsResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Subnotions = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Subnotions); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -8905,8 +10390,7 @@ func (s *SubnotionsService) Get(ID string) *SubnotionsGetCall {
 	}
 }
 
-// Do executes a SubnotionsGetCall request call. Exactly one of *SubnotionsItem
-// or error will be non-nil.
+// Do executes a SubnotionsGetCall request call. Exactly one of *SubnotionsItem or error will be non-nil.
 func (c *SubnotionsGetCall) Do() (*SubnotionsItem, error) {
 	urls := c.s.baseURL + "/subnotions/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -8920,8 +10404,13 @@ func (c *SubnotionsGetCall) Do() (*SubnotionsItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &SubnotionsItem{}
+	ret := &SubnotionsItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -8952,38 +10441,49 @@ type TagsItem struct {
 	Name       string        `json:"name"`
 	Subnotions []interface{} `json:"subnotions"`
 	Users      []interface{} `json:"users"`
+
+	ServerResponse `json:"-"`
 }
 
 // TagsListCall description:
 type TagsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListTagsResponse represents a list response.
 type ListTagsResponse struct {
-	Tags []*TagsItem
+	Tags           []*TagsItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a TagsListCall which can request data from the 42 API.
 func (s *TagsService) List() *TagsListCall {
 	return &TagsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Tags matching the
-// specified setting.
+// P sets an optional parameter and its values: Only return Tags matching the specified setting.
 func (c *TagsListCall) P(key string, values []string) *TagsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a TagsListCall request call. Exactly one of *ListTagsResponse or
-// error will be non-nil.
+// PageToken get the specified page
+func (c *TagsListCall) PageToken(page int) *TagsListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a TagsListCall request call. Exactly one of *ListTagsResponse or error will be non-nil.
 func (c *TagsListCall) Do() (*ListTagsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/tags/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -8996,13 +10496,19 @@ func (c *TagsListCall) Do() (*ListTagsResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListTagsResponse{}
+	ret := &ListTagsResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Tags = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Tags); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -9022,8 +10528,7 @@ func (s *TagsService) Get(ID string) *TagsGetCall {
 	}
 }
 
-// Do executes a TagsGetCall request call. Exactly one of *TagsItem or error
-// will be non-nil.
+// Do executes a TagsGetCall request call. Exactly one of *TagsItem or error will be non-nil.
 func (c *TagsGetCall) Do() (*TagsItem, error) {
 	urls := c.s.baseURL + "/tags/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -9037,8 +10542,13 @@ func (c *TagsGetCall) Do() (*TagsItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &TagsItem{}
+	ret := &TagsItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -9052,8 +10562,7 @@ func (c *TagsGetCall) Do() (*TagsItem, error) {
 
 // delete
 
-// Tags description: Non-hierarchical keyword, acting as a meta-data and helping
-// to describe entities.
+// Tags description: Non-hierarchical keyword, acting as a meta-data and helping to describe entities.
 func Tags(s *Service) *TagsService {
 	return &TagsService{s: s}
 }
@@ -9065,38 +10574,48 @@ type TeamsService struct {
 
 // TeamsItem is a 42 API type
 type TeamsItem struct {
+	ServerResponse `json:"-"`
 }
 
 // TeamsListCall description:
 type TeamsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListTeamsResponse represents a list response.
 type ListTeamsResponse struct {
-	Teams []*TeamsItem
+	Teams          []*TeamsItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a TeamsListCall which can request data from the 42 API.
 func (s *TeamsService) List() *TeamsListCall {
 	return &TeamsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Teams matching the
-// specified setting.
+// P sets an optional parameter and its values: Only return Teams matching the specified setting.
 func (c *TeamsListCall) P(key string, values []string) *TeamsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a TeamsListCall request call. Exactly one of *ListTeamsResponse
-// or error will be non-nil.
+// PageToken get the specified page
+func (c *TeamsListCall) PageToken(page int) *TeamsListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a TeamsListCall request call. Exactly one of *ListTeamsResponse or error will be non-nil.
 func (c *TeamsListCall) Do() (*ListTeamsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/teams/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -9109,13 +10628,19 @@ func (c *TeamsListCall) Do() (*ListTeamsResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListTeamsResponse{}
+	ret := &ListTeamsResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Teams = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Teams); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -9135,8 +10660,7 @@ func (s *TeamsService) Get(ID string) *TeamsGetCall {
 	}
 }
 
-// Do executes a TeamsGetCall request call. Exactly one of *TeamsItem or error
-// will be non-nil.
+// Do executes a TeamsGetCall request call. Exactly one of *TeamsItem or error will be non-nil.
 func (c *TeamsGetCall) Do() (*TeamsItem, error) {
 	urls := c.s.baseURL + "/teams/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -9150,8 +10674,13 @@ func (c *TeamsGetCall) Do() (*TeamsItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &TeamsItem{}
+	ret := &TeamsItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -9182,46 +10711,57 @@ type TeamsUploadsItem struct {
 	FinalMark int64     `json:"final_mark"`
 	ID        int64     `json:"id"`
 	Upload    struct {
-		Name         string    `json:"name"`
 		Description  string    `json:"description"`
 		CreatedAt    time.Time `json:"created_at"`
 		UpdatedAt    time.Time `json:"updated_at"`
 		ID           int64     `json:"id"`
 		EvaluationID int64     `json:"evaluation_id"`
+		Name         string    `json:"name"`
 	} `json:"upload"`
 	UploadID int64 `json:"upload_id"`
+
+	ServerResponse `json:"-"`
 }
 
 // TeamsUploadsListCall description:
 type TeamsUploadsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListTeamsUploadsResponse represents a list response.
 type ListTeamsUploadsResponse struct {
-	TeamsUploads []*TeamsUploadsItem
+	TeamsUploads   []*TeamsUploadsItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a TeamsUploadsListCall which can request data from the 42 API.
 func (s *TeamsUploadsService) List() *TeamsUploadsListCall {
 	return &TeamsUploadsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return TeamsUploads
-// matching the specified setting.
+// P sets an optional parameter and its values: Only return TeamsUploads matching the specified setting.
 func (c *TeamsUploadsListCall) P(key string, values []string) *TeamsUploadsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a TeamsUploadsListCall request call. Exactly one of
-// *ListTeamsUploadsResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *TeamsUploadsListCall) PageToken(page int) *TeamsUploadsListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a TeamsUploadsListCall request call. Exactly one of *ListTeamsUploadsResponse or error will be non-nil.
 func (c *TeamsUploadsListCall) Do() (*ListTeamsUploadsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/teams_uploads/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -9234,13 +10774,19 @@ func (c *TeamsUploadsListCall) Do() (*ListTeamsUploadsResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListTeamsUploadsResponse{}
+	ret := &ListTeamsUploadsResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.TeamsUploads = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).TeamsUploads); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -9260,8 +10806,7 @@ func (s *TeamsUploadsService) Get(ID string) *TeamsUploadsGetCall {
 	}
 }
 
-// Do executes a TeamsUploadsGetCall request call. Exactly one of
-// *TeamsUploadsItem or error will be non-nil.
+// Do executes a TeamsUploadsGetCall request call. Exactly one of *TeamsUploadsItem or error will be non-nil.
 func (c *TeamsUploadsGetCall) Do() (*TeamsUploadsItem, error) {
 	urls := c.s.baseURL + "/teams_uploads/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -9275,8 +10820,13 @@ func (c *TeamsUploadsGetCall) Do() (*TeamsUploadsItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &TeamsUploadsItem{}
+	ret := &TeamsUploadsItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -9290,8 +10840,7 @@ func (c *TeamsUploadsGetCall) Do() (*TeamsUploadsItem, error) {
 
 // delete
 
-// TeamsUploads description: An uploaded mark for a team, given by a bot (like
-// the Moulinette), without any defence.
+// TeamsUploads description: An uploaded mark for a team, given by a bot (like the Moulinette), without any defence.
 func TeamsUploads(s *Service) *TeamsUploadsService {
 	return &TeamsUploadsService{s: s}
 }
@@ -9308,32 +10857,32 @@ type TeamsUsersItem struct {
 	Leader     bool      `json:"leader"`
 	Occurrence int64     `json:"occurrence"`
 	Team       struct {
-		Users []struct {
-			Occurrence     int64  `json:"occurrence"`
-			Validated      bool   `json:"validated"`
-			ProjectsUserID int64  `json:"projects_user_id"`
+		URL              string      `json:"url"`
+		Locked           bool        `json:"locked?"`
+		Validated        interface{} `json:"validated?"`
+		RepoURL          interface{} `json:"repo_url"`
+		LockedAt         interface{} `json:"locked_at"`
+		Name             string      `json:"name"`
+		FinalMark        interface{} `json:"final_mark"`
+		ID               int64       `json:"id"`
+		ProjectID        int64       `json:"project_id"`
+		Closed           bool        `json:"closed?"`
+		ProjectSessionID int64       `json:"project_session_id"`
+		RepoUUID         string      `json:"repo_uuid"`
+		ClosedAt         interface{} `json:"closed_at"`
+		CreatedAt        time.Time   `json:"created_at"`
+		UpdatedAt        time.Time   `json:"updated_at"`
+		Status           string      `json:"status"`
+		TerminatingAt    interface{} `json:"terminating_at"`
+		Users            []struct {
 			ID             int64  `json:"id"`
 			Login          string `json:"login"`
 			URL            string `json:"url"`
 			Leader         bool   `json:"leader"`
+			Occurrence     int64  `json:"occurrence"`
+			Validated      bool   `json:"validated"`
+			ProjectsUserID int64  `json:"projects_user_id"`
 		} `json:"users"`
-		Locked           bool        `json:"locked?"`
-		Validated        interface{} `json:"validated?"`
-		Closed           bool        `json:"closed?"`
-		ClosedAt         interface{} `json:"closed_at"`
-		UpdatedAt        time.Time   `json:"updated_at"`
-		TerminatingAt    interface{} `json:"terminating_at"`
-		ProjectSessionID int64       `json:"project_session_id"`
-		ID               int64       `json:"id"`
-		Name             string      `json:"name"`
-		URL              string      `json:"url"`
-		FinalMark        interface{} `json:"final_mark"`
-		CreatedAt        time.Time   `json:"created_at"`
-		ProjectID        int64       `json:"project_id"`
-		Status           string      `json:"status"`
-		RepoURL          interface{} `json:"repo_url"`
-		RepoUUID         string      `json:"repo_uuid"`
-		LockedAt         interface{} `json:"locked_at"`
 	} `json:"team"`
 	TeamID int64 `json:"team_id"`
 	User   struct {
@@ -9343,38 +10892,49 @@ type TeamsUsersItem struct {
 	} `json:"user"`
 	UserID    int64 `json:"user_id"`
 	Validated bool  `json:"validated"`
+
+	ServerResponse `json:"-"`
 }
 
 // TeamsUsersListCall description:
 type TeamsUsersListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListTeamsUsersResponse represents a list response.
 type ListTeamsUsersResponse struct {
-	TeamsUsers []*TeamsUsersItem
+	TeamsUsers     []*TeamsUsersItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a TeamsUsersListCall which can request data from the 42 API.
 func (s *TeamsUsersService) List() *TeamsUsersListCall {
 	return &TeamsUsersListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return TeamsUsers matching
-// the specified setting.
+// P sets an optional parameter and its values: Only return TeamsUsers matching the specified setting.
 func (c *TeamsUsersListCall) P(key string, values []string) *TeamsUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a TeamsUsersListCall request call. Exactly one of
-// *ListTeamsUsersResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *TeamsUsersListCall) PageToken(page int) *TeamsUsersListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a TeamsUsersListCall request call. Exactly one of *ListTeamsUsersResponse or error will be non-nil.
 func (c *TeamsUsersListCall) Do() (*ListTeamsUsersResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/teams_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -9387,13 +10947,19 @@ func (c *TeamsUsersListCall) Do() (*ListTeamsUsersResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListTeamsUsersResponse{}
+	ret := &ListTeamsUsersResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.TeamsUsers = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).TeamsUsers); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -9413,8 +10979,7 @@ func (s *TeamsUsersService) Get(ID string) *TeamsUsersGetCall {
 	}
 }
 
-// Do executes a TeamsUsersGetCall request call. Exactly one of *TeamsUsersItem
-// or error will be non-nil.
+// Do executes a TeamsUsersGetCall request call. Exactly one of *TeamsUsersItem or error will be non-nil.
 func (c *TeamsUsersGetCall) Do() (*TeamsUsersItem, error) {
 	urls := c.s.baseURL + "/teams_users/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -9428,8 +10993,13 @@ func (c *TeamsUsersGetCall) Do() (*TeamsUsersItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &TeamsUsersItem{}
+	ret := &TeamsUsersItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -9455,38 +11025,48 @@ type TitlesService struct {
 
 // TitlesItem is a 42 API type
 type TitlesItem struct {
+	ServerResponse `json:"-"`
 }
 
 // TitlesListCall description:
 type TitlesListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListTitlesResponse represents a list response.
 type ListTitlesResponse struct {
-	Titles []*TitlesItem
+	Titles         []*TitlesItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a TitlesListCall which can request data from the 42 API.
 func (s *TitlesService) List() *TitlesListCall {
 	return &TitlesListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Titles matching the
-// specified setting.
+// P sets an optional parameter and its values: Only return Titles matching the specified setting.
 func (c *TitlesListCall) P(key string, values []string) *TitlesListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a TitlesListCall request call. Exactly one of *ListTitlesResponse
-// or error will be non-nil.
+// PageToken get the specified page
+func (c *TitlesListCall) PageToken(page int) *TitlesListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a TitlesListCall request call. Exactly one of *ListTitlesResponse or error will be non-nil.
 func (c *TitlesListCall) Do() (*ListTitlesResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/titles/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -9499,13 +11079,19 @@ func (c *TitlesListCall) Do() (*ListTitlesResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListTitlesResponse{}
+	ret := &ListTitlesResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Titles = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Titles); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -9525,8 +11111,7 @@ func (s *TitlesService) Get(ID string) *TitlesGetCall {
 	}
 }
 
-// Do executes a TitlesGetCall request call. Exactly one of *TitlesItem or error
-// will be non-nil.
+// Do executes a TitlesGetCall request call. Exactly one of *TitlesItem or error will be non-nil.
 func (c *TitlesGetCall) Do() (*TitlesItem, error) {
 	urls := c.s.baseURL + "/titles/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -9540,8 +11125,13 @@ func (c *TitlesGetCall) Do() (*TitlesItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &TitlesItem{}
+	ret := &TitlesItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -9555,8 +11145,7 @@ func (c *TitlesGetCall) Do() (*TitlesItem, error) {
 
 // delete
 
-// Titles description: Titles a user can obtain, generally through achievements.
-// It will be displayed on their profile and on the forum.
+// Titles description: Titles a user can obtain, generally through achievements. It will be displayed on their profile and on the forum.
 func Titles(s *Service) *TitlesService {
 	return &TitlesService{s: s}
 }
@@ -9568,38 +11157,48 @@ type TitlesUsersService struct {
 
 // TitlesUsersItem is a 42 API type
 type TitlesUsersItem struct {
+	ServerResponse `json:"-"`
 }
 
 // TitlesUsersListCall description:
 type TitlesUsersListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListTitlesUsersResponse represents a list response.
 type ListTitlesUsersResponse struct {
-	TitlesUsers []*TitlesUsersItem
+	TitlesUsers    []*TitlesUsersItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a TitlesUsersListCall which can request data from the 42 API.
 func (s *TitlesUsersService) List() *TitlesUsersListCall {
 	return &TitlesUsersListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return TitlesUsers matching
-// the specified setting.
+// P sets an optional parameter and its values: Only return TitlesUsers matching the specified setting.
 func (c *TitlesUsersListCall) P(key string, values []string) *TitlesUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a TitlesUsersListCall request call. Exactly one of
-// *ListTitlesUsersResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *TitlesUsersListCall) PageToken(page int) *TitlesUsersListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a TitlesUsersListCall request call. Exactly one of *ListTitlesUsersResponse or error will be non-nil.
 func (c *TitlesUsersListCall) Do() (*ListTitlesUsersResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/titles_users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -9612,13 +11211,19 @@ func (c *TitlesUsersListCall) Do() (*ListTitlesUsersResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListTitlesUsersResponse{}
+	ret := &ListTitlesUsersResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.TitlesUsers = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).TitlesUsers); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -9638,8 +11243,7 @@ func (s *TitlesUsersService) Get(ID string) *TitlesUsersGetCall {
 	}
 }
 
-// Do executes a TitlesUsersGetCall request call. Exactly one of
-// *TitlesUsersItem or error will be non-nil.
+// Do executes a TitlesUsersGetCall request call. Exactly one of *TitlesUsersItem or error will be non-nil.
 func (c *TitlesUsersGetCall) Do() (*TitlesUsersItem, error) {
 	urls := c.s.baseURL + "/titles_users/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -9653,8 +11257,13 @@ func (c *TitlesUsersGetCall) Do() (*TitlesUsersItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &TitlesUsersItem{}
+	ret := &TitlesUsersItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -9685,44 +11294,55 @@ type TransactionsItem struct {
 	TransactableID   int64  `json:"transactable_id"`
 	TransactableType string `json:"transactable_type"`
 	User             struct {
-		Login string `json:"login"`
 		URL   string `json:"url"`
 		ID    int64  `json:"id"`
+		Login string `json:"login"`
 	} `json:"user"`
 	UserID int64 `json:"user_id"`
 	Value  int64 `json:"value"`
+
+	ServerResponse `json:"-"`
 }
 
 // TransactionsListCall description:
 type TransactionsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListTransactionsResponse represents a list response.
 type ListTransactionsResponse struct {
-	Transactions []*TransactionsItem
+	Transactions   []*TransactionsItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a TransactionsListCall which can request data from the 42 API.
 func (s *TransactionsService) List() *TransactionsListCall {
 	return &TransactionsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Transactions
-// matching the specified setting.
+// P sets an optional parameter and its values: Only return Transactions matching the specified setting.
 func (c *TransactionsListCall) P(key string, values []string) *TransactionsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a TransactionsListCall request call. Exactly one of
-// *ListTransactionsResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *TransactionsListCall) PageToken(page int) *TransactionsListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a TransactionsListCall request call. Exactly one of *ListTransactionsResponse or error will be non-nil.
 func (c *TransactionsListCall) Do() (*ListTransactionsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/transactions/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -9735,13 +11355,19 @@ func (c *TransactionsListCall) Do() (*ListTransactionsResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListTransactionsResponse{}
+	ret := &ListTransactionsResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Transactions = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Transactions); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -9761,8 +11387,7 @@ func (s *TransactionsService) Get(ID string) *TransactionsGetCall {
 	}
 }
 
-// Do executes a TransactionsGetCall request call. Exactly one of
-// *TransactionsItem or error will be non-nil.
+// Do executes a TransactionsGetCall request call. Exactly one of *TransactionsItem or error will be non-nil.
 func (c *TransactionsGetCall) Do() (*TransactionsItem, error) {
 	urls := c.s.baseURL + "/transactions/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -9776,8 +11401,13 @@ func (c *TransactionsGetCall) Do() (*TransactionsItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &TransactionsItem{}
+	ret := &TransactionsItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -9814,55 +11444,66 @@ type TranslationsItem struct {
 	TranslatableID        int64  `json:"translatable_id"`
 	TranslatableType      string `json:"translatable_type"`
 	TranslationsStructure struct {
-		ID                 int64    `json:"id"`
-		IDentifiedBy       []string `json:"identified_by"`
-		StructuresKind     string   `json:"structures_kind"`
-		UpToDate           bool     `json:"up_to_date"`
+		StructuresKind     string `json:"structures_kind"`
+		UpToDate           bool   `json:"up_to_date"`
 		FieldsOrganisation struct {
-			Name        string `json:"name"`
 			Description string `json:"description"`
+			Name        string `json:"name"`
 		} `json:"fields_organisation"`
 		TypeName     string    `json:"type_name"`
-		SearchableBy []string  `json:"searchable_by"`
 		CreatedAt    time.Time `json:"created_at"`
+		ID           int64     `json:"id"`
+		SearchableBy []string  `json:"searchable_by"`
+		IDentifiedBy []string  `json:"identified_by"`
 		UpdatedAt    time.Time `json:"updated_at"`
 	} `json:"translations_structure"`
 	TranslationsStructureID int64       `json:"translations_structure_id"`
 	UpToDate                bool        `json:"up_to_date"`
 	UpdatedAt               time.Time   `json:"updated_at"`
 	UserID                  interface{} `json:"user_id"`
+
+	ServerResponse `json:"-"`
 }
 
 // TranslationsListCall description:
 type TranslationsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListTranslationsResponse represents a list response.
 type ListTranslationsResponse struct {
-	Translations []*TranslationsItem
+	Translations   []*TranslationsItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a TranslationsListCall which can request data from the 42 API.
 func (s *TranslationsService) List() *TranslationsListCall {
 	return &TranslationsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Translations
-// matching the specified setting.
+// P sets an optional parameter and its values: Only return Translations matching the specified setting.
 func (c *TranslationsListCall) P(key string, values []string) *TranslationsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a TranslationsListCall request call. Exactly one of
-// *ListTranslationsResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *TranslationsListCall) PageToken(page int) *TranslationsListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a TranslationsListCall request call. Exactly one of *ListTranslationsResponse or error will be non-nil.
 func (c *TranslationsListCall) Do() (*ListTranslationsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/translations/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -9875,13 +11516,19 @@ func (c *TranslationsListCall) Do() (*ListTranslationsResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListTranslationsResponse{}
+	ret := &ListTranslationsResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Translations = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Translations); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -9901,8 +11548,7 @@ func (s *TranslationsService) Get(ID string) *TranslationsGetCall {
 	}
 }
 
-// Do executes a TranslationsGetCall request call. Exactly one of
-// *TranslationsItem or error will be non-nil.
+// Do executes a TranslationsGetCall request call. Exactly one of *TranslationsItem or error will be non-nil.
 func (c *TranslationsGetCall) Do() (*TranslationsItem, error) {
 	urls := c.s.baseURL + "/translations/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -9916,8 +11562,13 @@ func (c *TranslationsGetCall) Do() (*TranslationsItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &TranslationsItem{}
+	ret := &TranslationsItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -9974,11 +11625,14 @@ type UserCandidaturesItem struct {
 	UpdatedAt          time.Time   `json:"updated_at"`
 	UserID             int64       `json:"user_id"`
 	ZipCode            string      `json:"zip_code"`
+
+	ServerResponse `json:"-"`
 }
 
 // UserCandidaturesListCall description:
 type UserCandidaturesListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
@@ -9986,27 +11640,34 @@ type UserCandidaturesListCall struct {
 // ListUserCandidaturesResponse represents a list response.
 type ListUserCandidaturesResponse struct {
 	UserCandidatures []*UserCandidaturesItem
+	ServerResponse   `json:"-"`
+	NextPage         int
 }
 
-// List returns a UserCandidaturesListCall which can request data from the 42
-// API.
+// List returns a UserCandidaturesListCall which can request data from the 42 API.
 func (s *UserCandidaturesService) List() *UserCandidaturesListCall {
 	return &UserCandidaturesListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return UserCandidatures
-// matching the specified setting.
+// P sets an optional parameter and its values: Only return UserCandidatures matching the specified setting.
 func (c *UserCandidaturesListCall) P(key string, values []string) *UserCandidaturesListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a UserCandidaturesListCall request call. Exactly one of
-// *ListUserCandidaturesResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *UserCandidaturesListCall) PageToken(page int) *UserCandidaturesListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a UserCandidaturesListCall request call. Exactly one of *ListUserCandidaturesResponse or error will be non-nil.
 func (c *UserCandidaturesListCall) Do() (*ListUserCandidaturesResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/user_candidatures/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -10019,13 +11680,19 @@ func (c *UserCandidaturesListCall) Do() (*ListUserCandidaturesResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListUserCandidaturesResponse{}
+	ret := &ListUserCandidaturesResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.UserCandidatures = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).UserCandidatures); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -10045,8 +11712,7 @@ func (s *UserCandidaturesService) Get(ID string) *UserCandidaturesGetCall {
 	}
 }
 
-// Do executes a UserCandidaturesGetCall request call. Exactly one of
-// *UserCandidaturesItem or error will be non-nil.
+// Do executes a UserCandidaturesGetCall request call. Exactly one of *UserCandidaturesItem or error will be non-nil.
 func (c *UserCandidaturesGetCall) Do() (*UserCandidaturesItem, error) {
 	urls := c.s.baseURL + "/user_candidatures/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -10060,8 +11726,13 @@ func (c *UserCandidaturesGetCall) Do() (*UserCandidaturesItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &UserCandidaturesItem{}
+	ret := &UserCandidaturesItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -10090,18 +11761,18 @@ type UsersItem struct {
 	Achievements  []interface{} `json:"achievements"`
 	AnonymizeDate time.Time     `json:"anonymize_date"`
 	Campus        []struct {
-		ID       int64  `json:"id"`
 		Name     string `json:"name"`
 		TimeZone string `json:"time_zone"`
 		Language struct {
-			UpdatedAt  time.Time `json:"updated_at"`
 			ID         int64     `json:"id"`
 			Name       string    `json:"name"`
 			IDentifier string    `json:"identifier"`
 			CreatedAt  time.Time `json:"created_at"`
+			UpdatedAt  time.Time `json:"updated_at"`
 		} `json:"language"`
 		UsersCount  int64 `json:"users_count"`
 		VogsphereID int64 `json:"vogsphere_id"`
+		ID          int64 `json:"id"`
 	} `json:"campus"`
 	CampusUsers []struct {
 		ID        int64 `json:"id"`
@@ -10111,20 +11782,20 @@ type UsersItem struct {
 	} `json:"campus_users"`
 	CorrectionPoint int64 `json:"correction_point"`
 	CursusUsers     []struct {
-		CursusID     int64 `json:"cursus_id"`
-		HasCoalition bool  `json:"has_coalition"`
+		Grade        interface{}   `json:"grade"`
+		Level        float64       `json:"level"`
+		Skills       []interface{} `json:"skills"`
+		CursusID     int64         `json:"cursus_id"`
+		HasCoalition bool          `json:"has_coalition"`
+		ID           int64         `json:"id"`
+		BeginAt      time.Time     `json:"begin_at"`
+		EndAt        interface{}   `json:"end_at"`
 		User         struct {
+			URL   string `json:"url"`
 			ID    int64  `json:"id"`
 			Login string `json:"login"`
-			URL   string `json:"url"`
 		} `json:"user"`
-		BeginAt time.Time     `json:"begin_at"`
-		EndAt   interface{}   `json:"end_at"`
-		Grade   interface{}   `json:"grade"`
-		Level   float64       `json:"level"`
-		Skills  []interface{} `json:"skills"`
-		ID      int64         `json:"id"`
-		Cursus  struct {
+		Cursus struct {
 			ID        int64     `json:"id"`
 			CreatedAt time.Time `json:"created_at"`
 			Name      string    `json:"name"`
@@ -10134,36 +11805,36 @@ type UsersItem struct {
 	Displayname     string `json:"displayname"`
 	Email           string `json:"email"`
 	ExpertisesUsers []struct {
+		UserID      int64     `json:"user_id"`
 		ID          int64     `json:"id"`
 		ExpertiseID int64     `json:"expertise_id"`
 		Interested  bool      `json:"interested"`
 		Value       int64     `json:"value"`
 		ContactMe   bool      `json:"contact_me"`
 		CreatedAt   time.Time `json:"created_at"`
-		UserID      int64     `json:"user_id"`
 	} `json:"expertises_users"`
 	FirstName      string        `json:"first_name"`
 	Groups         []interface{} `json:"groups"`
 	ID             int64         `json:"id"`
 	ImageURL       string        `json:"image_url"`
 	LanguagesUsers []struct {
+		ID         int64     `json:"id"`
+		LanguageID int64     `json:"language_id"`
 		UserID     int64     `json:"user_id"`
 		Position   int64     `json:"position"`
 		CreatedAt  time.Time `json:"created_at"`
-		ID         int64     `json:"id"`
-		LanguageID int64     `json:"language_id"`
 	} `json:"languages_users"`
 	LastName     string        `json:"last_name"`
 	Location     interface{}   `json:"location"`
 	Login        string        `json:"login"`
 	Partnerships []interface{} `json:"partnerships"`
 	Patroned     []struct {
-		UserID      int64     `json:"user_id"`
-		GodfatherID int64     `json:"godfather_id"`
 		Ongoing     bool      `json:"ongoing"`
 		CreatedAt   time.Time `json:"created_at"`
 		UpdatedAt   time.Time `json:"updated_at"`
 		ID          int64     `json:"id"`
+		UserID      int64     `json:"user_id"`
+		GodfatherID int64     `json:"godfather_id"`
 	} `json:"patroned"`
 	Patroning      []interface{} `json:"patroning"`
 	Phone          interface{}   `json:"phone"`
@@ -10177,38 +11848,49 @@ type UsersItem struct {
 	UsualFirstName string        `json:"usual_first_name"`
 	UsualFullName  string        `json:"usual_full_name"`
 	Wallet         int64         `json:"wallet"`
+
+	ServerResponse `json:"-"`
 }
 
 // UsersListCall description:
 type UsersListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListUsersResponse represents a list response.
 type ListUsersResponse struct {
-	Users []*UsersItem
+	Users          []*UsersItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a UsersListCall which can request data from the 42 API.
 func (s *UsersService) List() *UsersListCall {
 	return &UsersListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Users matching the
-// specified setting.
+// P sets an optional parameter and its values: Only return Users matching the specified setting.
 func (c *UsersListCall) P(key string, values []string) *UsersListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a UsersListCall request call. Exactly one of *ListUsersResponse
-// or error will be non-nil.
+// PageToken get the specified page
+func (c *UsersListCall) PageToken(page int) *UsersListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a UsersListCall request call. Exactly one of *ListUsersResponse or error will be non-nil.
 func (c *UsersListCall) Do() (*ListUsersResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/users/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -10221,13 +11903,19 @@ func (c *UsersListCall) Do() (*ListUsersResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListUsersResponse{}
+	ret := &ListUsersResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Users = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Users); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -10247,8 +11935,7 @@ func (s *UsersService) Get(ID string) *UsersGetCall {
 	}
 }
 
-// Do executes a UsersGetCall request call. Exactly one of *UsersItem or error
-// will be non-nil.
+// Do executes a UsersGetCall request call. Exactly one of *UsersItem or error will be non-nil.
 func (c *UsersGetCall) Do() (*UsersItem, error) {
 	urls := c.s.baseURL + "/users/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -10262,8 +11949,13 @@ func (c *UsersGetCall) Do() (*UsersItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &UsersItem{}
+	ret := &UsersItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err
@@ -10291,38 +11983,49 @@ type WaitlistsItem struct {
 	ID               int64     `json:"id"`
 	WaitlistableID   int64     `json:"waitlistable_id"`
 	WaitlistableType string    `json:"waitlistable_type"`
+
+	ServerResponse `json:"-"`
 }
 
 // WaitlistsListCall description:
 type WaitlistsListCall struct {
 	s         *Service
+	pageToken int
 	urlParams map[string][]string
 	header    http.Header
 }
 
 // ListWaitlistsResponse represents a list response.
 type ListWaitlistsResponse struct {
-	Waitlists []*WaitlistsItem
+	Waitlists      []*WaitlistsItem
+	ServerResponse `json:"-"`
+	NextPage       int
 }
 
 // List returns a WaitlistsListCall which can request data from the 42 API.
 func (s *WaitlistsService) List() *WaitlistsListCall {
 	return &WaitlistsListCall{
 		s:         s.s,
+		pageToken: 1,
 		urlParams: make(map[string][]string),
 	}
 }
 
-// P sets an optional parameter and its values: Only return Waitlists matching
-// the specified setting.
+// P sets an optional parameter and its values: Only return Waitlists matching the specified setting.
 func (c *WaitlistsListCall) P(key string, values []string) *WaitlistsListCall {
 	c.urlParams[key] = values
 	return c
 }
 
-// Do executes a WaitlistsListCall request call. Exactly one of
-// *ListWaitlistsResponse or error will be non-nil.
+// PageToken get the specified page
+func (c *WaitlistsListCall) PageToken(page int) *WaitlistsListCall {
+	c.pageToken = page
+	return c
+}
+
+// Do executes a WaitlistsListCall request call. Exactly one of *ListWaitlistsResponse or error will be non-nil.
 func (c *WaitlistsListCall) Do() (*ListWaitlistsResponse, error) {
+	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
 	urls := c.s.baseURL + "/waitlists/" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
@@ -10335,13 +12038,19 @@ func (c *WaitlistsListCall) Do() (*ListWaitlistsResponse, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &ListWaitlistsResponse{}
+	ret := &ListWaitlistsResponse{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	ret.Waitlists = nil
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(&(*target).Waitlists); err != nil {
 		return nil, err
 	}
+	ret.NextPage = c.pageToken + 1
 	return ret, nil
 }
 
@@ -10361,8 +12070,7 @@ func (s *WaitlistsService) Get(ID string) *WaitlistsGetCall {
 	}
 }
 
-// Do executes a WaitlistsGetCall request call. Exactly one of *WaitlistsItem or
-// error will be non-nil.
+// Do executes a WaitlistsGetCall request call. Exactly one of *WaitlistsItem or error will be non-nil.
 func (c *WaitlistsGetCall) Do() (*WaitlistsItem, error) {
 	urls := c.s.baseURL + "/waitlists/" + c.id
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
@@ -10376,8 +12084,13 @@ func (c *WaitlistsGetCall) Do() (*WaitlistsItem, error) {
 	if err := checkResponse(res); err != nil {
 		return nil, err
 	}
-	c.header = res.Header
-	ret := &WaitlistsItem{}
+	ret := &WaitlistsItem{
+		ServerResponse: ServerResponse{
+			Header:     res.Header,
+			StatusCode: res.StatusCode,
+			Body:       res.Body,
+		},
+	}
 	target := &ret
 	if err := json.NewDecoder(res.Body).Decode(target); err != nil {
 		return nil, err

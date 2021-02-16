@@ -58,7 +58,7 @@ func (s *AccreditationsService) List() *AccreditationsListCall {
 }
 
 // P sets an optional parameter and its values: Only return Accreditations matching the specified setting.
-func (c *AccreditationsListCall) P(key string, values []string) *AccreditationsListCall {
+func (c *AccreditationsListCall) P(key string, values ...string) *AccreditationsListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -72,7 +72,7 @@ func (c *AccreditationsListCall) PageToken(page int) *AccreditationsListCall {
 // Do executes a AccreditationsListCall request call. Exactly one of *ListAccreditationsResponse or error will be non-nil.
 func (c *AccreditationsListCall) Do() (*ListAccreditationsResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/accreditations/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/accreditations" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -203,7 +203,7 @@ func (s *AchievementsService) List() *AchievementsListCall {
 }
 
 // P sets an optional parameter and its values: Only return Achievements matching the specified setting.
-func (c *AchievementsListCall) P(key string, values []string) *AchievementsListCall {
+func (c *AchievementsListCall) P(key string, values ...string) *AchievementsListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -217,7 +217,7 @@ func (c *AchievementsListCall) PageToken(page int) *AchievementsListCall {
 // Do executes a AchievementsListCall request call. Exactly one of *ListAchievementsResponse or error will be non-nil.
 func (c *AchievementsListCall) Do() (*ListAchievementsResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/achievements/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/achievements" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -341,7 +341,7 @@ func (s *AchievementsUsersService) List() *AchievementsUsersListCall {
 }
 
 // P sets an optional parameter and its values: Only return AchievementsUsers matching the specified setting.
-func (c *AchievementsUsersListCall) P(key string, values []string) *AchievementsUsersListCall {
+func (c *AchievementsUsersListCall) P(key string, values ...string) *AchievementsUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -355,7 +355,7 @@ func (c *AchievementsUsersListCall) PageToken(page int) *AchievementsUsersListCa
 // Do executes a AchievementsUsersListCall request call. Exactly one of *ListAchievementsUsersResponse or error will be non-nil.
 func (c *AchievementsUsersListCall) Do() (*ListAchievementsUsersResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/achievements_users/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/achievements_users" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -548,7 +548,7 @@ func (s *AntiGravUnitsService) List() *AntiGravUnitsListCall {
 }
 
 // P sets an optional parameter and its values: Only return AntiGravUnits matching the specified setting.
-func (c *AntiGravUnitsListCall) P(key string, values []string) *AntiGravUnitsListCall {
+func (c *AntiGravUnitsListCall) P(key string, values ...string) *AntiGravUnitsListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -562,7 +562,7 @@ func (c *AntiGravUnitsListCall) PageToken(page int) *AntiGravUnitsListCall {
 // Do executes a AntiGravUnitsListCall request call. Exactly one of *ListAntiGravUnitsResponse or error will be non-nil.
 func (c *AntiGravUnitsListCall) Do() (*ListAntiGravUnitsResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/anti_grav_units/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/anti_grav_units" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -674,7 +674,7 @@ func (s *AntiGravUnitsUsersService) List() *AntiGravUnitsUsersListCall {
 }
 
 // P sets an optional parameter and its values: Only return AntiGravUnitsUsers matching the specified setting.
-func (c *AntiGravUnitsUsersListCall) P(key string, values []string) *AntiGravUnitsUsersListCall {
+func (c *AntiGravUnitsUsersListCall) P(key string, values ...string) *AntiGravUnitsUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -688,7 +688,7 @@ func (c *AntiGravUnitsUsersListCall) PageToken(page int) *AntiGravUnitsUsersList
 // Do executes a AntiGravUnitsUsersListCall request call. Exactly one of *ListAntiGravUnitsUsersResponse or error will be non-nil.
 func (c *AntiGravUnitsUsersListCall) Do() (*ListAntiGravUnitsUsersResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/anti_grav_units_users/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/anti_grav_units_users" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -823,7 +823,7 @@ func (s *AppsService) List() *AppsListCall {
 }
 
 // P sets an optional parameter and its values: Only return Apps matching the specified setting.
-func (c *AppsListCall) P(key string, values []string) *AppsListCall {
+func (c *AppsListCall) P(key string, values ...string) *AppsListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -837,7 +837,7 @@ func (c *AppsListCall) PageToken(page int) *AppsListCall {
 // Do executes a AppsListCall request call. Exactly one of *ListAppsResponse or error will be non-nil.
 func (c *AppsListCall) Do() (*ListAppsResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/apps/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/apps" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -925,9 +925,9 @@ type AttachmentsItem struct {
 	CreatedAt time.Time `json:"created_at"`
 	ID        int64     `json:"id"`
 	Language  struct {
-		IDentifier string `json:"identifier"`
 		ID         int64  `json:"id"`
 		Name       string `json:"name"`
+		IDentifier string `json:"identifier"`
 	} `json:"language"`
 	Name      string `json:"name"`
 	PageCount int64  `json:"page_count"`
@@ -973,7 +973,7 @@ func (s *AttachmentsService) List() *AttachmentsListCall {
 }
 
 // P sets an optional parameter and its values: Only return Attachments matching the specified setting.
-func (c *AttachmentsListCall) P(key string, values []string) *AttachmentsListCall {
+func (c *AttachmentsListCall) P(key string, values ...string) *AttachmentsListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -987,7 +987,7 @@ func (c *AttachmentsListCall) PageToken(page int) *AttachmentsListCall {
 // Do executes a AttachmentsListCall request call. Exactly one of *ListAttachmentsResponse or error will be non-nil.
 func (c *AttachmentsListCall) Do() (*ListAttachmentsResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/attachments/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/attachments" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -1110,7 +1110,7 @@ func (s *BalancesService) List() *BalancesListCall {
 }
 
 // P sets an optional parameter and its values: Only return Balances matching the specified setting.
-func (c *BalancesListCall) P(key string, values []string) *BalancesListCall {
+func (c *BalancesListCall) P(key string, values ...string) *BalancesListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -1124,7 +1124,7 @@ func (c *BalancesListCall) PageToken(page int) *BalancesListCall {
 // Do executes a BalancesListCall request call. Exactly one of *ListBalancesResponse or error will be non-nil.
 func (c *BalancesListCall) Do() (*ListBalancesResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/balances/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/balances" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -1244,7 +1244,7 @@ func (s *BlocDeadlinesService) List() *BlocDeadlinesListCall {
 }
 
 // P sets an optional parameter and its values: Only return BlocDeadlines matching the specified setting.
-func (c *BlocDeadlinesListCall) P(key string, values []string) *BlocDeadlinesListCall {
+func (c *BlocDeadlinesListCall) P(key string, values ...string) *BlocDeadlinesListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -1258,7 +1258,7 @@ func (c *BlocDeadlinesListCall) PageToken(page int) *BlocDeadlinesListCall {
 // Do executes a BlocDeadlinesListCall request call. Exactly one of *ListBlocDeadlinesResponse or error will be non-nil.
 func (c *BlocDeadlinesListCall) Do() (*ListBlocDeadlinesResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/bloc_deadlines/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/bloc_deadlines" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -1348,13 +1348,13 @@ type BlocsService struct {
 type BlocsItem struct {
 	CampusID   int64 `json:"campus_id"`
 	Coalitions []struct {
-		Score    int64  `json:"score"`
-		UserID   int64  `json:"user_id"`
 		ID       int64  `json:"id"`
 		Name     string `json:"name"`
 		Slug     string `json:"slug"`
 		ImageURL string `json:"image_url"`
 		Color    string `json:"color"`
+		Score    int64  `json:"score"`
+		UserID   int64  `json:"user_id"`
 	} `json:"coalitions"`
 	CreatedAt time.Time `json:"created_at"`
 	CursusID  int64     `json:"cursus_id"`
@@ -1390,7 +1390,7 @@ func (s *BlocsService) List() *BlocsListCall {
 }
 
 // P sets an optional parameter and its values: Only return Blocs matching the specified setting.
-func (c *BlocsListCall) P(key string, values []string) *BlocsListCall {
+func (c *BlocsListCall) P(key string, values ...string) *BlocsListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -1404,7 +1404,7 @@ func (c *BlocsListCall) PageToken(page int) *BlocsListCall {
 // Do executes a BlocsListCall request call. Exactly one of *ListBlocsResponse or error will be non-nil.
 func (c *BlocsListCall) Do() (*ListBlocsResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/blocs/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/blocs" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -1516,7 +1516,7 @@ func (s *BroadcastsService) List() *BroadcastsListCall {
 }
 
 // P sets an optional parameter and its values: Only return Broadcasts matching the specified setting.
-func (c *BroadcastsListCall) P(key string, values []string) *BroadcastsListCall {
+func (c *BroadcastsListCall) P(key string, values ...string) *BroadcastsListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -1530,7 +1530,7 @@ func (c *BroadcastsListCall) PageToken(page int) *BroadcastsListCall {
 // Do executes a BroadcastsListCall request call. Exactly one of *ListBroadcastsResponse or error will be non-nil.
 func (c *BroadcastsListCall) Do() (*ListBroadcastsResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/broadcasts/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/broadcasts" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -1610,7 +1610,7 @@ func (s *CampusService) List() *CampusListCall {
 }
 
 // P sets an optional parameter and its values: Only return Campus matching the specified setting.
-func (c *CampusListCall) P(key string, values []string) *CampusListCall {
+func (c *CampusListCall) P(key string, values ...string) *CampusListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -1624,7 +1624,7 @@ func (c *CampusListCall) PageToken(page int) *CampusListCall {
 // Do executes a CampusListCall request call. Exactly one of *ListCampusResponse or error will be non-nil.
 func (c *CampusListCall) Do() (*ListCampusResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/campus/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/campus" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -1745,7 +1745,7 @@ func (s *CampusUsersService) List() *CampusUsersListCall {
 }
 
 // P sets an optional parameter and its values: Only return CampusUsers matching the specified setting.
-func (c *CampusUsersListCall) P(key string, values []string) *CampusUsersListCall {
+func (c *CampusUsersListCall) P(key string, values ...string) *CampusUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -1759,7 +1759,7 @@ func (c *CampusUsersListCall) PageToken(page int) *CampusUsersListCall {
 // Do executes a CampusUsersListCall request call. Exactly one of *ListCampusUsersResponse or error will be non-nil.
 func (c *CampusUsersListCall) Do() (*ListCampusUsersResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/campus_users/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/campus_users" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -1877,7 +1877,7 @@ func (s *CampusUsersActivitiesService) List() *CampusUsersActivitiesListCall {
 }
 
 // P sets an optional parameter and its values: Only return CampusUsersActivities matching the specified setting.
-func (c *CampusUsersActivitiesListCall) P(key string, values []string) *CampusUsersActivitiesListCall {
+func (c *CampusUsersActivitiesListCall) P(key string, values ...string) *CampusUsersActivitiesListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -1891,7 +1891,7 @@ func (c *CampusUsersActivitiesListCall) PageToken(page int) *CampusUsersActiviti
 // Do executes a CampusUsersActivitiesListCall request call. Exactly one of *ListCampusUsersActivitiesResponse or error will be non-nil.
 func (c *CampusUsersActivitiesListCall) Do() (*ListCampusUsersActivitiesResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/campus_users_activities/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/campus_users_activities" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -1959,7 +1959,7 @@ func (s *CertificatesService) List() *CertificatesListCall {
 }
 
 // P sets an optional parameter and its values: Only return Certificates matching the specified setting.
-func (c *CertificatesListCall) P(key string, values []string) *CertificatesListCall {
+func (c *CertificatesListCall) P(key string, values ...string) *CertificatesListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -1973,7 +1973,7 @@ func (c *CertificatesListCall) PageToken(page int) *CertificatesListCall {
 // Do executes a CertificatesListCall request call. Exactly one of *ListCertificatesResponse or error will be non-nil.
 func (c *CertificatesListCall) Do() (*ListCertificatesResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/certificates/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/certificates" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -2085,7 +2085,7 @@ func (s *CertificatesUsersService) List() *CertificatesUsersListCall {
 }
 
 // P sets an optional parameter and its values: Only return CertificatesUsers matching the specified setting.
-func (c *CertificatesUsersListCall) P(key string, values []string) *CertificatesUsersListCall {
+func (c *CertificatesUsersListCall) P(key string, values ...string) *CertificatesUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -2099,7 +2099,7 @@ func (c *CertificatesUsersListCall) PageToken(page int) *CertificatesUsersListCa
 // Do executes a CertificatesUsersListCall request call. Exactly one of *ListCertificatesUsersResponse or error will be non-nil.
 func (c *CertificatesUsersListCall) Do() (*ListCertificatesUsersResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/certificates_users/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/certificates_users" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -2189,13 +2189,13 @@ type ClosesItem struct {
 		URL   string `json:"url"`
 	} `json:"closer"`
 	CommunityServices []struct {
+		UpdatedAt  time.Time `json:"updated_at"`
 		ID         int64     `json:"id"`
 		Duration   int64     `json:"duration"`
 		ScheduleAt time.Time `json:"schedule_at"`
 		Occupation string    `json:"occupation"`
 		State      string    `json:"state"`
 		CreatedAt  time.Time `json:"created_at"`
-		UpdatedAt  time.Time `json:"updated_at"`
 	} `json:"community_services"`
 	CreatedAt time.Time `json:"created_at"`
 	ID        int64     `json:"id"`
@@ -2203,9 +2203,9 @@ type ClosesItem struct {
 	State     string    `json:"state"`
 	UpdatedAt time.Time `json:"updated_at"`
 	User      struct {
-		ID    int64  `json:"id"`
 		Login string `json:"login"`
 		URL   string `json:"url"`
+		ID    int64  `json:"id"`
 	} `json:"user"`
 
 	ServerResponse `json:"-"`
@@ -2236,7 +2236,7 @@ func (s *ClosesService) List() *ClosesListCall {
 }
 
 // P sets an optional parameter and its values: Only return Closes matching the specified setting.
-func (c *ClosesListCall) P(key string, values []string) *ClosesListCall {
+func (c *ClosesListCall) P(key string, values ...string) *ClosesListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -2250,7 +2250,7 @@ func (c *ClosesListCall) PageToken(page int) *ClosesListCall {
 // Do executes a ClosesListCall request call. Exactly one of *ListClosesResponse or error will be non-nil.
 func (c *ClosesListCall) Do() (*ListClosesResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/closes/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/closes" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -2376,7 +2376,7 @@ func (s *CoalitionsService) List() *CoalitionsListCall {
 }
 
 // P sets an optional parameter and its values: Only return Coalitions matching the specified setting.
-func (c *CoalitionsListCall) P(key string, values []string) *CoalitionsListCall {
+func (c *CoalitionsListCall) P(key string, values ...string) *CoalitionsListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -2390,7 +2390,7 @@ func (c *CoalitionsListCall) PageToken(page int) *CoalitionsListCall {
 // Do executes a CoalitionsListCall request call. Exactly one of *ListCoalitionsResponse or error will be non-nil.
 func (c *CoalitionsListCall) Do() (*ListCoalitionsResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/coalitions/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/coalitions" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -2512,7 +2512,7 @@ func (s *CoalitionsUsersService) List() *CoalitionsUsersListCall {
 }
 
 // P sets an optional parameter and its values: Only return CoalitionsUsers matching the specified setting.
-func (c *CoalitionsUsersListCall) P(key string, values []string) *CoalitionsUsersListCall {
+func (c *CoalitionsUsersListCall) P(key string, values ...string) *CoalitionsUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -2526,7 +2526,7 @@ func (c *CoalitionsUsersListCall) PageToken(page int) *CoalitionsUsersListCall {
 // Do executes a CoalitionsUsersListCall request call. Exactly one of *ListCoalitionsUsersResponse or error will be non-nil.
 func (c *CoalitionsUsersListCall) Do() (*ListCoalitionsUsersResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/coalitions_users/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/coalitions_users" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -2644,7 +2644,7 @@ func (s *CommandsService) List() *CommandsListCall {
 }
 
 // P sets an optional parameter and its values: Only return Commands matching the specified setting.
-func (c *CommandsListCall) P(key string, values []string) *CommandsListCall {
+func (c *CommandsListCall) P(key string, values ...string) *CommandsListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -2658,7 +2658,7 @@ func (c *CommandsListCall) PageToken(page int) *CommandsListCall {
 // Do executes a CommandsListCall request call. Exactly one of *ListCommandsResponse or error will be non-nil.
 func (c *CommandsListCall) Do() (*ListCommandsResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/commands/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/commands" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -2791,7 +2791,7 @@ func (s *CommunityServicesService) List() *CommunityServicesListCall {
 }
 
 // P sets an optional parameter and its values: Only return CommunityServices matching the specified setting.
-func (c *CommunityServicesListCall) P(key string, values []string) *CommunityServicesListCall {
+func (c *CommunityServicesListCall) P(key string, values ...string) *CommunityServicesListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -2805,7 +2805,7 @@ func (c *CommunityServicesListCall) PageToken(page int) *CommunityServicesListCa
 // Do executes a CommunityServicesListCall request call. Exactly one of *ListCommunityServicesResponse or error will be non-nil.
 func (c *CommunityServicesListCall) Do() (*ListCommunityServicesResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/community_services/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/community_services" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -2928,7 +2928,7 @@ func (s *CursusService) List() *CursusListCall {
 }
 
 // P sets an optional parameter and its values: Only return Cursus matching the specified setting.
-func (c *CursusListCall) P(key string, values []string) *CursusListCall {
+func (c *CursusListCall) P(key string, values ...string) *CursusListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -2942,7 +2942,7 @@ func (c *CursusListCall) PageToken(page int) *CursusListCall {
 // Do executes a CursusListCall request call. Exactly one of *ListCursusResponse or error will be non-nil.
 func (c *CursusListCall) Do() (*ListCursusResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/cursus/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/cursus" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -3034,10 +3034,10 @@ type CursusUsersService struct {
 type CursusUsersItem struct {
 	BeginAt time.Time `json:"begin_at"`
 	Cursus  struct {
-		Name      string    `json:"name"`
-		Slug      string    `json:"slug"`
 		ID        int64     `json:"id"`
 		CreatedAt time.Time `json:"created_at"`
+		Name      string    `json:"name"`
+		Slug      string    `json:"slug"`
 	} `json:"cursus"`
 	CursusID     int64         `json:"cursus_id"`
 	EndAt        interface{}   `json:"end_at"`
@@ -3080,7 +3080,7 @@ func (s *CursusUsersService) List() *CursusUsersListCall {
 }
 
 // P sets an optional parameter and its values: Only return CursusUsers matching the specified setting.
-func (c *CursusUsersListCall) P(key string, values []string) *CursusUsersListCall {
+func (c *CursusUsersListCall) P(key string, values ...string) *CursusUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -3094,7 +3094,7 @@ func (c *CursusUsersListCall) PageToken(page int) *CursusUsersListCall {
 // Do executes a CursusUsersListCall request call. Exactly one of *ListCursusUsersResponse or error will be non-nil.
 func (c *CursusUsersListCall) Do() (*ListCursusUsersResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/cursus_users/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/cursus_users" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -3212,7 +3212,7 @@ func (s *DashesService) List() *DashesListCall {
 }
 
 // P sets an optional parameter and its values: Only return Dashes matching the specified setting.
-func (c *DashesListCall) P(key string, values []string) *DashesListCall {
+func (c *DashesListCall) P(key string, values ...string) *DashesListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -3226,7 +3226,7 @@ func (c *DashesListCall) PageToken(page int) *DashesListCall {
 // Do executes a DashesListCall request call. Exactly one of *ListDashesResponse or error will be non-nil.
 func (c *DashesListCall) Do() (*ListDashesResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/dashes/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/dashes" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -3351,7 +3351,7 @@ func (s *DashesUsersService) List() *DashesUsersListCall {
 }
 
 // P sets an optional parameter and its values: Only return DashesUsers matching the specified setting.
-func (c *DashesUsersListCall) P(key string, values []string) *DashesUsersListCall {
+func (c *DashesUsersListCall) P(key string, values ...string) *DashesUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -3365,7 +3365,7 @@ func (c *DashesUsersListCall) PageToken(page int) *DashesUsersListCall {
 // Do executes a DashesUsersListCall request call. Exactly one of *ListDashesUsersResponse or error will be non-nil.
 func (c *DashesUsersListCall) Do() (*ListDashesUsersResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/dashes_users/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/dashes_users" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -3456,6 +3456,7 @@ type EndpointsService struct {
 // EndpointsItem is a 42 API type
 type EndpointsItem struct {
 	Campus []struct {
+		Name     string `json:"name"`
 		TimeZone string `json:"time_zone"`
 		Language struct {
 			ID         int64     `json:"id"`
@@ -3464,9 +3465,8 @@ type EndpointsItem struct {
 			CreatedAt  time.Time `json:"created_at"`
 			UpdatedAt  time.Time `json:"updated_at"`
 		} `json:"language"`
-		UsersCount int64  `json:"users_count"`
-		ID         int64  `json:"id"`
-		Name       string `json:"name"`
+		UsersCount int64 `json:"users_count"`
+		ID         int64 `json:"id"`
 	} `json:"campus"`
 	CreatedAt   time.Time `json:"created_at"`
 	Description string    `json:"description"`
@@ -3502,7 +3502,7 @@ func (s *EndpointsService) List() *EndpointsListCall {
 }
 
 // P sets an optional parameter and its values: Only return Endpoints matching the specified setting.
-func (c *EndpointsListCall) P(key string, values []string) *EndpointsListCall {
+func (c *EndpointsListCall) P(key string, values ...string) *EndpointsListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -3516,7 +3516,7 @@ func (c *EndpointsListCall) PageToken(page int) *EndpointsListCall {
 // Do executes a EndpointsListCall request call. Exactly one of *ListEndpointsResponse or error will be non-nil.
 func (c *EndpointsListCall) Do() (*ListEndpointsResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/endpoints/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/endpoints" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -3634,7 +3634,7 @@ func (s *EvaluationsService) List() *EvaluationsListCall {
 }
 
 // P sets an optional parameter and its values: Only return Evaluations matching the specified setting.
-func (c *EvaluationsListCall) P(key string, values []string) *EvaluationsListCall {
+func (c *EvaluationsListCall) P(key string, values ...string) *EvaluationsListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -3648,7 +3648,7 @@ func (c *EvaluationsListCall) PageToken(page int) *EvaluationsListCall {
 // Do executes a EvaluationsListCall request call. Exactly one of *ListEvaluationsResponse or error will be non-nil.
 func (c *EvaluationsListCall) Do() (*ListEvaluationsResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/evaluations/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/evaluations" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -3752,10 +3752,10 @@ type EventsItem struct {
 	NbrSubscribers            int64     `json:"nbr_subscribers"`
 	ProhibitionOfCancellation int64     `json:"prohibition_of_cancellation"`
 	Themes                    []struct {
-		UpdatedAt time.Time `json:"updated_at"`
-		CreatedAt time.Time `json:"created_at"`
 		ID        int64     `json:"id"`
 		Name      string    `json:"name"`
+		UpdatedAt time.Time `json:"updated_at"`
+		CreatedAt time.Time `json:"created_at"`
 	} `json:"themes"`
 	UpdatedAt time.Time `json:"updated_at"`
 	Waitlist  struct {
@@ -3794,7 +3794,7 @@ func (s *EventsService) List() *EventsListCall {
 }
 
 // P sets an optional parameter and its values: Only return Events matching the specified setting.
-func (c *EventsListCall) P(key string, values []string) *EventsListCall {
+func (c *EventsListCall) P(key string, values ...string) *EventsListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -3808,7 +3808,7 @@ func (c *EventsListCall) PageToken(page int) *EventsListCall {
 // Do executes a EventsListCall request call. Exactly one of *ListEventsResponse or error will be non-nil.
 func (c *EventsListCall) Do() (*ListEventsResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/events/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/events" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -3926,7 +3926,7 @@ func (s *EventsUsersService) List() *EventsUsersListCall {
 }
 
 // P sets an optional parameter and its values: Only return EventsUsers matching the specified setting.
-func (c *EventsUsersListCall) P(key string, values []string) *EventsUsersListCall {
+func (c *EventsUsersListCall) P(key string, values ...string) *EventsUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -3940,7 +3940,7 @@ func (c *EventsUsersListCall) PageToken(page int) *EventsUsersListCall {
 // Do executes a EventsUsersListCall request call. Exactly one of *ListEventsUsersResponse or error will be non-nil.
 func (c *EventsUsersListCall) Do() (*ListEventsUsersResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/events_users/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/events_users" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -4032,18 +4032,18 @@ type ExamsService struct {
 type ExamsItem struct {
 	BeginAt time.Time `json:"begin_at"`
 	Campus  []struct {
+		ID       int64  `json:"id"`
+		Name     string `json:"name"`
+		TimeZone string `json:"time_zone"`
 		Language struct {
+			ID         int64     `json:"id"`
+			Name       string    `json:"name"`
 			IDentifier string    `json:"identifier"`
 			CreatedAt  time.Time `json:"created_at"`
 			UpdatedAt  time.Time `json:"updated_at"`
-			ID         int64     `json:"id"`
-			Name       string    `json:"name"`
 		} `json:"language"`
-		UsersCount  int64  `json:"users_count"`
-		VogsphereID int64  `json:"vogsphere_id"`
-		ID          int64  `json:"id"`
-		Name        string `json:"name"`
-		TimeZone    string `json:"time_zone"`
+		UsersCount  int64 `json:"users_count"`
+		VogsphereID int64 `json:"vogsphere_id"`
 	} `json:"campus"`
 	Cursus []struct {
 		ID        int64     `json:"id"`
@@ -4059,18 +4059,18 @@ type ExamsItem struct {
 	Name           string    `json:"name"`
 	NbrSubscribers int64     `json:"nbr_subscribers"`
 	Projects       []struct {
+		UpdatedAt   time.Time     `json:"updated_at"`
+		Description string        `json:"description"`
 		Children    []interface{} `json:"children"`
+		Attachments []interface{} `json:"attachments"`
+		Parent      interface{}   `json:"parent"`
 		Objectives  []string      `json:"objectives"`
 		Tier        int64         `json:"tier"`
 		CreatedAt   time.Time     `json:"created_at"`
-		UpdatedAt   time.Time     `json:"updated_at"`
-		Name        string        `json:"name"`
-		Slug        string        `json:"slug"`
-		Description string        `json:"description"`
 		Exam        bool          `json:"exam"`
 		ID          int64         `json:"id"`
-		Parent      interface{}   `json:"parent"`
-		Attachments []interface{} `json:"attachments"`
+		Name        string        `json:"name"`
+		Slug        string        `json:"slug"`
 	} `json:"projects"`
 
 	ServerResponse `json:"-"`
@@ -4101,7 +4101,7 @@ func (s *ExamsService) List() *ExamsListCall {
 }
 
 // P sets an optional parameter and its values: Only return Exams matching the specified setting.
-func (c *ExamsListCall) P(key string, values []string) *ExamsListCall {
+func (c *ExamsListCall) P(key string, values ...string) *ExamsListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -4115,7 +4115,7 @@ func (c *ExamsListCall) PageToken(page int) *ExamsListCall {
 // Do executes a ExamsListCall request call. Exactly one of *ListExamsResponse or error will be non-nil.
 func (c *ExamsListCall) Do() (*ListExamsResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/exams/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/exams" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -4233,7 +4233,7 @@ func (s *ExamsUsersService) List() *ExamsUsersListCall {
 }
 
 // P sets an optional parameter and its values: Only return ExamsUsers matching the specified setting.
-func (c *ExamsUsersListCall) P(key string, values []string) *ExamsUsersListCall {
+func (c *ExamsUsersListCall) P(key string, values ...string) *ExamsUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -4247,7 +4247,7 @@ func (c *ExamsUsersListCall) PageToken(page int) *ExamsUsersListCall {
 // Do executes a ExamsUsersListCall request call. Exactly one of *ListExamsUsersResponse or error will be non-nil.
 func (c *ExamsUsersListCall) Do() (*ListExamsUsersResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/exams_users/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/exams_users" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -4321,7 +4321,7 @@ func (s *ExperiencesService) List() *ExperiencesListCall {
 }
 
 // P sets an optional parameter and its values: Only return Experiences matching the specified setting.
-func (c *ExperiencesListCall) P(key string, values []string) *ExperiencesListCall {
+func (c *ExperiencesListCall) P(key string, values ...string) *ExperiencesListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -4335,7 +4335,7 @@ func (c *ExperiencesListCall) PageToken(page int) *ExperiencesListCall {
 // Do executes a ExperiencesListCall request call. Exactly one of *ListExperiencesResponse or error will be non-nil.
 func (c *ExperiencesListCall) Do() (*ListExperiencesResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/experiences/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/experiences" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -4461,7 +4461,7 @@ func (s *ExpertisesService) List() *ExpertisesListCall {
 }
 
 // P sets an optional parameter and its values: Only return Expertises matching the specified setting.
-func (c *ExpertisesListCall) P(key string, values []string) *ExpertisesListCall {
+func (c *ExpertisesListCall) P(key string, values ...string) *ExpertisesListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -4475,7 +4475,7 @@ func (c *ExpertisesListCall) PageToken(page int) *ExpertisesListCall {
 // Do executes a ExpertisesListCall request call. Exactly one of *ListExpertisesResponse or error will be non-nil.
 func (c *ExpertisesListCall) Do() (*ListExpertisesResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/expertises/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/expertises" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -4568,13 +4568,13 @@ type ExpertisesUsersItem struct {
 	ContactMe bool      `json:"contact_me"`
 	CreatedAt time.Time `json:"created_at"`
 	Expertise struct {
-		Kind               string    `json:"kind"`
-		CreatedAt          time.Time `json:"created_at"`
-		ExpertisesUsersURL string    `json:"expertises_users_url"`
 		ID                 int64     `json:"id"`
 		Name               string    `json:"name"`
 		Slug               string    `json:"slug"`
 		URL                string    `json:"url"`
+		Kind               string    `json:"kind"`
+		CreatedAt          time.Time `json:"created_at"`
+		ExpertisesUsersURL string    `json:"expertises_users_url"`
 	} `json:"expertise"`
 	ExpertiseID int64 `json:"expertise_id"`
 	ID          int64 `json:"id"`
@@ -4615,7 +4615,7 @@ func (s *ExpertisesUsersService) List() *ExpertisesUsersListCall {
 }
 
 // P sets an optional parameter and its values: Only return ExpertisesUsers matching the specified setting.
-func (c *ExpertisesUsersListCall) P(key string, values []string) *ExpertisesUsersListCall {
+func (c *ExpertisesUsersListCall) P(key string, values ...string) *ExpertisesUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -4629,7 +4629,7 @@ func (c *ExpertisesUsersListCall) PageToken(page int) *ExpertisesUsersListCall {
 // Do executes a ExpertisesUsersListCall request call. Exactly one of *ListExpertisesUsersResponse or error will be non-nil.
 func (c *ExpertisesUsersListCall) Do() (*ListExpertisesUsersResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/expertises_users/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/expertises_users" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -4747,7 +4747,7 @@ func (s *FeedbacksService) List() *FeedbacksListCall {
 }
 
 // P sets an optional parameter and its values: Only return Feedbacks matching the specified setting.
-func (c *FeedbacksListCall) P(key string, values []string) *FeedbacksListCall {
+func (c *FeedbacksListCall) P(key string, values ...string) *FeedbacksListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -4761,7 +4761,7 @@ func (c *FeedbacksListCall) PageToken(page int) *FeedbacksListCall {
 // Do executes a FeedbacksListCall request call. Exactly one of *ListFeedbacksResponse or error will be non-nil.
 func (c *FeedbacksListCall) Do() (*ListFeedbacksResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/feedbacks/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/feedbacks" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -4879,7 +4879,7 @@ func (s *FlagsService) List() *FlagsListCall {
 }
 
 // P sets an optional parameter and its values: Only return Flags matching the specified setting.
-func (c *FlagsListCall) P(key string, values []string) *FlagsListCall {
+func (c *FlagsListCall) P(key string, values ...string) *FlagsListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -4893,7 +4893,7 @@ func (c *FlagsListCall) PageToken(page int) *FlagsListCall {
 // Do executes a FlagsListCall request call. Exactly one of *ListFlagsResponse or error will be non-nil.
 func (c *FlagsListCall) Do() (*ListFlagsResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/flags/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/flags" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -4971,7 +4971,7 @@ func (s *FlashUsersService) List() *FlashUsersListCall {
 }
 
 // P sets an optional parameter and its values: Only return FlashUsers matching the specified setting.
-func (c *FlashUsersListCall) P(key string, values []string) *FlashUsersListCall {
+func (c *FlashUsersListCall) P(key string, values ...string) *FlashUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -4985,7 +4985,7 @@ func (c *FlashUsersListCall) PageToken(page int) *FlashUsersListCall {
 // Do executes a FlashUsersListCall request call. Exactly one of *ListFlashUsersResponse or error will be non-nil.
 func (c *FlashUsersListCall) Do() (*ListFlashUsersResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/flash_users/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/flash_users" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -5106,7 +5106,7 @@ func (s *FlashesService) List() *FlashesListCall {
 }
 
 // P sets an optional parameter and its values: Only return Flashes matching the specified setting.
-func (c *FlashesListCall) P(key string, values []string) *FlashesListCall {
+func (c *FlashesListCall) P(key string, values ...string) *FlashesListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -5120,7 +5120,7 @@ func (c *FlashesListCall) PageToken(page int) *FlashesListCall {
 // Do executes a FlashesListCall request call. Exactly one of *ListFlashesResponse or error will be non-nil.
 func (c *FlashesListCall) Do() (*ListFlashesResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/flashes/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/flashes" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -5237,7 +5237,7 @@ func (s *GroupsService) List() *GroupsListCall {
 }
 
 // P sets an optional parameter and its values: Only return Groups matching the specified setting.
-func (c *GroupsListCall) P(key string, values []string) *GroupsListCall {
+func (c *GroupsListCall) P(key string, values ...string) *GroupsListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -5251,7 +5251,7 @@ func (c *GroupsListCall) PageToken(page int) *GroupsListCall {
 // Do executes a GroupsListCall request call. Exactly one of *ListGroupsResponse or error will be non-nil.
 func (c *GroupsListCall) Do() (*ListGroupsResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/groups/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/groups" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -5375,7 +5375,7 @@ func (s *GroupsUsersService) List() *GroupsUsersListCall {
 }
 
 // P sets an optional parameter and its values: Only return GroupsUsers matching the specified setting.
-func (c *GroupsUsersListCall) P(key string, values []string) *GroupsUsersListCall {
+func (c *GroupsUsersListCall) P(key string, values ...string) *GroupsUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -5389,7 +5389,7 @@ func (c *GroupsUsersListCall) PageToken(page int) *GroupsUsersListCall {
 // Do executes a GroupsUsersListCall request call. Exactly one of *ListGroupsUsersResponse or error will be non-nil.
 func (c *GroupsUsersListCall) Do() (*ListGroupsUsersResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/groups_users/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/groups_users" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -5558,7 +5558,7 @@ func (s *InternshipsService) List() *InternshipsListCall {
 }
 
 // P sets an optional parameter and its values: Only return Internships matching the specified setting.
-func (c *InternshipsListCall) P(key string, values []string) *InternshipsListCall {
+func (c *InternshipsListCall) P(key string, values ...string) *InternshipsListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -5572,7 +5572,7 @@ func (c *InternshipsListCall) PageToken(page int) *InternshipsListCall {
 // Do executes a InternshipsListCall request call. Exactly one of *ListInternshipsResponse or error will be non-nil.
 func (c *InternshipsListCall) Do() (*ListInternshipsResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/internships/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/internships" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -5688,7 +5688,7 @@ func (s *LanguagesService) List() *LanguagesListCall {
 }
 
 // P sets an optional parameter and its values: Only return Languages matching the specified setting.
-func (c *LanguagesListCall) P(key string, values []string) *LanguagesListCall {
+func (c *LanguagesListCall) P(key string, values ...string) *LanguagesListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -5702,7 +5702,7 @@ func (c *LanguagesListCall) PageToken(page int) *LanguagesListCall {
 // Do executes a LanguagesListCall request call. Exactly one of *ListLanguagesResponse or error will be non-nil.
 func (c *LanguagesListCall) Do() (*ListLanguagesResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/languages/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/languages" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -5826,7 +5826,7 @@ func (s *LanguagesUsersService) List() *LanguagesUsersListCall {
 }
 
 // P sets an optional parameter and its values: Only return LanguagesUsers matching the specified setting.
-func (c *LanguagesUsersListCall) P(key string, values []string) *LanguagesUsersListCall {
+func (c *LanguagesUsersListCall) P(key string, values ...string) *LanguagesUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -5840,7 +5840,7 @@ func (c *LanguagesUsersListCall) PageToken(page int) *LanguagesUsersListCall {
 // Do executes a LanguagesUsersListCall request call. Exactly one of *ListLanguagesUsersResponse or error will be non-nil.
 func (c *LanguagesUsersListCall) Do() (*ListLanguagesUsersResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/languages_users/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/languages_users" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -5958,7 +5958,7 @@ func (s *LevelsService) List() *LevelsListCall {
 }
 
 // P sets an optional parameter and its values: Only return Levels matching the specified setting.
-func (c *LevelsListCall) P(key string, values []string) *LevelsListCall {
+func (c *LevelsListCall) P(key string, values ...string) *LevelsListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -5972,7 +5972,7 @@ func (c *LevelsListCall) PageToken(page int) *LevelsListCall {
 // Do executes a LevelsListCall request call. Exactly one of *ListLevelsResponse or error will be non-nil.
 func (c *LevelsListCall) Do() (*ListLevelsResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/levels/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/levels" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -6055,7 +6055,7 @@ func (s *LocationsService) List() *LocationsListCall {
 }
 
 // P sets an optional parameter and its values: Only return Locations matching the specified setting.
-func (c *LocationsListCall) P(key string, values []string) *LocationsListCall {
+func (c *LocationsListCall) P(key string, values ...string) *LocationsListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -6069,7 +6069,7 @@ func (c *LocationsListCall) PageToken(page int) *LocationsListCall {
 // Do executes a LocationsListCall request call. Exactly one of *ListLocationsResponse or error will be non-nil.
 func (c *LocationsListCall) Do() (*ListLocationsResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/locations/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/locations" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -6170,11 +6170,11 @@ type MailingsItem struct {
 	ID          int64         `json:"id"`
 	IDentifier  string        `json:"identifier"`
 	Meta        struct {
+		User      string    `json:"user"`
+		OtherUser string    `json:"other_user"`
 		ID        int64     `json:"id"`
 		Date      time.Time `json:"date"`
 		Name      string    `json:"name"`
-		User      string    `json:"user"`
-		OtherUser string    `json:"other_user"`
 	} `json:"meta"`
 	Subject   string      `json:"subject"`
 	Subtitle  interface{} `json:"subtitle"`
@@ -6210,7 +6210,7 @@ func (s *MailingsService) List() *MailingsListCall {
 }
 
 // P sets an optional parameter and its values: Only return Mailings matching the specified setting.
-func (c *MailingsListCall) P(key string, values []string) *MailingsListCall {
+func (c *MailingsListCall) P(key string, values ...string) *MailingsListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -6224,7 +6224,7 @@ func (c *MailingsListCall) PageToken(page int) *MailingsListCall {
 // Do executes a MailingsListCall request call. Exactly one of *ListMailingsResponse or error will be non-nil.
 func (c *MailingsListCall) Do() (*ListMailingsResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/mailings/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/mailings" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -6317,9 +6317,9 @@ type NotesItem struct {
 	Content   string    `json:"content"`
 	CreatedAt time.Time `json:"created_at"`
 	FromUser  struct {
+		ID    int64  `json:"id"`
 		Login string `json:"login"`
 		URL   string `json:"url"`
-		ID    int64  `json:"id"`
 	} `json:"from_user"`
 	ID      int64  `json:"id"`
 	Subject string `json:"subject"`
@@ -6357,7 +6357,7 @@ func (s *NotesService) List() *NotesListCall {
 }
 
 // P sets an optional parameter and its values: Only return Notes matching the specified setting.
-func (c *NotesListCall) P(key string, values []string) *NotesListCall {
+func (c *NotesListCall) P(key string, values ...string) *NotesListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -6371,7 +6371,7 @@ func (c *NotesListCall) PageToken(page int) *NotesListCall {
 // Do executes a NotesListCall request call. Exactly one of *ListNotesResponse or error will be non-nil.
 func (c *NotesListCall) Do() (*ListNotesResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/notes/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/notes" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -6473,9 +6473,9 @@ type NotionsItem struct {
 	Slug       string        `json:"slug"`
 	Subnotions []interface{} `json:"subnotions"`
 	Tags       []struct {
+		ID   int64  `json:"id"`
 		Name string `json:"name"`
 		Kind string `json:"kind"`
-		ID   int64  `json:"id"`
 	} `json:"tags"`
 
 	ServerResponse `json:"-"`
@@ -6506,7 +6506,7 @@ func (s *NotionsService) List() *NotionsListCall {
 }
 
 // P sets an optional parameter and its values: Only return Notions matching the specified setting.
-func (c *NotionsListCall) P(key string, values []string) *NotionsListCall {
+func (c *NotionsListCall) P(key string, values ...string) *NotionsListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -6520,7 +6520,7 @@ func (c *NotionsListCall) PageToken(page int) *NotionsListCall {
 // Do executes a NotionsListCall request call. Exactly one of *ListNotionsResponse or error will be non-nil.
 func (c *NotionsListCall) Do() (*ListNotionsResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/notions/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/notions" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -6638,7 +6638,7 @@ func (s *ParamsProjectSessionsRulesService) List() *ParamsProjectSessionsRulesLi
 }
 
 // P sets an optional parameter and its values: Only return ParamsProjectSessionsRules matching the specified setting.
-func (c *ParamsProjectSessionsRulesListCall) P(key string, values []string) *ParamsProjectSessionsRulesListCall {
+func (c *ParamsProjectSessionsRulesListCall) P(key string, values ...string) *ParamsProjectSessionsRulesListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -6652,7 +6652,7 @@ func (c *ParamsProjectSessionsRulesListCall) PageToken(page int) *ParamsProjectS
 // Do executes a ParamsProjectSessionsRulesListCall request call. Exactly one of *ListParamsProjectSessionsRulesResponse or error will be non-nil.
 func (c *ParamsProjectSessionsRulesListCall) Do() (*ListParamsProjectSessionsRulesResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/params_project_sessions_rules/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/params_project_sessions_rules" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -6777,7 +6777,7 @@ func (s *PartnershipsService) List() *PartnershipsListCall {
 }
 
 // P sets an optional parameter and its values: Only return Partnerships matching the specified setting.
-func (c *PartnershipsListCall) P(key string, values []string) *PartnershipsListCall {
+func (c *PartnershipsListCall) P(key string, values ...string) *PartnershipsListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -6791,7 +6791,7 @@ func (c *PartnershipsListCall) PageToken(page int) *PartnershipsListCall {
 // Do executes a PartnershipsListCall request call. Exactly one of *ListPartnershipsResponse or error will be non-nil.
 func (c *PartnershipsListCall) Do() (*ListPartnershipsResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/partnerships/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/partnerships" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -6918,7 +6918,7 @@ func (s *PartnershipsUsersService) List() *PartnershipsUsersListCall {
 }
 
 // P sets an optional parameter and its values: Only return PartnershipsUsers matching the specified setting.
-func (c *PartnershipsUsersListCall) P(key string, values []string) *PartnershipsUsersListCall {
+func (c *PartnershipsUsersListCall) P(key string, values ...string) *PartnershipsUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -6932,7 +6932,7 @@ func (c *PartnershipsUsersListCall) PageToken(page int) *PartnershipsUsersListCa
 // Do executes a PartnershipsUsersListCall request call. Exactly one of *ListPartnershipsUsersResponse or error will be non-nil.
 func (c *PartnershipsUsersListCall) Do() (*ListPartnershipsUsersResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/partnerships_users/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/partnerships_users" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -7024,18 +7024,18 @@ type PatronagesService struct {
 type PatronagesItem struct {
 	CreatedAt time.Time `json:"created_at"`
 	Godfather struct {
-		URL   string `json:"url"`
 		ID    int64  `json:"id"`
 		Login string `json:"login"`
+		URL   string `json:"url"`
 	} `json:"godfather"`
 	GodfatherID int64     `json:"godfather_id"`
 	ID          int64     `json:"id"`
 	Ongoing     bool      `json:"ongoing"`
 	UpdatedAt   time.Time `json:"updated_at"`
 	User        struct {
-		ID    int64  `json:"id"`
 		Login string `json:"login"`
 		URL   string `json:"url"`
+		ID    int64  `json:"id"`
 	} `json:"user"`
 	UserID int64 `json:"user_id"`
 
@@ -7067,7 +7067,7 @@ func (s *PatronagesService) List() *PatronagesListCall {
 }
 
 // P sets an optional parameter and its values: Only return Patronages matching the specified setting.
-func (c *PatronagesListCall) P(key string, values []string) *PatronagesListCall {
+func (c *PatronagesListCall) P(key string, values ...string) *PatronagesListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -7081,7 +7081,7 @@ func (c *PatronagesListCall) PageToken(page int) *PatronagesListCall {
 // Do executes a PatronagesListCall request call. Exactly one of *ListPatronagesResponse or error will be non-nil.
 func (c *PatronagesListCall) Do() (*ListPatronagesResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/patronages/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/patronages" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -7176,25 +7176,25 @@ type PatronagesReportsItem struct {
 	CreatedAt time.Time     `json:"created_at"`
 	ID        int64         `json:"id"`
 	Patronage struct {
+		CreatedAt   time.Time `json:"created_at"`
+		UpdatedAt   time.Time `json:"updated_at"`
 		ID          int64     `json:"id"`
 		UserID      int64     `json:"user_id"`
 		GodfatherID int64     `json:"godfather_id"`
 		Ongoing     bool      `json:"ongoing"`
-		CreatedAt   time.Time `json:"created_at"`
-		UpdatedAt   time.Time `json:"updated_at"`
 	} `json:"patronage"`
 	PatronageID int64 `json:"patronage_id"`
 	Report      struct {
-		ID             int64     `json:"id"`
-		IntroductionMd string    `json:"introduction_md"`
-		GuidelinesMd   string    `json:"guidelines_md"`
-		CreatedAt      time.Time `json:"created_at"`
-		Name           string    `json:"name"`
 		Comment        string    `json:"comment"`
 		DisclaimerMd   string    `json:"disclaimer_md"`
-		UpdatedAt      time.Time `json:"updated_at"`
+		GuidelinesMd   string    `json:"guidelines_md"`
 		Slug           string    `json:"slug"`
 		DelayDays      int64     `json:"delay_days"`
+		ID             int64     `json:"id"`
+		Name           string    `json:"name"`
+		IntroductionMd string    `json:"introduction_md"`
+		CreatedAt      time.Time `json:"created_at"`
+		UpdatedAt      time.Time `json:"updated_at"`
 	} `json:"report"`
 	ReportID  int64     `json:"report_id"`
 	UpdatedAt time.Time `json:"updated_at"`
@@ -7234,7 +7234,7 @@ func (s *PatronagesReportsService) List() *PatronagesReportsListCall {
 }
 
 // P sets an optional parameter and its values: Only return PatronagesReports matching the specified setting.
-func (c *PatronagesReportsListCall) P(key string, values []string) *PatronagesReportsListCall {
+func (c *PatronagesReportsListCall) P(key string, values ...string) *PatronagesReportsListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -7248,7 +7248,7 @@ func (c *PatronagesReportsListCall) PageToken(page int) *PatronagesReportsListCa
 // Do executes a PatronagesReportsListCall request call. Exactly one of *ListPatronagesReportsResponse or error will be non-nil.
 func (c *PatronagesReportsListCall) Do() (*ListPatronagesReportsResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/patronages_reports/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/patronages_reports" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -7372,7 +7372,7 @@ func (s *PoolsService) List() *PoolsListCall {
 }
 
 // P sets an optional parameter and its values: Only return Pools matching the specified setting.
-func (c *PoolsListCall) P(key string, values []string) *PoolsListCall {
+func (c *PoolsListCall) P(key string, values ...string) *PoolsListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -7386,7 +7386,7 @@ func (c *PoolsListCall) PageToken(page int) *PoolsListCall {
 // Do executes a PoolsListCall request call. Exactly one of *ListPoolsResponse or error will be non-nil.
 func (c *PoolsListCall) Do() (*ListPoolsResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/pools/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/pools" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -7519,7 +7519,7 @@ func (s *ProductsService) List() *ProductsListCall {
 }
 
 // P sets an optional parameter and its values: Only return Products matching the specified setting.
-func (c *ProductsListCall) P(key string, values []string) *ProductsListCall {
+func (c *ProductsListCall) P(key string, values ...string) *ProductsListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -7533,7 +7533,7 @@ func (c *ProductsListCall) PageToken(page int) *ProductsListCall {
 // Do executes a ProductsListCall request call. Exactly one of *ListProductsResponse or error will be non-nil.
 func (c *ProductsListCall) Do() (*ListProductsResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/products/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/products" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -7657,7 +7657,7 @@ func (s *ProjectDataService) List() *ProjectDataListCall {
 }
 
 // P sets an optional parameter and its values: Only return ProjectData matching the specified setting.
-func (c *ProjectDataListCall) P(key string, values []string) *ProjectDataListCall {
+func (c *ProjectDataListCall) P(key string, values ...string) *ProjectDataListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -7671,7 +7671,7 @@ func (c *ProjectDataListCall) PageToken(page int) *ProjectDataListCall {
 // Do executes a ProjectDataListCall request call. Exactly one of *ListProjectDataResponse or error will be non-nil.
 func (c *ProjectDataListCall) Do() (*ListProjectDataResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/project_data/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/project_data" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -7774,24 +7774,24 @@ type ProjectSessionsItem struct {
 	IsSubscriptable bool        `json:"is_subscriptable"`
 	MaxPeople       interface{} `json:"max_people"`
 	Project         struct {
-		Exam        bool          `json:"exam"`
-		Parent      interface{}   `json:"parent"`
-		Children    []interface{} `json:"children"`
+		Name        string        `json:"name"`
 		Attachments []interface{} `json:"attachments"`
 		CreatedAt   time.Time     `json:"created_at"`
+		ID          int64         `json:"id"`
+		Description string        `json:"description"`
+		Parent      interface{}   `json:"parent"`
+		Children    []interface{} `json:"children"`
 		Objectives  []string      `json:"objectives"`
 		Tier        int64         `json:"tier"`
 		UpdatedAt   time.Time     `json:"updated_at"`
-		ID          int64         `json:"id"`
-		Name        string        `json:"name"`
+		Exam        bool          `json:"exam"`
 		Slug        string        `json:"slug"`
-		Description string        `json:"description"`
 	} `json:"project"`
 	ProjectID int64 `json:"project_id"`
 	Scales    []struct {
+		CorrectionNumber int64 `json:"correction_number"`
 		IsPrimary        bool  `json:"is_primary"`
 		ID               int64 `json:"id"`
-		CorrectionNumber int64 `json:"correction_number"`
 	} `json:"scales"`
 	Solo             bool          `json:"solo"`
 	TeamBehaviour    string        `json:"team_behaviour"`
@@ -7827,7 +7827,7 @@ func (s *ProjectSessionsService) List() *ProjectSessionsListCall {
 }
 
 // P sets an optional parameter and its values: Only return ProjectSessions matching the specified setting.
-func (c *ProjectSessionsListCall) P(key string, values []string) *ProjectSessionsListCall {
+func (c *ProjectSessionsListCall) P(key string, values ...string) *ProjectSessionsListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -7841,7 +7841,7 @@ func (c *ProjectSessionsListCall) PageToken(page int) *ProjectSessionsListCall {
 // Do executes a ProjectSessionsListCall request call. Exactly one of *ListProjectSessionsResponse or error will be non-nil.
 func (c *ProjectSessionsListCall) Do() (*ListProjectSessionsResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/project_sessions/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/project_sessions" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -7959,7 +7959,7 @@ func (s *ProjectSessionsRulesService) List() *ProjectSessionsRulesListCall {
 }
 
 // P sets an optional parameter and its values: Only return ProjectSessionsRules matching the specified setting.
-func (c *ProjectSessionsRulesListCall) P(key string, values []string) *ProjectSessionsRulesListCall {
+func (c *ProjectSessionsRulesListCall) P(key string, values ...string) *ProjectSessionsRulesListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -7973,7 +7973,7 @@ func (c *ProjectSessionsRulesListCall) PageToken(page int) *ProjectSessionsRules
 // Do executes a ProjectSessionsRulesListCall request call. Exactly one of *ListProjectSessionsRulesResponse or error will be non-nil.
 func (c *ProjectSessionsRulesListCall) Do() (*ListProjectSessionsRulesResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/project_sessions_rules/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/project_sessions_rules" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -8098,7 +8098,7 @@ func (s *ProjectSessionsSkillsService) List() *ProjectSessionsSkillsListCall {
 }
 
 // P sets an optional parameter and its values: Only return ProjectSessionsSkills matching the specified setting.
-func (c *ProjectSessionsSkillsListCall) P(key string, values []string) *ProjectSessionsSkillsListCall {
+func (c *ProjectSessionsSkillsListCall) P(key string, values ...string) *ProjectSessionsSkillsListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -8112,7 +8112,7 @@ func (c *ProjectSessionsSkillsListCall) PageToken(page int) *ProjectSessionsSkil
 // Do executes a ProjectSessionsSkillsListCall request call. Exactly one of *ListProjectSessionsSkillsResponse or error will be non-nil.
 func (c *ProjectSessionsSkillsListCall) Do() (*ListProjectSessionsSkillsResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/project_sessions_skills/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/project_sessions_skills" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -8198,7 +8198,6 @@ type ProjectsService struct {
 type ProjectsItem struct {
 	Attachments []interface{} `json:"attachments"`
 	Campus      []struct {
-		ID       int64  `json:"id"`
 		Name     string `json:"name"`
 		TimeZone string `json:"time_zone"`
 		Language struct {
@@ -8210,14 +8209,15 @@ type ProjectsItem struct {
 		} `json:"language"`
 		UsersCount  int64 `json:"users_count"`
 		VogsphereID int64 `json:"vogsphere_id"`
+		ID          int64 `json:"id"`
 	} `json:"campus"`
 	Children  []interface{} `json:"children"`
 	CreatedAt time.Time     `json:"created_at"`
 	Cursus    []struct {
-		ID        int64     `json:"id"`
-		CreatedAt time.Time `json:"created_at"`
 		Name      string    `json:"name"`
 		Slug      string    `json:"slug"`
+		ID        int64     `json:"id"`
+		CreatedAt time.Time `json:"created_at"`
 	} `json:"cursus"`
 	Description     string      `json:"description"`
 	Exam            bool        `json:"exam"`
@@ -8226,27 +8226,27 @@ type ProjectsItem struct {
 	Objectives      []string    `json:"objectives"`
 	Parent          interface{} `json:"parent"`
 	ProjectSessions []struct {
-		TeamBehaviour    string        `json:"team_behaviour"`
-		EstimateTime     int64         `json:"estimate_time"`
-		Uploads          []interface{} `json:"uploads"`
-		CursusID         interface{}   `json:"cursus_id"`
-		CreatedAt        time.Time     `json:"created_at"`
-		EndAt            interface{}   `json:"end_at"`
-		TerminatingAfter interface{}   `json:"terminating_after"`
-		BeginAt          interface{}   `json:"begin_at"`
-		DurationDays     interface{}   `json:"duration_days"`
-		CampusID         interface{}   `json:"campus_id"`
-		Scales           []struct {
+		DurationDays interface{} `json:"duration_days"`
+		CampusID     interface{} `json:"campus_id"`
+		CursusID     interface{} `json:"cursus_id"`
+		UpdatedAt    time.Time   `json:"updated_at"`
+		Scales       []struct {
 			ID               int64 `json:"id"`
 			CorrectionNumber int64 `json:"correction_number"`
 			IsPrimary        bool  `json:"is_primary"`
 		} `json:"scales"`
-		ID              int64       `json:"id"`
-		Solo            bool        `json:"solo"`
-		MaxPeople       interface{} `json:"max_people"`
-		IsSubscriptable bool        `json:"is_subscriptable"`
-		ProjectID       int64       `json:"project_id"`
-		UpdatedAt       time.Time   `json:"updated_at"`
+		ID               int64         `json:"id"`
+		EndAt            interface{}   `json:"end_at"`
+		IsSubscriptable  bool          `json:"is_subscriptable"`
+		TeamBehaviour    string        `json:"team_behaviour"`
+		Solo             bool          `json:"solo"`
+		EstimateTime     int64         `json:"estimate_time"`
+		BeginAt          interface{}   `json:"begin_at"`
+		TerminatingAfter interface{}   `json:"terminating_after"`
+		ProjectID        int64         `json:"project_id"`
+		CreatedAt        time.Time     `json:"created_at"`
+		MaxPeople        interface{}   `json:"max_people"`
+		Uploads          []interface{} `json:"uploads"`
 	} `json:"project_sessions"`
 	Skills []struct {
 		ID        int64     `json:"id"`
@@ -8291,7 +8291,7 @@ func (s *ProjectsService) List() *ProjectsListCall {
 }
 
 // P sets an optional parameter and its values: Only return Projects matching the specified setting.
-func (c *ProjectsListCall) P(key string, values []string) *ProjectsListCall {
+func (c *ProjectsListCall) P(key string, values ...string) *ProjectsListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -8305,7 +8305,7 @@ func (c *ProjectsListCall) PageToken(page int) *ProjectsListCall {
 // Do executes a ProjectsListCall request call. Exactly one of *ListProjectsResponse or error will be non-nil.
 func (c *ProjectsListCall) Do() (*ListProjectsResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/projects/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/projects" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -8408,37 +8408,37 @@ type ProjectsUsersItem struct {
 	} `json:"project"`
 	Status string `json:"status"`
 	Teams  []struct {
-		Locked           bool        `json:"locked?"`
-		RepoURL          interface{} `json:"repo_url"`
-		ProjectSessionID int64       `json:"project_session_id"`
-		Name             string      `json:"name"`
-		ProjectID        int64       `json:"project_id"`
-		Users            []struct {
+		FinalMark interface{} `json:"final_mark"`
+		CreatedAt time.Time   `json:"created_at"`
+		Users     []struct {
+			ProjectsUserID int64  `json:"projects_user_id"`
+			ID             int64  `json:"id"`
 			Login          string `json:"login"`
 			URL            string `json:"url"`
 			Leader         bool   `json:"leader"`
 			Occurrence     int64  `json:"occurrence"`
 			Validated      bool   `json:"validated"`
-			ProjectsUserID int64  `json:"projects_user_id"`
-			ID             int64  `json:"id"`
 		} `json:"users"`
-		TerminatingAt interface{} `json:"terminating_at"`
-		ClosedAt      time.Time   `json:"closed_at"`
-		URL           string      `json:"url"`
-		Validated     interface{} `json:"validated?"`
-		LockedAt      time.Time   `json:"locked_at"`
-		UpdatedAt     time.Time   `json:"updated_at"`
-		Status        string      `json:"status"`
-		Closed        bool        `json:"closed?"`
-		RepoUUID      string      `json:"repo_uuid"`
-		ID            int64       `json:"id"`
-		FinalMark     interface{} `json:"final_mark"`
-		CreatedAt     time.Time   `json:"created_at"`
+		Locked           bool        `json:"locked?"`
+		ClosedAt         time.Time   `json:"closed_at"`
+		Status           string      `json:"status"`
+		TerminatingAt    interface{} `json:"terminating_at"`
+		Validated        interface{} `json:"validated?"`
+		Closed           bool        `json:"closed?"`
+		ProjectSessionID int64       `json:"project_session_id"`
+		URL              string      `json:"url"`
+		ProjectID        int64       `json:"project_id"`
+		ID               int64       `json:"id"`
+		Name             string      `json:"name"`
+		UpdatedAt        time.Time   `json:"updated_at"`
+		RepoURL          interface{} `json:"repo_url"`
+		RepoUUID         string      `json:"repo_uuid"`
+		LockedAt         time.Time   `json:"locked_at"`
 	} `json:"teams"`
 	User struct {
+		URL   string `json:"url"`
 		ID    int64  `json:"id"`
 		Login string `json:"login"`
-		URL   string `json:"url"`
 	} `json:"user"`
 	Validated interface{} `json:"validated?"`
 
@@ -8470,7 +8470,7 @@ func (s *ProjectsUsersService) List() *ProjectsUsersListCall {
 }
 
 // P sets an optional parameter and its values: Only return ProjectsUsers matching the specified setting.
-func (c *ProjectsUsersListCall) P(key string, values []string) *ProjectsUsersListCall {
+func (c *ProjectsUsersListCall) P(key string, values ...string) *ProjectsUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -8484,7 +8484,7 @@ func (c *ProjectsUsersListCall) PageToken(page int) *ProjectsUsersListCall {
 // Do executes a ProjectsUsersListCall request call. Exactly one of *ListProjectsUsersResponse or error will be non-nil.
 func (c *ProjectsUsersListCall) Do() (*ListProjectsUsersResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/projects_users/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/projects_users" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -8623,7 +8623,7 @@ func (s *QuestsService) List() *QuestsListCall {
 }
 
 // P sets an optional parameter and its values: Only return Quests matching the specified setting.
-func (c *QuestsListCall) P(key string, values []string) *QuestsListCall {
+func (c *QuestsListCall) P(key string, values ...string) *QuestsListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -8637,7 +8637,7 @@ func (c *QuestsListCall) PageToken(page int) *QuestsListCall {
 // Do executes a QuestsListCall request call. Exactly one of *ListQuestsResponse or error will be non-nil.
 func (c *QuestsListCall) Do() (*ListQuestsResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/quests/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/quests" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -8733,18 +8733,18 @@ type QuestsUsersItem struct {
 	ID          int64       `json:"id"`
 	Prct        interface{} `json:"prct"`
 	Quest       struct {
-		CreatedAt    time.Time   `json:"created_at"`
 		GradeID      interface{} `json:"grade_id"`
-		InternalName interface{} `json:"internal_name"`
-		Description  string      `json:"description"`
-		CampusID     interface{} `json:"campus_id"`
-		Kind         string      `json:"kind"`
-		CursusID     int64       `json:"cursus_id"`
-		UpdatedAt    time.Time   `json:"updated_at"`
-		Position     int64       `json:"position"`
 		ID           int64       `json:"id"`
+		Description  string      `json:"description"`
+		CursusID     int64       `json:"cursus_id"`
+		CampusID     interface{} `json:"campus_id"`
+		CreatedAt    time.Time   `json:"created_at"`
+		UpdatedAt    time.Time   `json:"updated_at"`
 		Name         string      `json:"name"`
 		Slug         string      `json:"slug"`
+		Kind         string      `json:"kind"`
+		InternalName interface{} `json:"internal_name"`
+		Position     int64       `json:"position"`
 	} `json:"quest"`
 	QuestID   int64     `json:"quest_id"`
 	UpdatedAt time.Time `json:"updated_at"`
@@ -8783,7 +8783,7 @@ func (s *QuestsUsersService) List() *QuestsUsersListCall {
 }
 
 // P sets an optional parameter and its values: Only return QuestsUsers matching the specified setting.
-func (c *QuestsUsersListCall) P(key string, values []string) *QuestsUsersListCall {
+func (c *QuestsUsersListCall) P(key string, values ...string) *QuestsUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -8797,7 +8797,7 @@ func (c *QuestsUsersListCall) PageToken(page int) *QuestsUsersListCall {
 // Do executes a QuestsUsersListCall request call. Exactly one of *ListQuestsUsersResponse or error will be non-nil.
 func (c *QuestsUsersListCall) Do() (*ListQuestsUsersResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/quests_users/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/quests_users" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -8919,7 +8919,7 @@ func (s *RolesService) List() *RolesListCall {
 }
 
 // P sets an optional parameter and its values: Only return Roles matching the specified setting.
-func (c *RolesListCall) P(key string, values []string) *RolesListCall {
+func (c *RolesListCall) P(key string, values ...string) *RolesListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -8933,7 +8933,7 @@ func (c *RolesListCall) PageToken(page int) *RolesListCall {
 // Do executes a RolesListCall request call. Exactly one of *ListRolesResponse or error will be non-nil.
 func (c *RolesListCall) Do() (*ListRolesResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/roles/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/roles" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -9025,26 +9025,26 @@ type RolesEntitiesService struct {
 type RolesEntitiesItem struct {
 	CreatedAt time.Time `json:"created_at"`
 	Entity    struct {
+		Owner       struct{}      `json:"owner"`
 		ID          int64         `json:"id"`
+		Name        string        `json:"name"`
 		Image       interface{}   `json:"image"`
 		Website     interface{}   `json:"website"`
 		Public      bool          `json:"public"`
-		UpdatedAt   time.Time     `json:"updated_at"`
-		Name        string        `json:"name"`
-		Description interface{}   `json:"description"`
 		Scopes      []interface{} `json:"scopes"`
-		CreatedAt   time.Time     `json:"created_at"`
-		Owner       struct{}      `json:"owner"`
+		UpdatedAt   time.Time     `json:"updated_at"`
 		RateLimit   int64         `json:"rate_limit"`
+		Description interface{}   `json:"description"`
+		CreatedAt   time.Time     `json:"created_at"`
 	} `json:"entity"`
 	EntityID   int64       `json:"entity_id"`
 	EntityType string      `json:"entity_type"`
 	ExpiresAt  interface{} `json:"expires_at"`
 	ID         int64       `json:"id"`
 	Role       struct {
+		Description string `json:"description"`
 		ID          int64  `json:"id"`
 		Name        string `json:"name"`
-		Description string `json:"description"`
 	} `json:"role"`
 
 	ServerResponse `json:"-"`
@@ -9075,7 +9075,7 @@ func (s *RolesEntitiesService) List() *RolesEntitiesListCall {
 }
 
 // P sets an optional parameter and its values: Only return RolesEntities matching the specified setting.
-func (c *RolesEntitiesListCall) P(key string, values []string) *RolesEntitiesListCall {
+func (c *RolesEntitiesListCall) P(key string, values ...string) *RolesEntitiesListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -9089,7 +9089,7 @@ func (c *RolesEntitiesListCall) PageToken(page int) *RolesEntitiesListCall {
 // Do executes a RolesEntitiesListCall request call. Exactly one of *ListRolesEntitiesResponse or error will be non-nil.
 func (c *RolesEntitiesListCall) Do() (*ListRolesEntitiesResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/roles_entities/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/roles_entities" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -9186,13 +9186,13 @@ type RulesItem struct {
 	Kind         string    `json:"kind"`
 	Name         string    `json:"name"`
 	Params       []struct {
+		CreatedAt    time.Time `json:"created_at"`
 		UpdatedAt    time.Time `json:"updated_at"`
 		DataType     string    `json:"data_type"`
 		ID           int64     `json:"id"`
 		Name         string    `json:"name"`
 		DefaultValue string    `json:"default_value"`
 		RuleID       int64     `json:"rule_id"`
-		CreatedAt    time.Time `json:"created_at"`
 	} `json:"params"`
 	ProjectSessionsRules []interface{} `json:"project_sessions_rules"`
 	Slug                 string        `json:"slug"`
@@ -9226,7 +9226,7 @@ func (s *RulesService) List() *RulesListCall {
 }
 
 // P sets an optional parameter and its values: Only return Rules matching the specified setting.
-func (c *RulesListCall) P(key string, values []string) *RulesListCall {
+func (c *RulesListCall) P(key string, values ...string) *RulesListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -9240,7 +9240,7 @@ func (c *RulesListCall) PageToken(page int) *RulesListCall {
 // Do executes a RulesListCall request call. Exactly one of *ListRulesResponse or error will be non-nil.
 func (c *RulesListCall) Do() (*ListRulesResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/rules/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/rules" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -9341,21 +9341,21 @@ type ScaleTeamsItem struct {
 	FilledAt       interface{}   `json:"filled_at"`
 	FinalMark      interface{}   `json:"final_mark"`
 	Flag           struct {
-		ID        int64     `json:"id"`
-		Name      string    `json:"name"`
 		Positive  bool      `json:"positive"`
 		Icon      string    `json:"icon"`
 		CreatedAt time.Time `json:"created_at"`
 		UpdatedAt time.Time `json:"updated_at"`
+		ID        int64     `json:"id"`
+		Name      string    `json:"name"`
 	} `json:"flag"`
 	ID    int64 `json:"id"`
 	Scale struct {
-		ID                 int64  `json:"id"`
-		EvaluationID       int64  `json:"evaluation_id"`
-		Name               string `json:"name"`
-		IntroductionMd     string `json:"introduction_md"`
-		DisclaimerMd       string `json:"disclaimer_md"`
-		ManualSubscription bool   `json:"manual_subscription"`
+		IntroductionMd     string    `json:"introduction_md"`
+		DisclaimerMd       string    `json:"disclaimer_md"`
+		GuidelinesMd       string    `json:"guidelines_md"`
+		CreatedAt          time.Time `json:"created_at"`
+		Duration           int64     `json:"duration"`
+		ManualSubscription bool      `json:"manual_subscription"`
 		Languages          []struct {
 			CreatedAt  time.Time `json:"created_at"`
 			UpdatedAt  time.Time `json:"updated_at"`
@@ -9363,12 +9363,12 @@ type ScaleTeamsItem struct {
 			Name       string    `json:"name"`
 			IDentifier string    `json:"identifier"`
 		} `json:"languages"`
-		IsPrimary        bool      `json:"is_primary"`
-		Comment          string    `json:"comment"`
-		GuidelinesMd     string    `json:"guidelines_md"`
-		CreatedAt        time.Time `json:"created_at"`
-		CorrectionNumber int64     `json:"correction_number"`
-		Duration         int64     `json:"duration"`
+		ID               int64  `json:"id"`
+		EvaluationID     int64  `json:"evaluation_id"`
+		Name             string `json:"name"`
+		IsPrimary        bool   `json:"is_primary"`
+		Comment          string `json:"comment"`
+		CorrectionNumber int64  `json:"correction_number"`
 	} `json:"scale"`
 	ScaleID   int64     `json:"scale_id"`
 	Truant    struct{}  `json:"truant"`
@@ -9402,7 +9402,7 @@ func (s *ScaleTeamsService) List() *ScaleTeamsListCall {
 }
 
 // P sets an optional parameter and its values: Only return ScaleTeams matching the specified setting.
-func (c *ScaleTeamsListCall) P(key string, values []string) *ScaleTeamsListCall {
+func (c *ScaleTeamsListCall) P(key string, values ...string) *ScaleTeamsListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -9416,7 +9416,7 @@ func (c *ScaleTeamsListCall) PageToken(page int) *ScaleTeamsListCall {
 // Do executes a ScaleTeamsListCall request call. Exactly one of *ListScaleTeamsResponse or error will be non-nil.
 func (c *ScaleTeamsListCall) Do() (*ListScaleTeamsResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/scale_teams/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/scale_teams" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -9521,11 +9521,11 @@ type ScalesItem struct {
 	IntroductionMd string `json:"introduction_md"`
 	IsPrimary      bool   `json:"is_primary"`
 	Languages      []struct {
-		UpdatedAt  time.Time `json:"updated_at"`
 		ID         int64     `json:"id"`
 		Name       string    `json:"name"`
 		IDentifier string    `json:"identifier"`
 		CreatedAt  time.Time `json:"created_at"`
+		UpdatedAt  time.Time `json:"updated_at"`
 	} `json:"languages"`
 	ManualSubscription bool   `json:"manual_subscription"`
 	Name               string `json:"name"`
@@ -9534,12 +9534,12 @@ type ScalesItem struct {
 		Name        string `json:"name"`
 		Description string `json:"description"`
 		Questions   []struct {
-			Name       string    `json:"name"`
 			Guidelines string    `json:"guidelines"`
 			Rating     string    `json:"rating"`
 			Kind       string    `json:"kind"`
 			CreatedAt  time.Time `json:"created_at"`
 			ID         int64     `json:"id"`
+			Name       string    `json:"name"`
 		} `json:"questions"`
 	} `json:"sections"`
 
@@ -9571,7 +9571,7 @@ func (s *ScalesService) List() *ScalesListCall {
 }
 
 // P sets an optional parameter and its values: Only return Scales matching the specified setting.
-func (c *ScalesListCall) P(key string, values []string) *ScalesListCall {
+func (c *ScalesListCall) P(key string, values ...string) *ScalesListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -9585,7 +9585,7 @@ func (c *ScalesListCall) PageToken(page int) *ScalesListCall {
 // Do executes a ScalesListCall request call. Exactly one of *ListScalesResponse or error will be non-nil.
 func (c *ScalesListCall) Do() (*ListScalesResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/scales/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/scales" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -9714,7 +9714,7 @@ func (s *ScoresService) List() *ScoresListCall {
 }
 
 // P sets an optional parameter and its values: Only return Scores matching the specified setting.
-func (c *ScoresListCall) P(key string, values []string) *ScoresListCall {
+func (c *ScoresListCall) P(key string, values ...string) *ScoresListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -9728,7 +9728,7 @@ func (c *ScoresListCall) PageToken(page int) *ScoresListCall {
 // Do executes a ScoresListCall request call. Exactly one of *ListScoresResponse or error will be non-nil.
 func (c *ScoresListCall) Do() (*ListScoresResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/scores/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/scores" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -9844,7 +9844,7 @@ func (s *SkillsService) List() *SkillsListCall {
 }
 
 // P sets an optional parameter and its values: Only return Skills matching the specified setting.
-func (c *SkillsListCall) P(key string, values []string) *SkillsListCall {
+func (c *SkillsListCall) P(key string, values ...string) *SkillsListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -9858,7 +9858,7 @@ func (c *SkillsListCall) PageToken(page int) *SkillsListCall {
 // Do executes a SkillsListCall request call. Exactly one of *ListSkillsResponse or error will be non-nil.
 func (c *SkillsListCall) Do() (*ListSkillsResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/skills/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/skills" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -9976,7 +9976,7 @@ func (s *SlotsService) List() *SlotsListCall {
 }
 
 // P sets an optional parameter and its values: Only return Slots matching the specified setting.
-func (c *SlotsListCall) P(key string, values []string) *SlotsListCall {
+func (c *SlotsListCall) P(key string, values ...string) *SlotsListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -9990,7 +9990,7 @@ func (c *SlotsListCall) PageToken(page int) *SlotsListCall {
 // Do executes a SlotsListCall request call. Exactly one of *ListSlotsResponse or error will be non-nil.
 func (c *SlotsListCall) Do() (*ListSlotsResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/slots/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/slots" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -10112,7 +10112,7 @@ func (s *SquadsService) List() *SquadsListCall {
 }
 
 // P sets an optional parameter and its values: Only return Squads matching the specified setting.
-func (c *SquadsListCall) P(key string, values []string) *SquadsListCall {
+func (c *SquadsListCall) P(key string, values ...string) *SquadsListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -10126,7 +10126,7 @@ func (c *SquadsListCall) PageToken(page int) *SquadsListCall {
 // Do executes a SquadsListCall request call. Exactly one of *ListSquadsResponse or error will be non-nil.
 func (c *SquadsListCall) Do() (*ListSquadsResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/squads/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/squads" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -10242,7 +10242,7 @@ func (s *SquadsUsersService) List() *SquadsUsersListCall {
 }
 
 // P sets an optional parameter and its values: Only return SquadsUsers matching the specified setting.
-func (c *SquadsUsersListCall) P(key string, values []string) *SquadsUsersListCall {
+func (c *SquadsUsersListCall) P(key string, values ...string) *SquadsUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -10256,7 +10256,7 @@ func (c *SquadsUsersListCall) PageToken(page int) *SquadsUsersListCall {
 // Do executes a SquadsUsersListCall request call. Exactly one of *ListSquadsUsersResponse or error will be non-nil.
 func (c *SquadsUsersListCall) Do() (*ListSquadsUsersResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/squads_users/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/squads_users" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -10332,7 +10332,7 @@ func (s *SubnotionsService) List() *SubnotionsListCall {
 }
 
 // P sets an optional parameter and its values: Only return Subnotions matching the specified setting.
-func (c *SubnotionsListCall) P(key string, values []string) *SubnotionsListCall {
+func (c *SubnotionsListCall) P(key string, values ...string) *SubnotionsListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -10346,7 +10346,7 @@ func (c *SubnotionsListCall) PageToken(page int) *SubnotionsListCall {
 // Do executes a SubnotionsListCall request call. Exactly one of *ListSubnotionsResponse or error will be non-nil.
 func (c *SubnotionsListCall) Do() (*ListSubnotionsResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/subnotions/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/subnotions" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -10470,7 +10470,7 @@ func (s *TagsService) List() *TagsListCall {
 }
 
 // P sets an optional parameter and its values: Only return Tags matching the specified setting.
-func (c *TagsListCall) P(key string, values []string) *TagsListCall {
+func (c *TagsListCall) P(key string, values ...string) *TagsListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -10484,7 +10484,7 @@ func (c *TagsListCall) PageToken(page int) *TagsListCall {
 // Do executes a TagsListCall request call. Exactly one of *ListTagsResponse or error will be non-nil.
 func (c *TagsListCall) Do() (*ListTagsResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/tags/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/tags" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -10602,7 +10602,7 @@ func (s *TeamsService) List() *TeamsListCall {
 }
 
 // P sets an optional parameter and its values: Only return Teams matching the specified setting.
-func (c *TeamsListCall) P(key string, values []string) *TeamsListCall {
+func (c *TeamsListCall) P(key string, values ...string) *TeamsListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -10616,7 +10616,7 @@ func (c *TeamsListCall) PageToken(page int) *TeamsListCall {
 // Do executes a TeamsListCall request call. Exactly one of *ListTeamsResponse or error will be non-nil.
 func (c *TeamsListCall) Do() (*ListTeamsResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/teams/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/teams" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -10711,12 +10711,12 @@ type TeamsUploadsItem struct {
 	FinalMark int64     `json:"final_mark"`
 	ID        int64     `json:"id"`
 	Upload    struct {
-		Description  string    `json:"description"`
-		CreatedAt    time.Time `json:"created_at"`
-		UpdatedAt    time.Time `json:"updated_at"`
 		ID           int64     `json:"id"`
 		EvaluationID int64     `json:"evaluation_id"`
 		Name         string    `json:"name"`
+		Description  string    `json:"description"`
+		CreatedAt    time.Time `json:"created_at"`
+		UpdatedAt    time.Time `json:"updated_at"`
 	} `json:"upload"`
 	UploadID int64 `json:"upload_id"`
 
@@ -10748,7 +10748,7 @@ func (s *TeamsUploadsService) List() *TeamsUploadsListCall {
 }
 
 // P sets an optional parameter and its values: Only return TeamsUploads matching the specified setting.
-func (c *TeamsUploadsListCall) P(key string, values []string) *TeamsUploadsListCall {
+func (c *TeamsUploadsListCall) P(key string, values ...string) *TeamsUploadsListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -10762,7 +10762,7 @@ func (c *TeamsUploadsListCall) PageToken(page int) *TeamsUploadsListCall {
 // Do executes a TeamsUploadsListCall request call. Exactly one of *ListTeamsUploadsResponse or error will be non-nil.
 func (c *TeamsUploadsListCall) Do() (*ListTeamsUploadsResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/teams_uploads/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/teams_uploads" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -10857,23 +10857,19 @@ type TeamsUsersItem struct {
 	Leader     bool      `json:"leader"`
 	Occurrence int64     `json:"occurrence"`
 	Team       struct {
-		URL              string      `json:"url"`
-		Locked           bool        `json:"locked?"`
-		Validated        interface{} `json:"validated?"`
-		RepoURL          interface{} `json:"repo_url"`
-		LockedAt         interface{} `json:"locked_at"`
-		Name             string      `json:"name"`
 		FinalMark        interface{} `json:"final_mark"`
-		ID               int64       `json:"id"`
-		ProjectID        int64       `json:"project_id"`
-		Closed           bool        `json:"closed?"`
-		ProjectSessionID int64       `json:"project_session_id"`
-		RepoUUID         string      `json:"repo_uuid"`
-		ClosedAt         interface{} `json:"closed_at"`
-		CreatedAt        time.Time   `json:"created_at"`
 		UpdatedAt        time.Time   `json:"updated_at"`
 		Status           string      `json:"status"`
+		Closed           bool        `json:"closed?"`
+		RepoURL          interface{} `json:"repo_url"`
+		URL              string      `json:"url"`
 		TerminatingAt    interface{} `json:"terminating_at"`
+		Locked           bool        `json:"locked?"`
+		ProjectSessionID int64       `json:"project_session_id"`
+		ProjectID        int64       `json:"project_id"`
+		RepoUUID         string      `json:"repo_uuid"`
+		Name             string      `json:"name"`
+		CreatedAt        time.Time   `json:"created_at"`
 		Users            []struct {
 			ID             int64  `json:"id"`
 			Login          string `json:"login"`
@@ -10883,12 +10879,16 @@ type TeamsUsersItem struct {
 			Validated      bool   `json:"validated"`
 			ProjectsUserID int64  `json:"projects_user_id"`
 		} `json:"users"`
+		Validated interface{} `json:"validated?"`
+		LockedAt  interface{} `json:"locked_at"`
+		ClosedAt  interface{} `json:"closed_at"`
+		ID        int64       `json:"id"`
 	} `json:"team"`
 	TeamID int64 `json:"team_id"`
 	User   struct {
+		URL   string `json:"url"`
 		ID    int64  `json:"id"`
 		Login string `json:"login"`
-		URL   string `json:"url"`
 	} `json:"user"`
 	UserID    int64 `json:"user_id"`
 	Validated bool  `json:"validated"`
@@ -10921,7 +10921,7 @@ func (s *TeamsUsersService) List() *TeamsUsersListCall {
 }
 
 // P sets an optional parameter and its values: Only return TeamsUsers matching the specified setting.
-func (c *TeamsUsersListCall) P(key string, values []string) *TeamsUsersListCall {
+func (c *TeamsUsersListCall) P(key string, values ...string) *TeamsUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -10935,7 +10935,7 @@ func (c *TeamsUsersListCall) PageToken(page int) *TeamsUsersListCall {
 // Do executes a TeamsUsersListCall request call. Exactly one of *ListTeamsUsersResponse or error will be non-nil.
 func (c *TeamsUsersListCall) Do() (*ListTeamsUsersResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/teams_users/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/teams_users" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -11053,7 +11053,7 @@ func (s *TitlesService) List() *TitlesListCall {
 }
 
 // P sets an optional parameter and its values: Only return Titles matching the specified setting.
-func (c *TitlesListCall) P(key string, values []string) *TitlesListCall {
+func (c *TitlesListCall) P(key string, values ...string) *TitlesListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -11067,7 +11067,7 @@ func (c *TitlesListCall) PageToken(page int) *TitlesListCall {
 // Do executes a TitlesListCall request call. Exactly one of *ListTitlesResponse or error will be non-nil.
 func (c *TitlesListCall) Do() (*ListTitlesResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/titles/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/titles" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -11185,7 +11185,7 @@ func (s *TitlesUsersService) List() *TitlesUsersListCall {
 }
 
 // P sets an optional parameter and its values: Only return TitlesUsers matching the specified setting.
-func (c *TitlesUsersListCall) P(key string, values []string) *TitlesUsersListCall {
+func (c *TitlesUsersListCall) P(key string, values ...string) *TitlesUsersListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -11199,7 +11199,7 @@ func (c *TitlesUsersListCall) PageToken(page int) *TitlesUsersListCall {
 // Do executes a TitlesUsersListCall request call. Exactly one of *ListTitlesUsersResponse or error will be non-nil.
 func (c *TitlesUsersListCall) Do() (*ListTitlesUsersResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/titles_users/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/titles_users" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -11294,9 +11294,9 @@ type TransactionsItem struct {
 	TransactableID   int64  `json:"transactable_id"`
 	TransactableType string `json:"transactable_type"`
 	User             struct {
-		URL   string `json:"url"`
 		ID    int64  `json:"id"`
 		Login string `json:"login"`
+		URL   string `json:"url"`
 	} `json:"user"`
 	UserID int64 `json:"user_id"`
 	Value  int64 `json:"value"`
@@ -11329,7 +11329,7 @@ func (s *TransactionsService) List() *TransactionsListCall {
 }
 
 // P sets an optional parameter and its values: Only return Transactions matching the specified setting.
-func (c *TransactionsListCall) P(key string, values []string) *TransactionsListCall {
+func (c *TransactionsListCall) P(key string, values ...string) *TransactionsListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -11343,7 +11343,7 @@ func (c *TransactionsListCall) PageToken(page int) *TransactionsListCall {
 // Do executes a TransactionsListCall request call. Exactly one of *ListTransactionsResponse or error will be non-nil.
 func (c *TransactionsListCall) Do() (*ListTransactionsResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/transactions/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/transactions" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -11444,18 +11444,18 @@ type TranslationsItem struct {
 	TranslatableID        int64  `json:"translatable_id"`
 	TranslatableType      string `json:"translatable_type"`
 	TranslationsStructure struct {
-		StructuresKind     string `json:"structures_kind"`
-		UpToDate           bool   `json:"up_to_date"`
+		ID                 int64 `json:"id"`
+		UpToDate           bool  `json:"up_to_date"`
 		FieldsOrganisation struct {
 			Description string `json:"description"`
 			Name        string `json:"name"`
 		} `json:"fields_organisation"`
-		TypeName     string    `json:"type_name"`
-		CreatedAt    time.Time `json:"created_at"`
-		ID           int64     `json:"id"`
-		SearchableBy []string  `json:"searchable_by"`
-		IDentifiedBy []string  `json:"identified_by"`
-		UpdatedAt    time.Time `json:"updated_at"`
+		UpdatedAt      time.Time `json:"updated_at"`
+		SearchableBy   []string  `json:"searchable_by"`
+		IDentifiedBy   []string  `json:"identified_by"`
+		StructuresKind string    `json:"structures_kind"`
+		TypeName       string    `json:"type_name"`
+		CreatedAt      time.Time `json:"created_at"`
 	} `json:"translations_structure"`
 	TranslationsStructureID int64       `json:"translations_structure_id"`
 	UpToDate                bool        `json:"up_to_date"`
@@ -11490,7 +11490,7 @@ func (s *TranslationsService) List() *TranslationsListCall {
 }
 
 // P sets an optional parameter and its values: Only return Translations matching the specified setting.
-func (c *TranslationsListCall) P(key string, values []string) *TranslationsListCall {
+func (c *TranslationsListCall) P(key string, values ...string) *TranslationsListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -11504,7 +11504,7 @@ func (c *TranslationsListCall) PageToken(page int) *TranslationsListCall {
 // Do executes a TranslationsListCall request call. Exactly one of *ListTranslationsResponse or error will be non-nil.
 func (c *TranslationsListCall) Do() (*ListTranslationsResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/translations/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/translations" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -11654,7 +11654,7 @@ func (s *UserCandidaturesService) List() *UserCandidaturesListCall {
 }
 
 // P sets an optional parameter and its values: Only return UserCandidatures matching the specified setting.
-func (c *UserCandidaturesListCall) P(key string, values []string) *UserCandidaturesListCall {
+func (c *UserCandidaturesListCall) P(key string, values ...string) *UserCandidaturesListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -11668,7 +11668,7 @@ func (c *UserCandidaturesListCall) PageToken(page int) *UserCandidaturesListCall
 // Do executes a UserCandidaturesListCall request call. Exactly one of *ListUserCandidaturesResponse or error will be non-nil.
 func (c *UserCandidaturesListCall) Do() (*ListUserCandidaturesResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/user_candidatures/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/user_candidatures" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -11761,18 +11761,18 @@ type UsersItem struct {
 	Achievements  []interface{} `json:"achievements"`
 	AnonymizeDate time.Time     `json:"anonymize_date"`
 	Campus        []struct {
-		Name     string `json:"name"`
-		TimeZone string `json:"time_zone"`
 		Language struct {
+			CreatedAt  time.Time `json:"created_at"`
+			UpdatedAt  time.Time `json:"updated_at"`
 			ID         int64     `json:"id"`
 			Name       string    `json:"name"`
 			IDentifier string    `json:"identifier"`
-			CreatedAt  time.Time `json:"created_at"`
-			UpdatedAt  time.Time `json:"updated_at"`
 		} `json:"language"`
-		UsersCount  int64 `json:"users_count"`
-		VogsphereID int64 `json:"vogsphere_id"`
-		ID          int64 `json:"id"`
+		UsersCount  int64  `json:"users_count"`
+		VogsphereID int64  `json:"vogsphere_id"`
+		ID          int64  `json:"id"`
+		Name        string `json:"name"`
+		TimeZone    string `json:"time_zone"`
 	} `json:"campus"`
 	CampusUsers []struct {
 		ID        int64 `json:"id"`
@@ -11782,20 +11782,20 @@ type UsersItem struct {
 	} `json:"campus_users"`
 	CorrectionPoint int64 `json:"correction_point"`
 	CursusUsers     []struct {
-		Grade        interface{}   `json:"grade"`
-		Level        float64       `json:"level"`
-		Skills       []interface{} `json:"skills"`
-		CursusID     int64         `json:"cursus_id"`
-		HasCoalition bool          `json:"has_coalition"`
-		ID           int64         `json:"id"`
-		BeginAt      time.Time     `json:"begin_at"`
-		EndAt        interface{}   `json:"end_at"`
-		User         struct {
-			URL   string `json:"url"`
+		ID      int64         `json:"id"`
+		BeginAt time.Time     `json:"begin_at"`
+		EndAt   interface{}   `json:"end_at"`
+		Level   float64       `json:"level"`
+		Skills  []interface{} `json:"skills"`
+		User    struct {
 			ID    int64  `json:"id"`
 			Login string `json:"login"`
+			URL   string `json:"url"`
 		} `json:"user"`
-		Cursus struct {
+		Grade        interface{} `json:"grade"`
+		CursusID     int64       `json:"cursus_id"`
+		HasCoalition bool        `json:"has_coalition"`
+		Cursus       struct {
 			ID        int64     `json:"id"`
 			CreatedAt time.Time `json:"created_at"`
 			Name      string    `json:"name"`
@@ -11805,36 +11805,36 @@ type UsersItem struct {
 	Displayname     string `json:"displayname"`
 	Email           string `json:"email"`
 	ExpertisesUsers []struct {
+		CreatedAt   time.Time `json:"created_at"`
 		UserID      int64     `json:"user_id"`
 		ID          int64     `json:"id"`
 		ExpertiseID int64     `json:"expertise_id"`
 		Interested  bool      `json:"interested"`
 		Value       int64     `json:"value"`
 		ContactMe   bool      `json:"contact_me"`
-		CreatedAt   time.Time `json:"created_at"`
 	} `json:"expertises_users"`
 	FirstName      string        `json:"first_name"`
 	Groups         []interface{} `json:"groups"`
 	ID             int64         `json:"id"`
 	ImageURL       string        `json:"image_url"`
 	LanguagesUsers []struct {
+		CreatedAt  time.Time `json:"created_at"`
 		ID         int64     `json:"id"`
 		LanguageID int64     `json:"language_id"`
 		UserID     int64     `json:"user_id"`
 		Position   int64     `json:"position"`
-		CreatedAt  time.Time `json:"created_at"`
 	} `json:"languages_users"`
 	LastName     string        `json:"last_name"`
 	Location     interface{}   `json:"location"`
 	Login        string        `json:"login"`
 	Partnerships []interface{} `json:"partnerships"`
 	Patroned     []struct {
+		GodfatherID int64     `json:"godfather_id"`
 		Ongoing     bool      `json:"ongoing"`
 		CreatedAt   time.Time `json:"created_at"`
 		UpdatedAt   time.Time `json:"updated_at"`
 		ID          int64     `json:"id"`
 		UserID      int64     `json:"user_id"`
-		GodfatherID int64     `json:"godfather_id"`
 	} `json:"patroned"`
 	Patroning      []interface{} `json:"patroning"`
 	Phone          interface{}   `json:"phone"`
@@ -11877,7 +11877,7 @@ func (s *UsersService) List() *UsersListCall {
 }
 
 // P sets an optional parameter and its values: Only return Users matching the specified setting.
-func (c *UsersListCall) P(key string, values []string) *UsersListCall {
+func (c *UsersListCall) P(key string, values ...string) *UsersListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -11891,7 +11891,7 @@ func (c *UsersListCall) PageToken(page int) *UsersListCall {
 // Do executes a UsersListCall request call. Exactly one of *ListUsersResponse or error will be non-nil.
 func (c *UsersListCall) Do() (*ListUsersResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/users/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/users" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err
@@ -12012,7 +12012,7 @@ func (s *WaitlistsService) List() *WaitlistsListCall {
 }
 
 // P sets an optional parameter and its values: Only return Waitlists matching the specified setting.
-func (c *WaitlistsListCall) P(key string, values []string) *WaitlistsListCall {
+func (c *WaitlistsListCall) P(key string, values ...string) *WaitlistsListCall {
 	c.urlParams[key] = values
 	return c
 }
@@ -12026,7 +12026,7 @@ func (c *WaitlistsListCall) PageToken(page int) *WaitlistsListCall {
 // Do executes a WaitlistsListCall request call. Exactly one of *ListWaitlistsResponse or error will be non-nil.
 func (c *WaitlistsListCall) Do() (*ListWaitlistsResponse, error) {
 	c.urlParams["page"] = []string{strconv.Itoa(c.pageToken)}
-	urls := c.s.baseURL + "/waitlists/" + "?" + url.Values(c.urlParams).Encode()
+	urls := c.s.baseURL + "/waitlists" + "?" + url.Values(c.urlParams).Encode()
 	req, err := http.NewRequest(http.MethodGet, urls, nil)
 	if err != nil {
 		return nil, err

@@ -28,8 +28,8 @@ func main() {
 	fmt.Println(me.ServerResponse.StatusCode)
 
 	// Get user by ID
-	userService := ftapi.Users(service)
-	aUser, err := userService.Get("59634").Do()
+	usersService := ftapi.Users(service)
+	aUser, err := usersService.Get("59634").Do()
 	if err != nil {
 		log.Fatalf("Request failed: %v", err)
 	}
@@ -39,15 +39,15 @@ func main() {
 	}
 
 	// Get page of users from Hive Helsinki
-	usersCaller := userService.List()
-	page, err := usersCaller.P("campus_id", []string{"13"}).Do()
+	usersListCaller := usersService.List()
+	page, err := usersListCaller.P("campus_id", "13").Do()
 	if err != nil {
 		log.Fatalf("Request failed: %v", err)
 	}
 	// Get following pages
 	for len(page.Users) > 0 {
 		fmt.Println(len(page.Users))
-		page, err = usersCaller.PageToken(page.NextPage).Do()
+		page, err = usersListCaller.PageToken(page.NextPage).Do()
 		if err != nil {
 			log.Fatalf("Request failed: %v", err)
 		}

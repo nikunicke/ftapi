@@ -34,14 +34,14 @@ To initiate a client service you need to specify the grant type. Currently suppo
 ```Go
 // ftapi.AuthorizationCode or ftapi.ClientCredentials
 
-s, err := ftapi.NewService(ftapi.AuthorizationCode)
+service, err := ftapi.NewService(ftapi.AuthorizationCode)
 if err != nil {
     log.Fatalf("%v", err)
 }
 ```
 Get your user data (auth code grant type required):
 ```Go
-me, err := s.Me()
+me, err := service.Me()
 if err != nil {
     log.Fatalf("%v", err)
 }
@@ -49,9 +49,9 @@ fmt.Println("Hello,", me.FirstName, me.LastName)
 ```
 Initiate an events service:
 ```Go
-events := ftapi.Events(s)
+events := ftapi.Events(service)
 oneEvent, _ := events.Get("3647").Do()
-eventsList, _ := events.List().P("campus_id", []string{"13"}).Do() // P() is optional
+eventsList, _ := events.List().P("campus_id", "13").Do() // P() is optional
 for _, event := range eventsList.Events {
     fmt.Println(event.Name)
 }

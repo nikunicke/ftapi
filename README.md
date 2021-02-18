@@ -27,7 +27,7 @@ The 42 API uses [Oauth 2.0](https://oauth.net/2/) to handle authentication and a
 Please note that the authorization flow is *currently* only designed for command-line applications.
 
 ## Caveats
-*   Some types do not have any members and cannot really be used for anything. :hankey:
+*   Some types do not have any members and cannot really be used for anything. The response body is still available and can be decoded to a struct by your program. :hankey:
 *   Some struct members are of unknown type and therefore been defined as interface{}, requiring the user to use [type assertions](https://tour.golang.org/methods/15).
 *   Broadcasts, commands, exams_users, squads and squads_users are currently unavailable
 
